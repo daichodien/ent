@@ -1,0 +1,156 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark text-capitalize">{{type}} {{languages.detail || "Detail"}}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a [routerLink]="[ '/admin/dashboard']">{{languages.home || "Home"}}</a></li>
+              <li class="breadcrumb-item active text-capitalize">{{type}} {{languages.detail || "Detail"}}</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+  
+    <!-- Main content -->
+    <div class="content">
+      <form name="formaddnew" class="form-horizontal" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="card-title">{{languages.general || "General"}}</h5>
+                </div>
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-2 control-label">{{languages.title || "Title"}} <span
+                        class="required"></span></label>
+                    <div class="col-md-10" style="padding: 0 13.5px !important;">
+                      <input class="form-control" id="title" [(ngModel)]="article.title" name="title"
+                        #title="ngModel" required>
+                      <span *ngIf="f.submitted && !title.valid" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="Title is required" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-2 control-label">{{languages.language || "Language"}}</label>
+                    <div class="col-md-4">
+                      <dx-select-box displayExpr="codeDesc" [(value)]="article.language" [items]="languages"
+                        valueExpr="code">
+                      </dx-select-box>
+                    </div>
+
+                    <label *ngIf="type=='post'" class="col-2 control-label">{{languages.category || "Category"}}</label>
+                    <div *ngIf="type=='post'" class="col-md-4">
+                      <dx-select-box displayExpr="codeDesc" [(value)]="article.category" [items]="categories"
+                        valueExpr="code">
+                      </dx-select-box>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-2 control-label">{{languages.tag || "Tag"}}</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="type" [(ngModel)]="article.tag" name="tag"
+                        #tag="ngModel">
+                    </div>
+
+                    <label class="col-2 control-label">{{languages.metakey || "Metakey"}}</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="type" [(ngModel)]="article.metakey" name="metakey"
+                        #metakey="ngModel">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-2 control-label">{{languages.description || "Description"}}</label>
+                    <div class="col-md-10" style="padding: 0 13.5px !important;">
+                      <dx-text-area [height]="90" [(value)]="article.description">
+
+                      </dx-text-area>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row">
+                   
+                    <label class="col-2 control-label">{{languages.details || "Details"}}</label>
+                    <div class="col-md-10" style="padding: 0 13.5px !important;">
+                      <app-tiny-editor [elementId]="'details'" (onEditorKeyup)="keyupHandlerFunction($event)"
+                      [(tinymceModel)]="article.details" [tmHeight]="300">
+                    </app-tiny-editor>
+                    </div>
+                  </div>
+                 
+                </div>
+              </div>
+  
+            </div>
+            <div class="col-md-4">
+           
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="card-title">{{languages.featureimage || "Feature Image"}}</h5>
+                </div>
+                <div class="card-body">
+                  <app-fileupload #uploadfile>
+  
+                  </app-fileupload>
+                </div>
+              </div>
+  
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="card-title">{{languages.history || "History"}}</h5>
+                </div>
+                <div class="card-body">
+  
+                  <div *ngIf="article.createUser">
+                    <div class="form-group row">
+                      <label class="col-md-3">{{languages.created || "Created "}}</label>
+                      <!-- <label class="col-4" appDateTimeFormat
+                        [formatDateString]="'DD/MM/YYYY hh:mm A'">{{article.createDate}}</label> -->
+                      <label class="col-md-1">{{languages.by || "by "}}</label>
+                      <label class="col-md-4">{{article.createName}}</label>
+                    </div>
+                  </div>
+                  <div *ngIf="article.updateUser">
+                    <div class="form-group row">
+                      <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                      <!-- <label class="col-4" appDateTimeFormat
+                        [formatDateString]="'DD/MM/YYYY hh:mm A'">{{article.updateDate}}</label> -->
+                      <label class="col-md-1">{{languages.by || "by"}}</label>
+                      <label class="col-md-4">{{article.upDateName}}</label>
+                    </div>
+                  </div>
+  
+  
+                </div>
+              </div>
+            </div>
+  
+          </div>
+  
+          <div class="row">
+            <div class="col-12">
+              <div class="group-btn-right">
+                <button type="submit" class="btn btn-primary btn-md">{{languages.save || "Save"}}</button>
+                <button class="btn btn-default btn-md" type="button" (click)="back()">{{languages.back || "Back"}}</button>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+  
+        </div><!-- /.container-fluid -->
+      </form>
+    </div>
+  
+    <!-- /.content -->
+  </div>

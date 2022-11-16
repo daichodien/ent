@@ -1,0 +1,72 @@
+<!-- Main body-->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card card-default">
+                    <div class="modal-header">
+                        <h4 class="modal-title pull-left">
+                            {{languages.checklistinspectionresult || 'Checklist Inspection Result'}}</h4>
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <dx-data-grid #gridContainer id="gridContainer" keyExpr="seqNo" [dataSource]="dataSource" (onEditorPreparing)="editorPreparing($event)">
+                            <dxo-export [enabled]="true" fileName="Check_List_Inspection_Result"></dxo-export>
+                            <dxo-column-chooser #columnChooser [enabled]="true" mode="select">
+                            </dxo-column-chooser>
+
+                            <dxo-editing mode="row" [allowUpdating]="isAllowedUpdate">
+                            </dxo-editing>
+
+                            <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                            <dxi-column dataField="clId" dataType="string" [visible]="false"
+                                caption="CLId">
+                            </dxi-column>
+                            <dxi-column dataField="equipmentCode" dataType="string" [width]="70"
+                                caption="{{languages.fleetdesc || 'Fleet Desc'}}">
+                            </dxi-column>
+                            <dxi-column dataField="shipmentNo" dataType="string" [visible]="false"
+                                caption="{{languages.shipmentno || 'Shipment No'}}">
+                            </dxi-column>
+                            <dxi-column dataField="seqNo" dataType="number" caption="{{languages.seqno || 'Seq No'}}">
+                            </dxi-column>
+                            <dxi-column dataField="inspectionItem" dataType="string" [width]="300"
+                                caption="{{languages.inspectionitem || 'Inspection Item'}}">
+                            </dxi-column>
+                            <dxi-column dataField="groupDesc" dataType="string" [groupIndex]="0"
+                                caption="{{languages.groupdesc || 'Group Desc'}}">
+                            </dxi-column>
+                            <dxi-column dataField="inspectionValue" dataType="number"  [width]="100"
+                                caption="{{languages.inspectionvalue || 'Inspection Value'}}">
+                            </dxi-column>
+                            <dxi-column dataField="result" dataType="string" caption="{{languages.result || 'Result'}}">
+                                <dxi-validation-rule type="required"></dxi-validation-rule>
+                                <dxo-lookup [dataSource]="listResults" displayExpr="name" valueExpr="id">
+                                </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column dataField="comment" dataType="string"
+                                caption="{{languages.comment || 'Comment'}}">
+                            </dxi-column>
+
+                            <dxo-summary>
+                                <dxi-total-item column="equipmentCode" summaryType="count">
+                                </dxi-total-item>
+                            </dxo-summary>
+
+                            <dxo-paging [pageSize]="50"></dxo-paging>
+                            <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+                            <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                                [allowedPageSizes]="[50,100]" [showInfo]="true"></dxo-pager>
+
+                        </dx-data-grid>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

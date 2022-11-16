@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/MPLProjects/!svn/ver/16593/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base
+END
+request-interceptor.ts
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/MPLProjects/!svn/ver/16593/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base/request-interceptor.ts
+END
+auth-interceptor.ts.bak
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/MPLProjects/!svn/ver/14235/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base/auth-interceptor.ts.bak
+END
+auth-service.ts.bak
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/MPLProjects/!svn/ver/14235/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base/auth-service.ts.bak
+END
+auth-interceptor.ts
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/MPLProjects/!svn/ver/16358/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base/auth-interceptor.ts
+END
+auth-service.ts
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/MPLProjects/!svn/ver/13572/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base/auth-service.ts
+END
+http-client.ts
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/MPLProjects/!svn/ver/12704/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/_base/http-client.ts
+END

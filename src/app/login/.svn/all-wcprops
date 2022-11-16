@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/MPLProjects/!svn/ver/16684/13.Enterprise_Project/Sources/Clients/Admin/src/app/login
+END
+login.component.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/MPLProjects/!svn/ver/16183/13.Enterprise_Project/Sources/Clients/Admin/src/app/login/login.component.html
+END
+login.component.ts
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/MPLProjects/!svn/ver/16684/13.Enterprise_Project/Sources/Clients/Admin/src/app/login/login.component.ts
+END
+login-routing.module.ts
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/MPLProjects/!svn/ver/7817/13.Enterprise_Project/Sources/Clients/Admin/src/app/login/login-routing.module.ts
+END
+login.module.ts
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/MPLProjects/!svn/ver/16358/13.Enterprise_Project/Sources/Clients/Admin/src/app/login/login.module.ts
+END
+login.component.spec.ts
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/MPLProjects/!svn/ver/7817/13.Enterprise_Project/Sources/Clients/Admin/src/app/login/login.component.spec.ts
+END
+login.component.css
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MPLProjects/!svn/ver/16183/13.Enterprise_Project/Sources/Clients/Admin/src/app/login/login.component.css
+END

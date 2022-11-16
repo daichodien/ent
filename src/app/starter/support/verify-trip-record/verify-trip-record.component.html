@@ -1,0 +1,125 @@
+<div class="content-wrapper">
+  <!-- Main body-->
+  <div class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card card-primary card-outline">
+                      <div class="card-header">
+                          <h5 class="card-title">{{languages.general || "General"}}</h5>
+                      </div>
+                      <form (ngSubmit)="onSubmit()" #f="ngForm">
+                          <div class="card-body">
+                              <div class="form-group row">
+                                <label class="col-md-2 control-label">{{languages.endusername || "End User Name"}}</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="searchModel.endUserName"
+                                        name="endUserName">
+                                </div>
+                                  <label class="col-md-2 control-label">{{languages.createdate || "Created Date"}}</label>
+                                  <div class="col-md-2">                                    
+                                      <dx-date-box width="100%" [showClearButton]="true" displayFormat="dd/MM/yyyy"
+                                          type="date" [(value)]="searchModel.createDateFrom" [max]="searchModel.createDateTo">
+                                      </dx-date-box>
+                                  </div>    
+                                  <div class="col-md-2">
+                                    <dx-date-box width="100%" [showClearButton]="true" displayFormat="dd/MM/yyyy"
+                                        type="date" [(value)]="searchModel.createDateTo" [min]="searchModel.createDateFrom">
+                                    </dx-date-box>
+                                </div>                                 
+                              </div>                  
+                          </div>
+                          <div class="card-footer group-btn-right">                            
+                              <button type="submit"
+                                  class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button>
+                          </div>
+                      </form>
+                  </div>
+
+                  <div class="card card-default">
+                    <div class="card-body">
+                      <dx-data-grid #gridContainer [allowColumnReordering]="true" id="gridContainer" [dataSource]="dataSource"
+                        keyExpr="trvId"
+                        [allowColumnReordering]="true"
+                        [showBorders]="true"  
+                        (onRowRemoving)="deleteVerifiedTripRecord($event)"
+                        >
+                        <dxo-export [enabled]="true" fileName="fileName"></dxo-export>
+        
+                        <dxi-column dataField="endUserName" dataType="string" caption="{{languages.endusername || 'End User Name'}}">
+                        </dxi-column>   
+                        
+                        <dxi-column dataField="endUserMobile" dataType="string" caption="{{languages.endusermobile || 'End User Mobile'}}">
+                        </dxi-column>                          
+
+                        <dxi-column dataField="endUserEmail" dataType="string" caption="{{languages.enduseremail || 'End User Email'}}">
+                        </dxi-column> 
+        
+                        <dxi-column dataField="remark" dataType="string"
+                          caption="{{languages.remark || 'Remark'}}">
+                        </dxi-column> 
+
+                        <dxi-column dataField="securityCode" dataType="string"
+                          caption="{{languages.securitycode || 'Security Code'}}">
+                        </dxi-column> 
+                        
+                        <dxi-column dataField="createDate" dataType="date" displayFormat="dd/MM/yyyy"
+                          caption="{{languages.createdate||'Create Date'}}" [formItem]="{visible: false}">
+                        </dxi-column>
+        
+                        <dxi-column dataField="createUser" dataType="string"
+                          caption="{{languages.createuser||'Create User'}}" [formItem]="{visible: false}">
+                        </dxi-column>
+
+                        <dxi-column dataField="bookNo" cellTemplate="diffCellTemplateBookNo" dataType="string" caption="{{languages.bookNo || 'Book No'}}">
+                        </dxi-column> 
+
+                        <dxi-column dataField="staffName" dataType="string" cellTemplate="diffCellTemplateStaffName" caption="{{languages.staffName || 'Staff Name'}}">
+                        </dxi-column> 
+
+                        <dxi-column dataField="fleetModelDesc" dataType="string" cellTemplate="diffCellTemplateFleetModelDesc" caption="{{languages.fleetModelDesc || 'Fleet Model Desc'}}">
+                        </dxi-column> 
+
+                        <div *dxTemplate="let d of 'diffCellTemplateBookNo'">
+                          <a class="pointer" (click)="viewDetailBooking(d.data.bookNo)">
+                            {{d.value}}
+                          </a>
+                        </div>
+                        <div *dxTemplate="let d of 'diffCellTemplateStaffName'">
+                          <a class="pointer" (click)="viewDetailStaffName(d.data.staffID)">
+                            {{d.value}}
+                          </a>
+                        </div>
+                        <div *dxTemplate="let d of 'diffCellTemplateFleetModelDesc'">
+                          <a class="pointer" (click)="viewDetailFleetModelDesc(d.data.fleetModelId)">
+                            {{d.value}}
+                          </a>
+                        </div>
+        
+                        <!-- <dxi-column caption="" dataField="assetCode" cellTemplate="diffDeleteTemplate"></dxi-column> -->
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true">
+                        </dxo-pager>
+                        <dxo-editing 
+                        mode="popup"
+                        [allowUpdating]="false"
+                        [allowDeleting]="true"
+                        [allowAdding]="false"
+                        >
+                        <dxo-popup
+                        title="{{languages.servicepackage || 'Service Package'}}"
+                        [showTitle]="true"
+                        [width]="850"
+                        [height]="300"
+                        [position]="{ my: 'top', at: 'top', of: 'window' }">
+                      </dxo-popup>
+                   </dxo-editing> 
+                      </dx-data-grid>
+                    </div>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

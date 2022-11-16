@@ -1,0 +1,50 @@
+<!-- Main body-->
+<div class="content" id="page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                    {{languages.checklistinspectionimages || 'Checklist Inspection Images'}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- <div *ngIf="galleryImages.length != 0" class="card-body">
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" style="padding: 10px;">
+                </ngx-gallery>
+            </div> -->
+
+            <div class="card-body" style="margin: 0 auto; padding: 0px; margin-bottom: 15px; margin-top: -20px;">
+                <ul class="lb-album">
+
+                    <li *ngFor="let image of galleryImages; let i=index">
+                        <a *ngIf="image.isAllowDelete" class="remove-image" href="javascript:void(0);" (click)="deleteImage(image)" style="display: inline;">&#215;</a>
+                        <a href="{{link}}#image-{{i}}" class="image-area">
+                            <img src="{{image.small}}" alt="image01">
+                        </a>
+
+                        <div class="lb-overlay" id="image-{{i}}">
+                            <img src="{{image.big}}" alt="image01" />
+                            <div>
+                                <a *ngIf="image.isAllowDelete" (click)="rotateImage('image-' + i, 'left')"><i class="fa fa-undo"></i></a>
+                                <a href="{{link}}#image-{{i-1}}" class="lb-prev1"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
+                                <a *ngIf="image.isAllowDelete" href="javascript:void(0);" (click)="deleteImage(image)" class="btn-delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                <a *ngIf="!image.isAllowDelete" (click)="rotateImage('image-' + i, 'left')"><i class="fa fa-undo"></i></a>
+                                <a href="{{link}}#image-{{i+1}}" class="lb-next1"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                                <!-- <a (click)="rotateImage('image-' + i, 'right')"><i class="fa fa-undo" style="transform: scale(-1);"></i></a> -->
+                            </div>
+                            <a href="{{link}}#page" class="lb-close">X Close</a>
+                        </div>
+                    </li> 
+                </ul>
+            </div>  
+
+            <div *ngIf="galleryImages.length == 0" class="card-body">
+                <div>
+                    <span>{{languages.imagenotfound || 'Image not found'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

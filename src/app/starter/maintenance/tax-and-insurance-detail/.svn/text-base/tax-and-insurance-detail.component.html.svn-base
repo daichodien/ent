@@ -1,0 +1,179 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <form name="formaddnew" class="form-horizontal" (submit)="save()">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+              <div class="card-body">
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [dataSource]="equipmentGroups" displayExpr="fleet_Desc" valueExpr="fltId"
+                      [(value)]="taxAndInsuranceDto.fleetId" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Fleet Desc is required">
+                        </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.renewdate || "Renew Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                      (onValueChanged)="expireDateMinChanged()" placeholder="DD/MM/YYYY" type="date"
+                      [(value)]="taxAndInsuranceDto.tDate">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Renew Date field is required">
+                        </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-date-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.doctype || "Doc Type"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="taxAndInsuranceDto.docType" name="docType"
+                      (search)='true'>
+                      <option *ngFor="let docType of docTypes" value="{{docType.code}}">
+                        {{docType.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <!-- <label class="col-md-2 control-label">{{languages.relatedparty || "Related Party"}}</label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="taxAndInsuranceDto.relatedParty" #relatedParty="ngModel"
+                      name="relatedParty">
+                  </div> -->
+                  <label class="col-md-2 control-label">{{languages.supplier || "Supplier"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [dataSource]="listSupplier" displayExpr="supplierName" valueExpr="suppId"
+                      [(value)]="taxAndInsuranceDto.relatedParty" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.amount || "Amount"}}</label>
+                  <div class="col-md-4">
+                    <!-- <input type="number" class="form-control" [(ngModel)]="taxAndInsuranceDto.amount" name="amount" myCurrencyFormatter> -->
+                    <dx-number-box class="numberAlign" format="#,##0.00" [(value)]="taxAndInsuranceDto.amount">
+                    </dx-number-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.refno || "Ref No"}}</label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="taxAndInsuranceDto.refNo" name="refNo">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.readmiles || "Read Miles"}}</label>
+                  <div class="col-md-4">
+                    <!-- <input type="number" class="form-control" [(ngModel)]="taxAndInsuranceDto.readMiles" name="readMiles"> -->
+                    <dx-number-box class="numberAlign" format="#,##0" [(value)]="taxAndInsuranceDto.readMiles">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Read Miles field is required">
+                        </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-number-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.expiredate || "Expire Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                      placeholder="DD/MM/YYYY" [(value)]="taxAndInsuranceDto.expireDate" name="expireDate">
+                      <dx-validator>
+                        <dxi-validation-rule type="range" [min]="expireDateMin"
+                          message="Expire Date must be greater than Renew Date">
+                        </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-date-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.remark || "Remark"}}</label>
+                  <div class="col-md-10" style="padding-left: 13.5px !important; padding-right: 13px !important;">
+                    <textarea style="width: 100%;" cols="30" rows="3" [(ngModel)]="taxAndInsuranceDto.remark"
+                      name="remark" #remark="ngModel"></textarea>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-md-4">
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload>
+
+                </app-fileupload>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+
+                <div *ngIf="taxAndInsuranceDto.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{taxAndInsuranceDto.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{taxAndInsuranceDto.createName}}</label>
+                  </div>
+
+                </div>
+                <div *ngIf="taxAndInsuranceDto.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{taxAndInsuranceDto.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{taxAndInsuranceDto.upDateName}}</label>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="group-btn-right">
+              <dx-button style="padding: 0.2px 0.5rem;font-size: 16px !important; line-height: 1.5;" text="Save"
+                class="btn btn-primary btn-md" type="success" [useSubmitBehavior]="true">
+              </dx-button>
+              <button class="btn btn-default btn-md" (click)="back()">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+    </form>
+  </div>
+
+  <!-- /.content -->
+</div>

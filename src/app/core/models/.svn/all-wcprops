@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/MPLProjects/!svn/ver/16571/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models
+END
+ContractDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/ContractDto.ts
+END
+SVRItemDetailDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/SVRItemDetailDto.ts
+END
+UpdateEmpRequisitionModel.ts
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/UpdateEmpRequisitionModel.ts
+END
+user.ts
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/user.ts
+END
+itservice.ts
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/itservice.ts
+END
+BookingDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MPLProjects/!svn/ver/16559/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/BookingDto.ts
+END
+baseSearchDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/baseSearchDto.ts
+END
+SaveLogIncidentsDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/MPLProjects/!svn/ver/12000/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/SaveLogIncidentsDto.ts
+END
+WelcomeBoardModel.ts
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/WelcomeBoardModel.ts
+END
+Priority.ts
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/Priority.ts
+END
+externalAccount.ts
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/externalAccount.ts
+END
+customerDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MPLProjects/!svn/ver/8013/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/customerDto.ts
+END
+Appointment.ts
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/Appointment.ts
+END
+leaveSearch.ts
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/leaveSearch.ts
+END
+EmpRequisitionEntry.ts
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/EmpRequisitionEntry.ts
+END
+EmpRequisitionSearch.ts
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/EmpRequisitionSearch.ts
+END
+document.ts
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/document.ts
+END
+AnnouncementDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/MPLProjects/!svn/ver/12015/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/AnnouncementDto.ts
+END
+driverDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/MPLProjects/!svn/ver/11873/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/driverDto.ts
+END
+country.ts
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/country.ts
+END
+idrequest.ts
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/idrequest.ts
+END
+FacilityBookingModel.ts
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/FacilityBookingModel.ts
+END
+gift-voucher-type-model.ts
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/MPLProjects/!svn/ver/11768/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/gift-voucher-type-model.ts
+END
+approvalemprequisitionmodel.ts
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/approvalemprequisitionmodel.ts
+END
+index.ts
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/index.ts
+END
+leaveModel.ts
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/leaveModel.ts
+END
+ActionLogDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/ActionLogDto.ts
+END
+TripRecordVerifyDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/MPLProjects/!svn/ver/9600/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/TripRecordVerifyDto.ts
+END
+Resource.ts
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/Resource.ts
+END

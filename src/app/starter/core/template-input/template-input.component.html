@@ -1,0 +1,15 @@
+<div class="container" style="height: 600px">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="dropdown-select warning">
+        <input type="text" (click)="showtable()" (keyup)="searchControl()" placeholder="Search..."
+          class="form-control selectinput seach-control" />
+        <!-- <i class="fa fa-fw fa-caret-down"></i> -->
+        <ul class="option-list">
+          <li><a data-value="">All</a></li>
+          <li *ngFor="let item of newArrayOfObj"><a [attr.data-sectionvalue]="item.value">{{item.name}}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

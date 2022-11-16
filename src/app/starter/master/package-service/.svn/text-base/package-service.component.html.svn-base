@@ -1,0 +1,142 @@
+<div class="content-wrapper" style="min-height: 689px;">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            
+            <form (ngSubmit)="onSubmit()" #f="ngForm">
+              <div class="card-body">
+                    <div class="form-group row">
+                      <label class="col-md-2 control-label">{{languages.booktype || "Book Type"}}</label>
+                      <div class="col-md-4">
+                        <select class="form-control" [(ngModel)]="searchSerPkgModel.bookType" name="bookType">
+                          <option value=""></option>
+                          <option *ngFor="let bookType of listBookType" value="{{bookType.code}}">
+                            {{bookType.codeDesc}}</option>
+                        </select>
+                      </div>
+
+                      <label class="col-md-2 control-label">{{languages.brandcode || "Brand Code"}}</label>
+                      <div class="col-md-4">
+                        <select class="form-control" [(ngModel)]="searchSerPkgModel.branchCode" name="branchCode">
+                          <option value=""></option>                          
+                          <option *ngFor="let branchCode of listBrandCode" value="{{branchCode.branchCode}}">{{branchCode.branchName}}</option>                            
+                        </select>
+                      </div>   
+                    </div>
+                  
+              </div>
+              <div class="card-footer group-btn-right">
+                <!-- <a class="btn btn-info btn-sm pull-right" [routerLink]="['new']">{{languages.new || "New"}}</a> -->
+                <button type="submit" class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button></div>
+                
+            </form>
+
+          </div>
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer [allowColumnReordering]="true" id="gridContainer" [dataSource]="dataSource"
+                keyExpr="svcPkgId"  (onRowInserting)="savePackage($event)"
+                [allowColumnReordering]="true"
+                [showBorders]="true"  
+                (onRowUpdating)="updatePackage($event)"
+                (onRowRemoving)="deletePackage($event)"
+                (onEditorPreparing)="onEditorPreparing($event)">
+                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+
+                <dxi-column dataField="packageDesc" dataType="string" caption="{{languages.packagedesc || 'Package Desc'}}"
+                cellTemplate="diffRouteTemplate">
+                </dxi-column>
+
+                <dxi-column dataField="validFrom" dataType="date" caption="{{languages.validfrom || 'Valid From'}}" displayFormat="dd/MM/yyyy">
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <dxi-validation-rule type="custom" 
+                    [validationCallback]="validateValidFromDate" 
+                    message="{{languages.validfromlessthanvalidto || 'Valid From must be less than or equal to Valid To'}}">
+                  </dxi-validation-rule>
+                </dxi-column>
+
+                <dxi-column dataField="validTo"  dataType="date" caption="{{languages.validto || 'Valid To'}}" displayFormat="dd/MM/yyyy">
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <!-- <dxi-validation-rule type="custom" 
+                    [validationCallback]="validateValidToDate" 
+                    message="{{languages.validtogreaterthanvalidfrom || 'Valid To must be greater than or equal to Valid From'}}">
+                  </dxi-validation-rule> -->
+                </dxi-column>
+
+                <dxi-column dataField="bookType" dataType="string"
+                  caption="{{languages.booktype||'Book Type'}}">
+                  <dxo-lookup
+                    [dataSource]="listBookType"
+                    displayExpr="codeDesc"
+                    valueExpr="code">
+                  </dxo-lookup>
+                </dxi-column>
+
+                <!-- <dxi-column dataField="userClass" dataType="string"
+                  caption="{{languages.userClass || 'User Class'}}">
+                </dxi-column> -->
+
+                <dxi-column dataField="branchCode" dataType="string" caption="{{languages.branchcode||'Branch Code'}}">
+                  <dxo-lookup
+                    [dataSource]="listBrandCode"
+                    displayExpr="branchName"
+                    valueExpr="branchCode">
+                  </dxo-lookup>
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                </dxi-column>  
+
+                <dxi-column dataField="packageMemo" dataType="string"
+                  caption="{{languages.packagememo || 'Package Memo'}}">
+                </dxi-column> 
+                
+                <dxi-column dataField="createDate" dataType="date" displayFormat="dd/MM/yyyy"
+                  caption="{{languages.createdate||'Create Date'}}" [formItem]="{visible: false}">
+                </dxi-column>
+
+                <dxi-column dataField="createUser" dataType="string"
+                  caption="{{languages.createuser||'Create User'}}" [formItem]="{visible: false}">
+                </dxi-column>
+
+                <!-- <dxi-column caption="" dataField="assetCode" cellTemplate="diffDeleteTemplate"></dxi-column> -->
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true">
+                </dxo-pager>
+                <dxo-editing 
+                mode="popup"
+                [allowUpdating]="true"
+                [allowDeleting]="true"
+                [allowAdding]="true"
+                >
+                <dxo-popup
+                title="{{languages.servicepackage || 'Service Package'}}"
+                [showTitle]="true"
+                [width]="850"
+                [height]="300"
+                [position]="{ my: 'top', at: 'top', of: 'window' }">
+              </dxo-popup>
+           </dxo-editing>
+               
+                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                  <div class="dx-btn-group">
+                    <a (click)="delete(d.data.svcPkgId)" class="fa fa-trash fa-1x">
+                    </a>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                  <a class="pointer" (click)="back(d.data.svcPkgId)">
+                    {{d.value}}
+                  </a>
+                </div>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

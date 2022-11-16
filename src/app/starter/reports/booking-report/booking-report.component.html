@@ -1,0 +1,149 @@
+<div class="content-wrapper">
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            <form name="formaddnew" class="form-horizontal" (submit)="search()">
+            <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">
+                    <input (change)="searchByDateChanged()" style="width: 15px; height: 15px; margin-right: 10px;" type="checkbox" name="searchByDate" [(ngModel)]="isSearchByDate">
+                    <select name="bookingDate" [disabled]="!isSearchByDate" [(ngModel)]="dateOption" style="border: 1px solid gray !important;">
+                      <option value=1>{{languages.bookdate || "Book Date"}}</option>
+                      <option value=0>{{languages.pickupdate || "Pickup Date"}}</option>
+                    </select>
+                  </label>
+                  <div class="col-md-2" disable="!isSearchByDate">
+                    <dx-date-box [disabled]="!isSearchByDate" width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                      [(value)]="searhModel.DateF">
+                    </dx-date-box>
+                  </div>
+                  <div class="col-md-2">
+                    <dx-date-box [disabled]="!isSearchByDate" width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                      [(value)]="searhModel.DateT">
+                    </dx-date-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.booktype || "Book Type"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searhModel.bookType" name="bookType">
+                      <option value=""></option>
+                      <option *ngFor="let bookType of listBookType" value="{{bookType.code}}">
+                        {{bookType.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.customer || "Customer"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.CustId" [items]="listCustomer" displayExpr="customerName"
+                      valueExpr="custId" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Customer is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.driver || "Driver"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.driverId" [items]="listDriver" [searchEnabled]="true" displayExpr="staffName"
+                      valueExpr="staffID">
+                    </dx-select-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" id="" [(ngModel)]="searhModel.fleetDesc" name="fleetdesc">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.FleetModel" [items]="listFleetModel" displayExpr="fleetModelDesc"
+                      valueExpr="fleetModelId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+            
+            </div>
+            <div class="card-footer group-btn-right">
+                <dx-button id="button" text="Search" class="pull-right btn btn-primary btn-sm" type="success"
+                [useSubmitBehavior]="true">
+              </dx-button>
+            </div>
+          </form>
+          </div><!-- /.card -->
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="bookNo"
+                [focusedRowIndex]="focusIndex" [focusedRowEnabled]="true">
+                <dxo-export [enabled]="true" fileName="Bookings Report"></dxo-export>
+                <dxo-paging [pageSize]="20" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxo-column-chooser #columnChooser [enabled]="true" mode="select"></dxo-column-chooser>
+                 
+                <dxo-filter-row text-align="center" [visible]="true"></dxo-filter-row>
+                <dxo-header-filter text-align="center" [visible]="true"></dxo-header-filter>
+                <dxo-group-panel text-align="center" [visible]="true"></dxo-group-panel>
+                <dxo-scrolling text-align="center" mode="virtual"></dxo-scrolling>
+
+
+                <!-- <dxo-filter-row [visible]="true"></dxo-filter-row> -->
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                <dxi-column dataField="bookNo" dataType="string" caption="{{languages.bookingnumber||'Booking Number'}}">
+                </dxi-column>
+                <dxi-column dataField="customerName" dataType="string"
+                  caption="{{languages.customername||'Customer Name'}}">
+                </dxi-column>
+                <dxi-column dataField="bookStatus" dataType="string" caption="{{languages.bookstatus||'Book Status'}}"
+                  cellTemplate="diffStatusBookTemplate">
+                </dxi-column>
+                <dxi-column dataField="bookType" dataType="string" caption="{{languages.booktype||'Book Type'}}">
+                </dxi-column>
+                <dxi-column dataField="bookDate" dataType="localTime" [visible]="false" caption="{{languages.bookdate||'Book Date'}}">
+                </dxi-column>
+                <dxi-column dataField="pickupTime" dataType="localTime"
+                  caption="{{languages.pickupdate||'Pick Up Date'}}">
+                </dxi-column>
+                <dxi-column dataField="returnTime" dataType="localTime"
+                  caption="{{languages.returndate||'Return Date'}}">
+                </dxi-column>
+                <dxi-column dataField="fleet_Desc" dataType="string" caption="{{languages.fleetdesc || 'Fleet Desc'}}">
+                </dxi-column>
+                <dxi-column dataField="fleetModelDesc" dataType="string" caption="{{languages.fleetmodel ||'Fleet Model'}}">
+                </dxi-column>
+                <dxi-column dataField="driverName" dataType="string" caption="{{languages.driver || 'Driver'}}">
+                </dxi-column>
+                <dxi-column dataField="totalAmount" dataType="string" caption="{{languages.totalamount || 'Total Amount'}}" 
+                  format="#,##0.00">
+                </dxi-column>
+                <dxi-column dataField="payAmount" dataType="string" caption="{{languages.payamount || 'Pay Amount'}}" 
+                  format="#,##0.00">
+                </dxi-column>
+                <dxi-column dataField="remainingAmount" dataType="string" caption="{{languages.remainingamount || 'Remaining Amount'}}" 
+                  format="#,##0.00">
+                </dxi-column>
+
+                <dxo-editing mode="popup" [allowDeleting]="false">
+                </dxo-editing>
+
+                <div *dxTemplate="let d of 'diffStatusBookTemplate'">
+                  <span class="badge" [ngClass]="setClassBookStatus(d.value)" style="font-size: 13px;margin-top: 2px;">
+                    {{d.value}}</span>
+                </div>
+                <dxo-summary>
+                  <dxi-total-item showInColumn="bookNos" displayFormat="Total: {0} items" column="bookNo"
+                    summaryType="count">
+                  </dxi-total-item>
+                </dxo-summary>
+              </dx-data-grid>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>

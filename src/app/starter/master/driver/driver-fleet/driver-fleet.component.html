@@ -1,0 +1,63 @@
+<!-- Main body-->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="card card-default">
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">
+              {{languages.listbookassignfordriver || 'List book assign for dirver'}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <dx-data-grid #gridContainer id="gridContainer" keyExpr="brId" [dataSource]="dataSource">
+              <dxo-export [enabled]="true" fileName="downloadfiles"></dxo-export>
+              <dxo-column-chooser #columnChooser [enabled]="true" mode="select">
+              </dxo-column-chooser>
+
+              <dxo-editing mode="row" [allowUpdating]="false">
+              </dxo-editing>
+
+              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+              <dxi-column dataField="brId" dataType="string" [visible]="false" caption="brId">
+              </dxi-column>
+              <dxi-column dataField="bookNo" dataType="string"
+                caption="{{languages.bookno|| 'Book No'}}">
+              </dxi-column>
+              <dxi-column dataField="customerName" dataType="string"
+                caption="{{languages.customer || 'Customer'}}">
+              </dxi-column>
+              <dxi-column dataField="createDate" dataType="date2" caption="{{languages.createdate || 'Created Date'}}">
+              </dxi-column>
+              <dxi-column dataField="createUserName" dataType="string"  
+                caption="{{languages.createuser || 'Create User'}}">
+              </dxi-column>
+              <dxi-column dataField="pickUpTime" dataType="date2"
+                caption="{{languages.pickuptime || 'Pick UpTime'}}">
+              </dxi-column>
+              <dxi-column dataField="returnTime" dataType="date2" 
+                caption="{{languages.returntime || 'Return Time'}}">
+              </dxi-column>
+
+              <dxo-summary>
+                <dxi-total-item column="brId" summaryType="count">
+                </dxi-total-item>
+              </dxo-summary>
+
+              <dxo-paging [pageSize]="50"></dxo-paging>
+              <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
+              <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[50,100]"
+                [showInfo]="true"></dxo-pager>
+
+            </dx-data-grid>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

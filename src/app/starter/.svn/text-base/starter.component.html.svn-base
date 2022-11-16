@@ -1,0 +1,22 @@
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <app-starter-navbar></app-starter-navbar>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <app-starter-main-sidebar></app-starter-main-sidebar>
+
+  <!-- Content Wrapper. Contains page content -->
+  <router-outlet></router-outlet>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <app-starter-control-sidebar></app-starter-control-sidebar>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <app-starter-footer></app-starter-footer>
+  <!-- <ngx-spinner bdOpacity=0.6 bdColor="rgba(173,159,159,0.51)" size="default" color="#0daa30" type="ball-spin-clockwise">
+  </ngx-spinner> -->
+</div>

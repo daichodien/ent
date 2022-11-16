@@ -1,0 +1,150 @@
+<div class="content-wrapper" style="min-height: 689px;">  
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h3 class="m-0 text-dark">{{languages.servicepackagedetail || "Service Package Detail"}}</h3>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active">{{languages.home || "Home"}}</a></li>
+              <li class="breadcrumb-item active">{{languages.servicepackagedetail || "Service Package Detail"}}</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="card-header">
+        <h5 class="card-title">{{serPkg.packageDesc}} - {{serPkg.packageMemo}} - {{serPkg.branchName}}</h5>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>            
+            
+  
+            </div> -->
+            <div class="card card-default">
+              <div class="card-body">
+                <dx-data-grid #gridContainer [allowColumnReordering]="true" id="gridContainer" [dataSource]="dataSource"
+                  keyExpr="svcPkgDtlId"  
+                  (onRowInserting)="savePackageDetail($event)"
+                  [allowColumnReordering]="true"
+                  [showBorders]="true"  
+                  (onRowUpdating)="updatePackageDetail($event)"
+                  (onRowRemoving)="deletePackageDetail($event)"
+                  (onEditorPreparing)="onEditorPreparing($event)"
+                  >
+                  <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+  
+                  <dxi-column dataField="itemNo" dataType="number" caption="{{languages.itemno || 'Item No.'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                  </dxi-column>
+
+                  <dxi-column dataField="fleetModelId" dataType="string"
+                  caption="{{languages.fleetmodel || 'Fleet Model'}}">  
+                    <dxo-lookup
+                      [dataSource]="listFleetModel"
+                      displayExpr="fleetModelDesc"
+                      valueExpr="fleetModelId">
+                    </dxo-lookup>  
+                    <dxi-validation-rule type="required"></dxi-validation-rule>              
+                  </dxi-column>
+  
+                  <dxi-column dataField="unitPrice" dataType="number" caption="{{languages.unitprice || 'Unit Price'}}" format="#,##0.00">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                  </dxi-column>
+  
+                  <dxi-column dataField="distanceLimit"  dataType="number" caption="{{languages.distancelimit || 'Distance Limit'}}" format="#,##0.00">                    
+                  </dxi-column> 
+
+                  <dxi-column dataField="overNightPerNight"  dataType="number" caption="{{languages.overnightpernight || 'Over Night Per Night'}}" format="#,##0.00">                    
+                  </dxi-column> 
+
+                  <dxi-column dataField="areaCode"  dataType="string" caption="{{languages.areacode || 'Area Code'}}">                    
+                    </dxi-column> 
+  
+                  <dxi-column dataField="timeLimit"  dataType="number" caption="{{languages.timelimit || 'Time Limit'}}" format="#,##0.00">                    
+                  </dxi-column> 
+
+                  <dxi-column dataField="overTimeSurcharge"  dataType="number" caption="{{languages.overtimesurcharge || 'Over Time Surcharge'}}" format="#,##0.00">                    
+                    </dxi-column> 
+  
+                  <dxi-column dataField="overKMSurcharge"  dataType="number" caption="{{languages.overkmsurcharge || 'Over KM Surcharge'}}" format="#,##0.00">                    
+                  </dxi-column> 
+
+                  <dxi-column dataField="sundaySurcharge"  dataType="number" caption="{{languages.sundaysurcharge || 'Sunday Surcharge'}}" format="#,##0.00">                    
+                    </dxi-column> 
+  
+                  <dxi-column dataField="saturdaySurcharge"  dataType="number" caption="{{languages.saturdaysurcharge || 'Saturday Surcharge'}}" format="#,##0.00">                    
+                  </dxi-column> 
+
+                  <dxi-column dataField="holidaySurcharge"  dataType="number" caption="{{languages.holidaysurcharge || 'Holiday Surcharge'}}" format="#,##0.00">                    
+                    </dxi-column> 
+  
+                  <dxi-column dataField="driverRate"  dataType="number" caption="{{languages.driverrate || 'Driver Rate'}}" format="#,##0.00">                    
+                  </dxi-column> 
+
+                  <dxi-column dataField="wifiRate"  dataType="number" caption="{{languages.wifirate || 'WIFI Rate'}}" format="#,##0.00">                    
+                    </dxi-column>  
+
+                  <dxi-column dataField="isMandatoryDriver" dataType="boolean" caption="{{languages.ismandatorydriver || 'Mandatory Driver'}}" cellTemplate="diffCellMadatory">               
+                    </dxi-column> 
+  
+                  <dxi-column dataField="currencyCode" dataType="string"
+                    caption="{{languages.currencycode || 'Currency Code'}}">
+                    <dxo-lookup
+                      [dataSource]="listCurrency"
+                      displayExpr="codeDesc"
+                      valueExpr="code">
+                    </dxo-lookup>
+                  </dxi-column> 
+
+                  <div *dxTemplate="let d of 'diffCellMadatory'">
+                    <p *ngIf="d.value == 1">Yes</p>
+                    <p *ngIf="d.value == 0">No</p>
+                  </div>
+           
+                  <dxo-paging [pageSize]="10"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true">
+                  </dxo-pager>
+              <dxo-editing 
+                  mode="popup"
+                  [allowUpdating]="true"
+                  [allowDeleting]="true"
+                  [allowAdding]="true"
+                  >
+                  <dxo-popup
+                  title="{{languages.servicepackagedetail || 'Service Package Detail'}}"
+                  [showTitle]="true"
+                  [width]="870"
+                  [height]="465"
+                  [position]="{ my: 'top', at: 'top', of: 'window' }">
+                </dxo-popup>
+             </dxo-editing>
+                 
+                  <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                    <div class="dx-btn-group">
+                      <a (click)="delete(d.data.svcPkgDtlId)" class="fa fa-trash fa-1x">
+                      </a>
+                    </div>
+                  </div>
+                 
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12" style="padding-bottom:10px ">
+            <button type="button" class="btn btn-default btn-sm pull-right"
+              (click)="back()">{{languages.back || "Back"}}</button>            
+          </div>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,24 @@
+.btncustom{
+    padding: 3px 0.5rem;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+
+input[type=number] { text-align:right }
+
+::ng-deep .numberAlign input {  
+    text-align: right;  
+  }
+
+.highlightCustomerName {
+    font-weight: bolder;
+}
+
+.highlightCustomerType {
+    font-weight: lighter;
+}
+
+.addressCustomer {
+    white-space: normal;
+}

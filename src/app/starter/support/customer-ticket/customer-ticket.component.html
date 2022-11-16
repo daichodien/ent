@@ -1,0 +1,200 @@
+<div [ngClass]="!customerIdRequest ? 'content-wrapper' : 'content-tree-view'">
+
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title" *ngIf="customerIdRequest">{{"Customer Ticket"}}</h5>
+                            <h5 class="card-title" *ngIf="!customerIdRequest">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form>
+                            <div class="card-body">
+                                <div *ngIf="customerIdRequest;then content else other_content"></div>
+                                <ng-template #content>
+                                    <div class="form-group row">
+                                        <label
+                                            class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" [(ngModel)]="searchModel.fleetModelId"
+                                                name="fleetModelId" (search)='true'>
+                                                <option *ngFor="let fleetModel of equipmentGroups"
+                                                    value="{{fleetModel.fleetModelId}}">
+                                                    {{fleetModel.fleetModelDesc}}</option>
+                                            </select>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.incidentdate || "Incident Date"}}</label>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateF">
+                                            </dx-date-box>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateT">
+                                            </dx-date-box>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" [(ngModel)]="searchModel.fleetId"
+                                                name="fleetId">
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.feedbackType || "Feedback Type"}}</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" [(ngModel)]="searchModel.type" name="incidentType"
+                                                (search)='true'>
+                                                <option *ngFor="let items of listTicketType" value="{{items.code}}">
+                                                    {{items.codeDesc}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template #other_content>
+                                    <div class="form-group row">
+                                        <label
+                                            class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" [(ngModel)]="searchModel.fleetModelId"
+                                                name="fleetModelId" (search)='true'>
+                                                <option *ngFor="let fleetModel of equipmentGroups"
+                                                    value="{{fleetModel.fleetModelId}}">
+                                                    {{fleetModel.fleetModelDesc}}</option>
+                                            </select>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.incidentdate || "Incident Date"}}</label>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateF">
+                                            </dx-date-box>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateT">
+                                            </dx-date-box>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" [(ngModel)]="searchModel.fleetId"
+                                                name="fleetId">
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.relatedcustomer || "Related Customer"}}</label>
+                                        <div class="col-md-4">
+                                            <!-- <input type="text" class="form-control"
+                                                [(ngModel)]="searchModel.relatedCustomer" name="relatedCustomer"> -->
+    
+                                            <dx-select-box [(value)]="searchModel.relatedCustomer" [items]="listCustomer"
+                                                displayExpr="customerName" valueExpr="custId" [searchEnabled]="true">
+                                               
+                                            </dx-select-box>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.feedbackType || "Feedback Type"}}</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" [(ngModel)]="searchModel.type" name="incidentType"
+                                                (search)='true'>
+                                                <option *ngFor="let items of listTicketType" value="{{items.code}}">
+                                                    {{items.codeDesc}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
+                                
+
+                            </div>
+                            <div class="card-footer group-btn-right">
+                                <button type="submit" [routerLink]="['0']" *ngIf="!customerIdRequest"
+                                    class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+                                <button type="submit" [routerLink]="['/admin/main/support/customerticket/0', customerIdRequest]" *ngIf="customerIdRequest"
+                                    class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+                                <button type="button" class="btn btn-primary btn-sm pull-right"
+                                    (click)="searchCustomerTickets()">{{languages.search || "Search"}}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <dx-data-grid #gridContainer id="gridContainer" keyExpr="afId" [dataSource]="dataSource">
+
+                                <!-- <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+                              <dxo-paging [pageSize]="pageSize" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                              <dxo-group-panel [visible]="true"></dxo-group-panel> -->
+
+                                <dxi-column dataField="fleet_Desc" dataType="string" cellTemplate="diffRouteTemplate"
+                                    caption="{{languages.fleetcode || 'Fleet Code'}}">
+                                </dxi-column>
+                                <dxi-column dataField="tDate" dataType="date" caption="{{languages.date || 'Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="incidentTypeDesc" dataType="string"
+                                    caption="{{languages.incidenttypedesc || 'Incident Type Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="customerName" dataType="string"
+                                    caption="{{languages.customername || 'Related Customer'}}">
+                                </dxi-column>
+                                <dxi-column dataField="refNo" dataType="string"
+                                    caption="{{languages.refno || 'Ref No'}}">
+                                </dxi-column>
+                                <dxi-column dataField="amount" dataType="string" format="#,##0.00"
+                                    caption="{{languages.amount || 'Amount'}}">
+                                </dxi-column>
+                                <dxi-column dataField="relatedStaffInfo" dataType="string"
+                                    caption="{{languages.relatedstaffinfo || 'Related Staff Info'}}">
+                                </dxi-column>
+                                <dxi-column dataField="readMiles" dataType="string" format="#,##0"
+                                    caption="{{languages.readmiles || 'Read Miles'}}">
+                                </dxi-column>
+                                <dxi-column dataField="status" dataType="string" cellTemplate="diffStatusTemplate"
+                                    caption="{{languages.status || 'Status'}}">
+                                </dxi-column>
+
+                                <dxi-column dataField="createDate" dataType="datetime"
+                                    caption="{{languages.createdate || 'Create Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createName" dataType="string"
+                                    caption="{{languages.createuser || 'Create User'}}">
+                                </dxi-column>
+                                <dxi-column caption="" dataField="afId" cellTemplate="diffDeleteTemplate">
+                                </dxi-column>
+
+                                <dxo-summary>
+                                    <dxi-total-item column="fleet_Desc" summaryType="count">
+                                    </dxi-total-item>
+                                </dxo-summary>
+                                <div *dxTemplate="let d of 'diffStatusTemplate'">
+                                    <span class="badge" [ngClass]="setClassBookStatus(d.value)"
+                                        style="font-size: 13px;margin-top: 2px;"> {{d.value}}</span>
+                                </div>
+                                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                                    <a class="pointer" (click)="ViewDetail(d.data.afId)">
+                                        {{d.value}}
+                                    </a>
+                                </div>
+
+                                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                                    <div class="dx-btn-group">
+                                        <a (click)="goDetail(d.data.afId)" class="fa fa-fw fa-edit">
+                                        </a>
+                                        <a (click)="delete(d.data.afId)" class="fa fa-trash fa-1x">
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </dx-data-grid>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

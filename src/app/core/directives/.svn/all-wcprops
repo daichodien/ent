@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/MPLProjects/!svn/ver/15771/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives
+END
+myCurrencyPipe.directive.ts
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/myCurrencyPipe.directive.ts
+END
+equalvalidator.directive.spec.ts
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/equalvalidator.directive.spec.ts
+END
+date-time-format.directive.ts
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/MPLProjects/!svn/ver/9106/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/date-time-format.directive.ts
+END
+index.ts
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/index.ts
+END
+number.only.directive.ts
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/number.only.directive.ts
+END
+base.component.ts
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/MPLProjects/!svn/ver/14876/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/base.component.ts
+END
+date-time-format.directive.spec.ts
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/MPLProjects/!svn/ver/8496/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/date-time-format.directive.spec.ts
+END
+equalvalidator.directive.ts
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/equalvalidator.directive.ts
+END
+mycrrencyformat.directive.ts
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/MPLProjects/!svn/ver/9011/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/mycrrencyformat.directive.ts
+END

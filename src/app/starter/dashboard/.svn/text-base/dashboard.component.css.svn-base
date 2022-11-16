@@ -1,0 +1,3 @@
+.dx-searchbox .dx-texteditor-input, .dx-searchbox .dx-placeholder:before {
+    padding-left: 26px !important;
+}

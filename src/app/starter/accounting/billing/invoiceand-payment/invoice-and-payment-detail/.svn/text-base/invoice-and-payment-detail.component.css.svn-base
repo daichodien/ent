@@ -1,0 +1,24 @@
+::ng-deep .numberAlign input {  
+    text-align: right;  
+  }
+  .col-4,.col-2
+  {
+    padding-right: 13.5px !important;
+    padding-left: 13.5px !important;
+  }
+
+  .resultMount
+  {
+    color: rgba(51, 51, 51, 0.7);
+    font-weight: bold;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-size: 12px;
+  }
+  .input-custom-link {
+    position: absolute;
+    top: 4px;
+    right: 25px;
+  }
+  .input-custom-link:hover {
+    cursor: pointer;
+  }

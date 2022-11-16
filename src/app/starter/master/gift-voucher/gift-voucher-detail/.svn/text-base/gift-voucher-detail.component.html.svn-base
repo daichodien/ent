@@ -1,0 +1,103 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{languages.giftvoucherdetail||'Gift Voucher Detail'}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="formaddnew" class="form-horizontal" (ngSubmit)="f.form.valid && Save()" #f="ngForm" novalidate>
+  <div class="modal-body">
+
+
+    <div class="box box-primary">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="col-md-4 control-label">{{languages.issuedate || "Issue Date"}}<span
+                  class="required"></span></label>
+              <div class="col-md-4">
+                <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                  [(value)]="giftVoucherModel.issueDate">
+                </dx-date-box>
+                <span *ngIf="f.submitted && giftVoucherModel.issueDate == null" class="help-block-custom">
+                  <i class="fa fa-exclamation-circle" tooltip="IssueDate is required" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-4 control-label">{{languages.vouchertype || "Voucher Type"}}<span
+                  class="required"></span></label>
+              <div class="col-md-4">
+                <select class="form-control" name="voucherType" [(ngModel)]="giftVoucherModel.voucherType"
+                  #voucherType="ngModel" required>
+                  <option *ngFor="let items of listVoucherType" value="{{items.code}}">{{items.codeDesc}}
+                  </option>
+                </select>
+                <span *ngIf="f.submitted && !voucherType.valid" class="help-block-custom">
+                  <i class="fa fa-exclamation-circle" tooltip="Staff Name is required" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+            <div *ngIf="model.editMode==false" class="form-group row">
+              <label class="col-md-4 control-label">{{languages.serialno || "Serial No"}}<span
+                  class="required"></span></label>
+              <div class="col-md-4">
+                <input class="form-control" name="serialNo1" style="width: 45%;float: left;" [(ngModel)]="serialNo1"
+                  required>
+                <span *ngIf="f.submitted && serialNo1 == null" class="help-block-custom">
+                  <i class="fa fa-exclamation-circle" tooltip="SerialNo1 is required" aria-hidden="true"></i>
+                </span>
+                <div style="float: left;width: 20px;text-align: center;">-</div>
+                <input class="form-control" name="serialNo2" style="width: 46%;" [(ngModel)]="serialNo2" required>
+
+                <span *ngIf="f.submitted && serialNo2 == null" class="help-block-custom">
+                  <i class="fa fa-exclamation-circle" tooltip="SerialNo2 is required" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div class="col-md-1">
+                <input class="form-control"  name="serialNo3" [(ngModel)]="serialNo3">
+              </div>
+            </div>
+            <div *ngIf="model.editMode==true" class="form-group row">
+              <label class="col-md-4 control-label">{{languages.serialno || "Serial No"}}</label>
+              <div class="col-md-4">
+                <input class="form-control" disabled name="serialNo" [(ngModel)]="giftVoucherModel.serialNo">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-4 control-label">{{languages.releaseto || "Release To"}}</label>
+              <div class="col-md-4">
+                <input class="form-control" name="releaseTo" [(ngModel)]="giftVoucherModel.releaseTo">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-4 control-label">{{languages.remart || "Remark"}}</label>
+              <div class="col-md-4">
+                <input class="form-control" name="remark" [(ngModel)]="giftVoucherModel.remark">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-4 control-label">{{languages.expireddate || "Expired date"}}</label>
+              <div class="col-md-4">
+                <dx-date-box width="100%" [min]="giftVoucherModel.issueDate" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                  [(value)]="giftVoucherModel.expiredDate">
+                </dx-date-box>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <div class="col-md-11 group-btn-right">
+      <button type="button" class="btn btn-default pull-right"
+        (click)="bsModalRef.hide()">{{languages.close || 'Close'}}</button>
+      <button type="submit" class="btn btn-primary pull-right">{{languages.save || 'Save'}}</button>
+
+    </div>
+  </div>
+</form>

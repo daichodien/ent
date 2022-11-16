@@ -1,0 +1,126 @@
+<header class="header-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <h1 class="logo"><a routerLink="" href="#"><img class="d-lg-down" src="assets/img/enterprise.jpg"
+                            alt="enterprise" /><img class="d-lg-up" src="assets/img/logo-mobile.png"
+                            alt="enterprise" /></a>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<section *ngIf="tripRecordVerifies.length <= 0" class="container wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div *ngIf="name !== ''" style="font:normal 16px / 24px 'Asap', Helvetica, Arial, Verdana, sans-serif; padding: 30px 0 0 0;">
+                <span class="mr-2">Dear</span><strong class="text-capitalize">{{name}}</strong>
+            </div>
+            <div style="font:normal 16px / 24px 'Asap', Helvetica, Arial, Verdana, sans-serif; padding: 20px 0 20px 0;">
+                <p style="font-size: 16px;">There are no trip records to approval!</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section *ngIf="tripRecordVerifies.length > 0" class="container wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="font:normal 16px / 24px 'Asap', Helvetica, Arial, Verdana, sans-serif; padding: 30px 0 20px 0;">
+                <span class="mr-2">Dear</span><strong class="text-capitalize">{{name}}</strong>
+            </div>
+            <p style="font-size: 16px;">Your recent trip records has been posted by Driver. Please verify record follow link below.</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-12" style="padding-left: 20px !important; padding-right: 20px !important;">
+
+                <div class="tab-pane tab-orders" id="profile-ordering" role="tabpanel"
+                    aria-labelledby="v-pills-profile-tab" style="padding: 10px 30px 30px 30px;overflow: auto;">
+
+                    <div class="mb-2">
+                        <span class="info-item align-text-bottom mr-2">Check all</span><input id="check-all"
+                            type="checkbox" (change)="checkAll($event)">
+                    </div>
+
+                    <table class="table table-striped" style="width: 100%;">
+                        <th>Approved</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Start Mile</th>
+                        <th>End Mile</th>
+                        <th>KM</th>
+                        <th>Route</th>
+                        <th>Toll</th>
+                        <th>Parking</th>
+                        <th>Remark</th>
+
+                        <tr *ngFor="let tripRecordVerify of tripRecordVerifies">
+                            <td class="chkbox"><input class="approved-item" type="checkbox"
+                                    (change)="checkValue($event, tripRecordVerify.trId)"></td>
+                                    
+                            <td>{{formatTime(tripRecordVerify.startTime)}}</td>
+                            <td>{{formatTime(tripRecordVerify.endTime)}}</td>
+                            <td>{{tripRecordVerify.startMile | number}}</td>
+                            <td>{{tripRecordVerify.endMile | number}}</td>
+                            <td>{{tripRecordVerify.endMile - tripRecordVerify.startMile | number}}</td>
+                            <td>{{tripRecordVerify.routeMemo}}</td>
+                            <td>{{tripRecordVerify.tollFee | currency:' ':'code'}}</td>
+                            <td>{{tripRecordVerify.parkingFee | currency:' ':'code'}}</td>
+                            <td>{{tripRecordVerify.tripMemo}}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body mt-3 mb-4">
+            <div class="row form-row align-items-center">
+              <div class="col-md-6">
+                <label style="font-weight: bold !important;">Remark</label>
+                <input type="text" maxlength="1000" [(ngModel)]="saveTripRecordVerifyDto.remark" class="form-control mb-2" id="inlineFormInput">
+              </div>
+              <div class="col-md-4">
+                <label style="font-weight: bold !important;" for="inlineFormInputGroup">Security Code</label>
+                <div class="input-group mb-2">
+                  <input type="text" class="form-control secur-code" id="inlineFormInputGroup" maxlength="4" [(ngModel)]="saveTripRecordVerifyDto.securityCode">
+                </div>
+              </div>
+             
+              <div class="col-md-2">
+                <label style="font-weight: bold !important;" for="inlineFormInputGroup"></label>
+                <button (click)="verify()" type="button" class="btn btn-primary mb-2">Submit</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer-page">
+    <!-- <div class="footer-top">
+        <div class="container">
+            <p><a href="index.html"><img src="assets/img/enterprise.jpg" alt="enterprise" /></a><img
+                    src="assets/img/mp-executives-logo-35.png" alt="MP Executives" /></p>
+
+        </div>
+    </div>
+    <div class="container footer-bottom">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                &copy; 2018 MP Executives. <a href="#"><i class="fa fa-facebook-square"></i></a><a href="#"><i
+                        class="fa fa-youtube-play"></i></a>
+            </div>
+        </div>
+    </div> -->
+</footer>

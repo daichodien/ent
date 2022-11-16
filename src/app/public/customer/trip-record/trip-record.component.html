@@ -1,0 +1,134 @@
+<header class="header-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <h1 class="logo"><a routerLink="" href="#"><img class="d-lg-down" src="assets/img/enterprise.jpg"
+              alt="enterprise" /><img class="d-lg-up" src="assets/img/logo-mobile.png" alt="enterprise" /></a>
+        </h1>
+      </div>
+      <div class="col-6"></div>
+      <div class="col-3" style="margin-top: 16px;">
+        <span class="user-name  pull-right" style="padding-right: 7.5px;">{{customerName}}</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="container wrapper">
+  <div class="content-wrapper1">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Trip Record</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main body-->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card pull-right">
+              <nav class="navbar navbar-expand-sm" style="padding: 0px;">
+                <!-- Links -->
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" routerLink="../checklist" [queryParams]="{id: idCust}">Check List</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active-link" href="#" [routerLink]="['../triprecord']"
+                      [queryParams]="{id: idCust}">Trip Record</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div *ngIf="customerName == ''" class="col-md-12">
+            <div style="font:normal 16px / 24px 'Asap', Helvetica, Arial, Verdana, sans-serif; padding: 30px 0 20px 0;">
+              <strong class="text-capitalize">Sorry!</strong>
+            </div>
+            <p style="font-size: 16px;">Customer is invalid!</p>
+          </div>
+
+
+          <div *ngIf="customerName !== ''" class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">General</h5>
+              </div>
+              <form (ngSubmit)="getTripRecords()" #f="ngForm">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Fleet Desc</label>
+                    <div class="col-md-2">
+                      <dx-select-box [(value)]="searchModel.fleetDesc" [items]="listFleets" showClearButton="true"
+                        displayExpr="fleet_Desc" valueExpr="fleet_Desc" [searchEnabled]="true">
+                      </dx-select-box>
+                    </div>
+
+                    <label class="col-md-2 control-label">Trip Date</label>
+                    <div class="col-md-2">
+                      <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                        [max]="searchModel.dateTo" [(value)]="searchModel.dateFrom"  [min]='minDateF'>
+                      </dx-date-box>
+                    </div>
+                    <div class="col-md-2">
+                      <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                        [min]="searchModel.dateFrom" [(value)]="searchModel.dateTo"  [max]='maxDateT'>
+                      </dx-date-box>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="card-footer group-btn-right">
+                  <button type="submit" class="btn btn-primary btn-sm pull-right">Search</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="card card-default">
+              <div class="card-body">
+                <dx-data-grid #gridContainer id="gridContainer" keyExpr="trId" [dataSource]="dataSource">
+
+                  <dxo-column-chooser mode="select" [enabled]="true"></dxo-column-chooser>
+
+                  <dxi-column dataField="fleet_Desc" dataType="string" caption="Fleet Desc">
+                  </dxi-column>
+                  <dxi-column dataField="customerName" dataType="string" caption="End Customer">
+                  </dxi-column>
+                  <dxi-column dataField="staffName" dataType="string" caption="Driver Name">
+                  </dxi-column>
+                  <dxi-column dataField="startTime" dataType="localTime" [width]="125" caption="Start Date">
+                  </dxi-column>
+                  <dxi-column dataField="endTime" dataType="localTime" [width]="125" caption="End Date">
+                  </dxi-column>
+                  <dxi-column dataField="routeMemo" dataType="string" [width]="300" [visible]="false" caption="Route">
+                  </dxi-column>
+                  <dxi-column dataField="tollFee" dataType="string" format="#,##0.00" caption="Toll Fee">
+                  </dxi-column>
+                  <dxi-column dataField="parkingFee" dataType="string" format="#,##0.00" caption="Parking Fee">
+                  </dxi-column>
+                  <dxi-column dataField="tripMemo" dataType="string" caption="Trip Memo">
+                  </dxi-column>
+
+                  <dxo-paging [pageSize]="10"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                    [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+
+                </dx-data-grid>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

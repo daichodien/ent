@@ -1,0 +1,157 @@
+8
+
+dir
+16684
+https://115.75.188.198:8443/svn/MPLProjects/13.Enterprise_Project/Sources/Clients/Admin/src/app/starter
+https://115.75.188.198:8443/svn/MPLProjects
+
+
+
+2022-11-15T07:11:22.200845Z
+16684
+thien.hoang
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+960746d7-80ac-ab40-9532-614e99d24802
+
+accounting
+dir
+
+administrator
+dir
+
+core
+dir
+
+dashboard
+dir
+
+fleet-rental
+dir
+
+maintenance
+dir
+
+map-popup
+dir
+
+master
+dir
+
+reports
+dir
+
+starter-content
+dir
+
+starter-control-sidebar
+dir
+
+starter-footer
+dir
+
+starter-main-sidebar
+dir
+
+starter-navbar
+dir
+
+starter-routing.module.ts
+file
+
+
+
+
+2022-10-31T08:03:43.056000Z
+eae45fc3c8f16a2ec1082d34f4ca8c45
+2022-10-12T09:35:16.283338Z
+16358
+thien.hoang
+has-props
+
+starter.component.css
+file
+
+
+
+
+2022-10-31T08:03:43.072000Z
+d41d8cd98f00b204e9800998ecf8427e
+2019-05-15T06:27:48.088596Z
+7817
+tuan.pham
+has-props
+
+starter.component.html
+file
+
+
+
+
+2022-10-31T08:03:43.056000Z
+153c1edcfe460f1ab74a73281014e86e
+2019-07-29T08:31:49.217631Z
+8996
+kiet.huynh
+has-props
+
+starter.component.spec.ts
+file
+
+
+
+
+2022-10-31T08:03:43.072000Z
+9312690cbe50439e4a6cbae0591e59c9
+2019-05-15T06:27:48.088596Z
+7817
+tuan.pham
+has-props
+
+starter.component.ts
+file
+
+
+
+
+2022-10-31T08:03:43.056000Z
+be4bbb92b8c9a48a80657786f314bfc4
+2022-10-25T02:55:19.212123Z
+16479
+thien.hoang
+has-props
+
+starter.module.ts
+file
+
+
+
+
+2022-10-31T08:03:43.056000Z
+85c75ce57224f49b48469ae108fb5bf0
+2022-10-12T09:35:16.283338Z
+16358
+thien.hoang
+has-props
+
+support
+dir
+
+userprofile
+dir
+
+web-portal
+dir
+

@@ -1,0 +1,366 @@
+<div class="content-wrapper">
+  <!-- Main body-->
+  <div class="col-12">
+        <div class="tab-content" id="custom-tabs-three-tabContent">
+          <div class="tab-pane fade show active" id="custom-tabs-general" role="tabpanel"
+            aria-labelledby="custom-tabs-general-tab">
+            <!-- ============================================TAB GENERAL===================================================== -->
+            <div class="content">
+              <form name="form" #f="ngForm" novalidate>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h5 class="card-title">{{languages.general || "General"}}</h5>
+                        </div>
+                        <div class="card-body">
+                          <div class="form-group row">
+
+                            <label class="col-2 control-label">{{languages.type || "Type"}}</label>
+                            <div class="col-2">
+
+                              <input type="radio" id="custype_indv" [checked]="customerModel.cusType == 'INDV'"
+                                value="INDV" [(ngModel)]="customerModel.cusType" name="existedUserId">
+                              <label class="radio-title"
+                                for="custype_indv">{{languages.individual||'Individual'}}</label>
+                            </div>
+                            <div class="col-2">
+                              <input type="radio" id="custype_corp" [checked]="customerModel.cusType == 'CORP'"
+                                value="CORP" [(ngModel)]="customerModel.cusType" name="existedUserId">
+                              <label class="radio-title" for="custype_corp"> {{languages.corporation||'Corporation'}}
+                              </label>
+
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-2 control-label">{{languages.customername || "Customer Name"}} <span
+                                _ngcontent-c35="" class="required"></span></label>
+                            <div class="col-4 ">
+                              <input class="form-control" required maxlength="50"
+                                [(ngModel)]="customerModel.customerName" name="customerName" #customerName="ngModel">
+                              <span *ngIf="f.submitted && !customerName.valid" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="Customer Name is required"
+                                  aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <label class="col-2 control-label">{{languages.title || "Title"}}</label>
+                            <div class="col-4">
+                              <!-- <dx-select-box    [(value)]="customerModel.cTitle" [items]="titles">
+                                <dx-validator *ngIf="customerModel.cusType == 'INDV'" >
+                                  <dxi-validation-rule type="required" message="Title is required"></dxi-validation-rule>
+                                </dx-validator>
+                              </dx-select-box> -->
+                              <select class="form-control" [(ngModel)]="customerModel.cTitle"
+                                [required]="customerModel.cusType == 'INDV'" name="cTitle" #cTitle="ngModel">
+                                <option *ngFor="let item of titles" [value]="item">{{item}}</option>
+                              </select>
+                              <span *ngIf="f.submitted && cTitle.errors?.required" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="Title is required" aria-hidden="true"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-2 control-label">{{languages.firstname || "First Name"}}</label>
+                            <div class="col-4 ">
+                              <input class="form-control" [required]="customerModel.cusType == 'INDV'?true:false"
+                                maxlength="50" [(ngModel)]="customerModel.firstName" name="firstName"
+                                #firstName="ngModel">
+                              <span *ngIf="f.submitted && firstName.errors?.required" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="First Name is required"
+                                  aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <label class="col-2 control-label">{{languages.lastname || "Last Name"}}</label>
+                            <div class="col-4">
+                              <input class="form-control" [required]="customerModel.cusType == 'INDV'?true:false"
+                                maxlength="50" [(ngModel)]="customerModel.lastName" name="lastName" #lastName="ngModel">
+                              <span *ngIf="f.submitted && lastName.errors?.required" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="Last Name is required"
+                                  aria-hidden="true"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-2 control-label">{{languages.mobileno || "Mobile No"}}</label>
+                            <div class="col-4 ">
+                              <input class="form-control" required maxlength="40" pattern="[0-9]+"
+                                [(ngModel)]="customerModel.mobileNo" name="mobileNo" #mobileNo="ngModel">
+                              <span *ngIf="f.submitted && mobileNo.invalid" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="Invalid phone number"
+                                  aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <label class="col-2 control-label">{{languages.emailaddress || "Email Address"}}</label>
+                            <div class="col-4">
+                              <input class="form-control" [required]="customerModel.cusType == 'CORP'?true:false"
+                                [pattern]="emailPattern" maxlength="50" [(ngModel)]="customerModel.emailAddress"
+                                name="emailAddress" #emailAddress="ngModel">
+                              <span *ngIf="f.submitted && emailAddress.invalid" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="Invalid email address"
+                                  aria-hidden="true"></i>
+                              </span>
+                              <span *ngIf="f.submitted && emailAddress.errors?.required" class="help-block-custom">
+                                <i class="fa fa-exclamation-circle" tooltip="Email address is required"
+                                  aria-hidden="true"></i>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-2 control-label">{{languages.address1 || "Address 1"}}</label>
+                            <div class="col-4 ">
+                              <input class="form-control" maxlength="100" [(ngModel)]="customerModel.address1"
+                                name="address1" #address1="ngModel">
+                            </div>
+                            <label class="col-2 control-label">{{languages.address2 || "Address 2"}}</label>
+                            <div class="col-4">
+                              <input class="form-control" [(ngModel)]="customerModel.address2" name="address2">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-2 control-label">{{languages.address3 || "Address 3"}}</label>
+                            <div class="col-4 ">
+                              <input class="form-control" [(ngModel)]="customerModel.address3" name="address3">
+                            </div>
+                            <label class="col-2 control-label">{{languages.country || "Country"}}</label>
+                            <div class="col-4">
+                              <dx-select-box [dataSource]="countries" displayExpr="countryName" valueExpr="countryId"
+                                [(value)]="customerModel.countryId" [searchEnabled]="true">
+                              </dx-select-box>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-2 control-label">{{languages.remark || "Remark"}}</label>
+                            <div class="col-4 ">
+                              <dx-text-area [height]="90" [(ngModel)]="customerModel.remark" name="remark"
+                                [(value)]="customerModel.remark">
+                              </dx-text-area>
+                            </div>
+
+                            <div class="col">
+                              <div class="form-group row">
+                                <label class="col-4 control-label">{{languages.taxregnumber || "Tax Reg Number"}}</label>
+                                <div class="col-8">
+                                  <input class="form-control" [(ngModel)]="customerModel.taxRegNumber"
+                                    name="taxRegNumber">
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <label class="col-4 control-label">{{languages.customertype || "Customer Type"}}</label>
+                                <div class="col-8">
+                                  <dx-select-box [dataSource]="listCustomerType" displayExpr="codeDesc" valueExpr="code"
+                                    [(value)]="customerModel.customerType">
+                                    <dx-validator>
+                                      <dxi-validation-rule type="required" message="Customer Type is required">
+                                      </dxi-validation-rule>
+                                    </dx-validator>
+                                  </dx-select-box>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-4">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+                        </div>
+                        <div class="card-body">
+                          <app-fileupload>
+
+                          </app-fileupload>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h5 class="card-title">{{languages.driverinfo || "Driver Info"}} (Only for Individual
+                            Customer)</h5>
+                        </div>
+                        <form>
+                          <div class="card-body">
+
+                            <div class="form-group row">
+                              <label class="col-2 control-label">{{languages.drivername || "Driver Name"}}</label>
+                              <div class="col-4 ">
+                                <input class="form-control" [(ngModel)]="customerModel.driverName" name="drivername">
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label class="col-2 control-label">{{languages.idtype || "ID Type"}}</label>
+                              <div class="col-4 ">
+                                <dx-select-box [dataSource]="listIdTypes" displayExpr="codeDesc" valueExpr="code"
+                                  [(value)]="customerModel.idType" [searchEnabled]="true">
+                                </dx-select-box>
+                              </div>
+                              <label class="col-2 control-label">{{languages.idno || "ID No"}}</label>
+                              <div class="col-4">
+                                <input class="form-control" [(ngModel)]="customerModel.idNo" name="idNo">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-2 control-label">{{languages.licensenumber || "License Number"}}</label>
+                              <div class="col-4 ">
+                                <input class="form-control" [(ngModel)]="customerModel.licNumber" name="licenseNumber">
+                              </div>
+                              <label class="col-2 control-label">{{languages.licenseexpdate || "License Exp Date"}}</label>
+                              <div class="col-4">
+                                <dx-date-box type="date" [(value)]="customerModel.licExpDate">
+                                </dx-date-box>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+
+                    </div>
+
+                    <div class="col-4">
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h5 class="card-title">{{languages.history || "History"}}</h5>
+                        </div>
+                        <div class="card-body">
+                          <div *ngIf="customerModel.createUser">
+                            <div class="form-group row">
+                              <label class="col-3">{{languages.created || "Created"}}</label>
+                              <label class="col-4" appDateTimeFormat
+                                [formatDateString]="'DD/MM/YYYY hh:mm A'">{{customerModel.createDate}}</label>
+                              <label class="col-1">{{languages.by || "by"}}</label>
+                              <label class="col-4">{{customerModel.createName}}</label>
+                            </div>
+                          </div>
+                          <div *ngIf="customerModel.updateUser">
+                            <div class="form-group row">
+                              <label class="col-3">{{languages.updated || "Updated"}}</label>
+                              <!-- <label class="col-4">{{formatDate(customerModel.updateDate)}}</label> -->
+                              <label class="col-4" appDateTimeFormat
+                                [formatDateString]="'DD/MM/YYYY hh:mm A'">{{customerModel.updateDate}}</label>
+                              <label class="col-1">{{languages.by || "by"}}</label>
+                              <label class="col-4">{{customerModel.upDateName}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card card-primary card-outline">
+                        <div class="card-header">
+                          <h5 class="card-title">{{languages.lastest10 || "Lastest 10 booking"}}</h5>
+                        </div>
+                        <div class="card-body">
+                          <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="bookNo">
+                            <dxo-load-panel
+                              [enabled]="true">
+                          </dxo-load-panel>
+                            <dxo-export [enabled]="true" fileName="Bookings"></dxo-export>
+                            <dxo-column-chooser #columnChooser
+                                [enabled]="true"
+                                [allowSearch]="true"
+                                mode="select">
+                            </dxo-column-chooser>
+                            <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                            <dxi-column width="75px" dataField="bookNo" dataType="string" cellTemplate="diffCellTemplate1" caption="{{languages.bookingno ||'Booking No'}}">
+                            </dxi-column>
+                            <dxi-column dataField="bookDate" dataType="localTime" [sortIndex]="0"
+                            sortOrder="desc" caption="{{languages.bookingdate||'Booking Date'}}">
+                            </dxi-column>
+                            <dxi-column width="150px" dataField="customerName" dataType="string" caption="{{languages.customer||'Customer'}}">
+                            </dxi-column>
+                            <dxi-column dataField="bookStatus" dataType="string" caption="{{languages.status||'Status'}}">
+                            </dxi-column>
+                            <div *dxTemplate="let d of 'diffCellTemplate1'">
+                              <a class="pointernofocus" (click)="viewDetail(d.data.bookNo)">
+                                <span> {{d.value}}</span>
+                              </a>
+                            </div>
+                          </dx-data-grid>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="group-btn-right">
+                        <dx-button id="button" text="Save" type="success" (onClick)="formvalid(f)"
+                          [useSubmitBehavior]="true">
+                        </dx-button>
+                        <button class="btn btn-default btn-md" type="button" (click)="back()">{{languages.back ||
+                          "Back"}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- End content tab general -->
+          </div>
+          <!-- ============================================TAB HISTORY===================================================== -->
+          <div class="tab-pane fade" id="custom-tabs-history" role="tabpanel" aria-labelledby="custom-tabs-history-tab">
+            <div class="row custom-tree-view-menu">
+              <nav id="nav">
+                <div class="bubble_all" id="icon">
+                  <button class="va_menu_icon va_menu_icon-X">
+                    <span></span>
+                  </button>
+
+                </div>
+                <!-- <div class="bubble" id="one"> -->
+                <div class="bubble" id="one">
+                  <img src="./../../../../../assets/img/ticket.png">
+                  <h3>Customer Ticket</h3>
+                </div>
+                <div class="bubble" id="two">
+                  <img src="./../../../../../assets/img/trip_record.png">
+                  <h3>Trip Record</h3>
+                </div>
+                <div class="bubble" id="three">
+                  <img src="./../../../../../assets/img/payment.png">
+                  <h3>Payment</h3>
+                </div>
+                <div class="bubble" id="four">
+                  <img src="./../../../../../assets/img/booking.png">
+                  <h3>Booking</h3>
+                </div>
+              </nav>
+
+              <section class="start">
+                <div class="content-tree-view">
+                  <!-- <h1>History By Customer</h1> -->
+                </div>
+              </section>
+              <section class="first"> 
+                <!-- CUSTOMER HISTORY -->
+                <h5 *ngIf="!checkPagePermission('customerticket')">You do not have permission to access this function!</h5>
+                <app-customer-ticket *ngIf="checkPagePermission('customerticket')" [customerIdRequest]="cusId"></app-customer-ticket>
+              </section>
+              <section class="second">
+                <!-- RECORD HISTORY -->
+                <h5 *ngIf="!checkPagePermission('triprecordapprovefee')">You do not have permission to access this function!</h5>
+                <app-approval-fee *ngIf="checkPagePermission('triprecordapprovefee')" [customerIdRequest]="cusId"></app-approval-fee>
+              </section>
+              <section class="third">
+                <!-- PAYMENT HISTORY -->
+                <h5 *ngIf="!checkPagePermission('ent_billing')">You do not have permission to access this function!</h5>
+                <app-invoiceand-payment *ngIf="checkPagePermission('ent_billing')" [customerIdRequest]="cusId"></app-invoiceand-payment>
+              </section>
+              <section class="fourth">
+                <!-- BOOKING HISTORY -->
+                <h5 *ngIf="!checkPagePermission('booking')">You do not have permission to access this function!</h5>
+                <app-booking *ngIf="checkPagePermission('booking')" [customerIdRequest]="cusId"></app-booking>
+              </section>
+
+            </div>
+
+          </div>
+          <!-- End content tab history -->
+        </div>
+</div>

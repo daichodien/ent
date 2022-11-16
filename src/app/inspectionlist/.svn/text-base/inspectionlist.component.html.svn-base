@@ -1,0 +1,213 @@
+<!-- <label class="cameraButton">Take a picture
+  <input type="file" accept="image/*" capture="camera"  (change)="handleFileInput($event.target.files);">
+  
+</label> -->
+<!-- <img [src]="base64image"  /> -->
+<div class="container body-content" style="height: auto">
+
+  <div class="row">
+    <div class="col head-title" style="height: 38px;">
+      <div class="page-title d-none d-lg-block">
+        <h2>Inspection List</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-12 col-xs-12 animation" style="top:-500px;display: none;">
+    <br>
+    <br>
+    <h3 class="text-center">Successfuly Submitted <br>Inspection Check list</h3>
+    <br>
+
+    <p class="text-center">Total Item: {{this.listQuestionItems.length}}</p>
+    <p class="text-center">Checked Item: {{ItemChecklistInsItemRequest.length}}</p>
+    <p class="text-center">100%</p>
+    <p class="text-center">Fail Item: {{totalFail}}</p>
+    <p class="text-center">Pass Item: {{totalPass}}</p>
+    <p class="text-center">N/A Item: {{totalNA}}</p>
+    <p class="text-center">Attention Item: {{this.listQuestionItems.length}}</p>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p class="text-center"><strong>1.Please Post ralated Photo</strong></p>
+    <p class="text-center"><strong>2.Safe Driving</strong></p>
+
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-success" (click)="reload()">Continue</button>
+    </div>
+  </div>
+  <div>
+
+    <form (ngSubmit)="f.form.valid && Save(f)" #f="ngForm" class="content-checklist">
+      <div class="col-12 col-sm-12 col-xs-12" id="list-fleet">
+        <dx-select-box *ngIf="showFleets"
+          (onValueChanged)="changeEquimentCode($event)" [items]="listFleet" showClearButton="true"
+          displayExpr="fleet_Desc" valueExpr="fltId" [searchEnabled]="true">
+        </dx-select-box>
+        <span *ngIf="mode == 'edit' ">EquimentCode: <strong>{{ equimentCode}}</strong></span>
+        <br />
+      </div>
+      <!-- <div class="panel-submit col-lg-12 col-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+        <div class="group-submit col-lg-12 col-12 col-sm-12 col-xs-12 bg-warning text-white">
+          <div class="row" style="padding: 7px;">
+            <div class="col totalResult">
+              <label class="label label-control labelTotal" id="lblInsTotal">
+                <span id="spCountProcessed" style="font-weight: bold;">Pass:
+                  {{totalPass}}/{{this.listQuestionItems.length}}</span>
+              </label>
+            </div>
+            <div class="col totalResult">
+              <label class="label label-control labelTotal" id="lblInsFail">
+                <span id="spCountFail" style="font-weight: bold;">Failed:{{totalFail}}</span>
+              </label>
+            </div>
+            <div class="col">
+              <button *ngIf="mode=='edit'" type="button" class="btn btn-success" (click)="openModal(template)">Xem
+                ảnh</button>
+
+              <button *ngIf="mode!='edit'" type="button" class="btn btn-success" (click)="openModal(template)"><i
+                  class="fa fa-camera" aria-hidden="true"></i></button>
+            </div>
+             
+            <div class="col">
+              <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 col-sm-12 col-xs-12 ">
+
+        <div *ngFor="let item of listQuestionItems | groupBy:'groupDesc' ;let j=index"
+          class="card card-success collapsed-card">
+          <div class="card-header" style="cursor: pointer;" (click)="collapse(j)">
+            <h3 class="card-title"> {{item.key}}</h3>
+            <div class="card-tools">
+              <span class="badge badge-pill badge-danger" style="font-size: 12px;">{{item.value.length}}</span>
+            </div>
+          </div>
+          <div class="card-body" id="card-body{{j}}" style="display: none;padding: 9px;border: 1px solid #376e18;">
+            <div *ngFor="let itemchild of item.value ;let i=index">
+              <div class="row" style="border-bottom: 1px solid rgb(236, 227, 227);">
+
+                <div class="col-12">
+                  <span class="badge badge-pill badge-secondary" style="font-size: 12px;">{{i + 1}}</span>
+                  <span class="inspection-item">
+                    {{itemchild.inspectionItem}}
+                  </span>
+                </div>
+                <div class="col-7 col-12">
+                  <div class="btn-group-custom" id="groupChecklist{{itemchild.qtId}}" style="margin-top:5px">
+                    <label style="width: 18%;" class="btn-custom btn-excellent  qtId{{itemchild.qtId}}"
+                      id="exelqtId{{itemchild.qtId}}"
+                      (click)="AddArrayAnswerInspectionItem($event,'EXEL',itemchild.qtId,'')">Excellent</label>
+                    <label style="width: 18%;" class="btn-custom btn-average  qtId{{itemchild.qtId}}"
+                      id="passqtId{{itemchild.qtId}}"
+                      (click)="AddArrayAnswerInspectionItem($event,'AVEG',itemchild.qtId,'')">Average</label>
+                    <label style="width: 30%;" class="btn-custom btn-passwwithattention  qtId{{itemchild.qtId}}"
+                      id="paatqtId{{itemchild.qtId}}"
+                      (click)="AddArrayAnswerInspectionItem($event,'PAAT',itemchild.qtId,'')">Pass with
+                      attention</label>
+                    <label style="width: 12%;" class="btn-custom btn-fail  qtId{{itemchild.qtId}}"
+                      id="failqtId{{itemchild.qtId}}"
+                      (click)="AddArrayAnswerInspectionItem($event,'FAIL',itemchild.qtId,'')">Fail</label>
+                    <label style="width: 12%;" class="btn-custom btn-default  qtId{{itemchild.qtId}}"
+                      id="naqtId{{itemchild.qtId}}"
+                      (click)="AddArrayAnswerInspectionItem($event,'NA',itemchild.qtId,'itemchild.qtId')">N/A</label>
+                    <label style="width:10%" class="btn-custom" (click)="showTextInput(itemchild.qtId)">
+                      <i class="fa fa-pencil"></i>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-5 col-sm col-12" style="margin-top:0px;display: none;" id="noted-{{itemchild.qtId}}">
+                  <textarea class="tar-comment" id="comment{{itemchild.qtId}}" name="comment{{itemchild.qtId}}"
+                    cols="10" rows="5" placeholder="Click here to enter text comment"
+                    style="margin: 0px;height:25px; width: 100%;" ngModel></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-submit col-lg-12 col-12 col-sm-12 col-xs-12">
+        <div class="group-submit col-lg-12 col-12 col-sm-12 col-xs-12 bg-warning text-white">
+          <div class="row" style="padding: 7px;">
+            <div class="col totalResult">
+              <label class="label label-control labelTotal" id="lblInsTotal">
+                <span id="spCountProcessed" style="font-weight: bold;">Pass:
+                  {{totalPass}}/{{this.listQuestionItems.length}}</span>
+              </label>
+            </div>
+            <div class="col totalResult">
+              <label class="label label-control labelTotal" id="lblInsFail">
+                <span id="spCountFail" style="font-weight: bold;">Failed:{{totalFail}}</span>
+              </label>
+            </div>
+            <div class="col">
+              <button *ngIf="mode=='edit'" type="button" class="btn btn-success" (click)="openModal(template)">Xem
+                ảnh</button>
+
+              <button *ngIf="mode!='edit'" type="button" class="btn btn-success" (click)="openModal(template)"><i
+                  class="fa fa-camera" aria-hidden="true"></i></button>
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Take Photo</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div  class="modal-body">
+      <div *ngFor="let item of arrImage; let index=index">
+        <img class="image_preview" [src]="item" (click)="openImage(item,index)"  />
+      </div>
+  
+
+      <div class="image-upload-wrap">
+        <input class="file-upload-input" type="file" accept="image/*" capture="camera" (change)="handleFileInput($event.target.files);"/>
+        <div class="drag-text">
+          <p id="add_image" style="text-align: center;color: #d1cfcf;font-size: 62px;">+</p>
+          <p style="text-align: center;color: #d1cfcf;margin-top: -40px;">Hình ảnh</p>
+        </div>
+      </div>
+
+    </div>
+    <!-- <div class="modal-body">
+
+      <div style="text-align:center">
+        <div>
+          <webcam [width]="sizeCamera" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
+            [imageQuality]="1" (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)">
+          </webcam>
+          <br />
+          <button type="button" class="actionBtn btn btn-success" (click)="triggerSnapshot()"><i class="fa fa-camera"
+              aria-hidden="true"></i></button>
+        </div>
+      </div>
+
+      <div class="snapshot row">
+        <div class="col-sm-3 col-2 col-3" *ngFor="let item of arrImage; let index=index">
+          <img [src]="item" (click)="openImage(item,index)" />
+        </div>
+      </div>
+    </div> -->
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+  </ng-template>
+
+</div>

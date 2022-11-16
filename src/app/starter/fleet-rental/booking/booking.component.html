@@ -1,0 +1,249 @@
+<div [ngClass]="!customerIdRequest ? 'content-wrapper' : 'content-tree-view'">
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title" *ngIf="customerIdRequest">{{"Booking"}}</h5>
+              <h5 class="card-title" *ngIf="!customerIdRequest">{{languages.general || "General"}}</h5>
+            </div>
+            <div class="card-body">
+
+              <div class="form-group row">
+                <label class="col-md-2 control-label">{{languages.bookingnumber || "Booking Number"}}</label>
+                <div class="col-md-4">
+                  <input class="form-control" [(ngModel)]="searhModel.BookNo">
+                </div>
+                <label class="col-md-2 control-label">
+                  <!-- {{languages.bookdate || "Book Date"}} -->
+                  <!-- <select >
+                    <option  value="BOOKDATE"></option>
+                    <option value="PICDATE">Saab</option>
+                    <option value="RETDATE">VW</option>
+                    <option selected value="CONDATE" >Audi</option>
+                  </select> -->
+                  <select name="bookingDate"  [(ngModel)]="searhModel.dateType" style="border: 1px solid gray !important;">
+                    <option value="BOOKDATE">{{languages.bookdate || "Book Date"}} </option>
+                    <option value="PICDATE">{{languages.pickupdate || "Pickup Date"}}</option>
+                    <option value="RETDATE">{{languages.returndate || "Return Date"}}</option>
+                    <option value="CONDATE">{{languages.contractdate || "Contract Date"}}</option>
+                  </select>
+                </label>
+                <div class="col-md-2">
+                  <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                    [(value)]="searhModel.DateF">
+                  </dx-date-box>
+                </div>
+                <div class="col-md-2">
+                  <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                    [(value)]="searhModel.DateT">
+                  </dx-date-box>
+                </div>
+              </div>
+
+              <div *ngIf="customerIdRequest;then content else other_content"></div>
+              <ng-template #content>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.fleettype || "Fleet Type"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searhModel.FleetType" name="fleetType">
+                      <option value=""></option>
+                      <option *ngFor="let fleetType of listFLType" value="{{fleetType.code}}">{{fleetType.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.bookstatus || "Book Status"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searhModel.BookStatus" name="bookStatus">
+                      <option value=""></option>
+                      <option *ngFor="let bookStatus of listBoookStatus" value="{{bookStatus.code}}">
+                        {{bookStatus.codeDesc}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  
+                  <label class="col-md-2 control-label">{{languages.fleetusetype || "Fleet Use Type"}}</label>
+                  <div class="col-md-4">
+                    <!-- <input class="form-control" [(ngModel)]="searhModel.fleetUseType"> -->
+                    <select class="form-control" [(ngModel)]="searhModel.fleetUseType" name="fleetUseType">
+                      <option value=""></option>
+                      <option *ngFor="let fleetUseType of listFleetUseType" value="{{fleetUseType.code}}">{{fleetUseType.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.FleetModel" [items]="listFleetModel" displayExpr="fleetModelDesc"
+                      valueExpr="fleetModelId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #other_content>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.customer || "Customer"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.CustId" [items]="listCustomer" displayExpr="customerName"
+                      valueExpr="custId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.bookstatus || "Book Status"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searhModel.BookStatus" name="bookStatus">
+                      <option value=""></option>
+                      <option *ngFor="let bookStatus of listBoookStatus" value="{{bookStatus.code}}">
+                        {{bookStatus.codeDesc}}</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.fleettype || "Fleet Type"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searhModel.FleetType" name="fleetType">
+                      <option value=""></option>
+                      <option *ngFor="let fleetType of listFLType" value="{{fleetType.code}}">{{fleetType.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.FleetModel" [items]="listFleetModel" displayExpr="fleetModelDesc"
+                      valueExpr="fleetModelId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  </div>
+                  <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.fleetusetype || "Fleet Use Type"}}</label>
+                  <div class="col-md-4">
+                    <!-- <input class="form-control" [(ngModel)]="searhModel.fleetUseType"> -->
+                    <select class="form-control" [(ngModel)]="searhModel.fleetUseType" name="fleetUseType">
+                      <option value=""></option>
+                      <option *ngFor="let fleetUseType of listFleetUseType" value="{{fleetUseType.code}}">{{fleetUseType.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.customertype || "Customer Type"}}</label>
+                    <div class="col-md-4">
+                        <select class="form-control" [(ngModel)]="searhModel.cusType"
+                            name="customerType">
+                            <option value=""></option>
+                            <option *ngFor="let customerType of listCustomerType"
+                                value="{{customerType.code}}">{{customerType.codeDesc}}</option>
+                        </select>
+                    </div>
+                    </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">{{languages.driver || "Driver"}}</label>
+                    <div class="col-md-4">
+                      <dx-select-box [(value)]="searhModel.staffId" [items]="listDriver" [searchEnabled]="true" displayExpr="staffName"
+                        valueExpr="staffID">
+                      </dx-select-box>
+                    </div>
+                  <label class="col-md-2 control-label">{{languages.Vendor || "Vendor"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searhModel.VendorId" [items]="listSupplierType" [searchEnabled]="true" displayExpr="supplierName" valueExpr="suppId" >
+                    </dx-select-box>
+                  </div>
+                  </div>
+              </ng-template>
+
+              
+
+            </div>
+            <div class="card-footer group-btn-right">
+              <button [routerLink]="['0']" class="btn btn-info btn-sm pull-right" *ngIf="!customerIdRequest">{{languages.new || "New"}}</button>
+              <button [routerLink]="['/admin/main/fl/booking/0', customerIdRequest]" class="btn btn-info btn-sm pull-right" *ngIf="customerIdRequest">{{languages.new || "New"}}</button>
+              <button (click)="Search()"
+                class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button>
+
+            </div>
+          </div><!-- /.card -->
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="bookNo" [focusedRowIndex]="focusIndex"  [focusedRowEnabled]="true">
+                <dxo-export [enabled]="true" fileName="Bookings"></dxo-export>
+                <dxo-paging [pageSize]="20" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxo-column-chooser #columnChooser
+                    [enabled]="true"
+                    [allowSearch]="true"
+                    mode="select">
+                </dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                <dxi-column width="95px" dataField="bookNo" dataType="string" cellTemplate="diffCellTemplate"
+                  caption="{{languages.bookingnumber||'Booking Number'}}">
+                </dxi-column>
+                <dxi-column dataField="bookDate" dataType="localTime" caption="{{languages.bookdate||'Book Date'}}">
+                </dxi-column>
+                <dxi-column width="150px" dataField="customerName" dataType="string"
+                  caption="{{languages.customername||'Customer name'}}">
+                </dxi-column>
+                <dxi-column dataField="assignedFleet" dataType="string"
+                caption="{{languages.fleet||'Fleet'}}">
+              </dxi-column>
+              <dxi-column dataField="fleetModelDesc" dataType="string"
+              caption="{{languages.fleetmodel||'Fleet Model'}}">
+            </dxi-column>
+            <dxi-column dataField="staffName" dataType="string"
+              caption="{{languages.driver||'Driver'}}">
+            </dxi-column> 
+            <dxi-column dataField="bookStatus" dataType="string" caption="{{languages.bookstatus||'Book Status'}}"
+                  cellTemplate="diffStatusBookTemplate">
+                </dxi-column>
+                <dxi-column width="150px" dataField="endUserName" dataType="string"
+                  caption="{{languages.endusername||'End User Name'}}">
+                </dxi-column>
+                <dxi-column dataField="supplierName" dataType="string"
+                caption="{{languages.vendor||'Vendor'}}">
+              </dxi-column>
+                <dxi-column dataField="pickupTime" dataType="localTime"
+                  caption="{{languages.pickupdate||'Pick Up Date'}}" >
+                </dxi-column>
+                <dxi-column dataField="returnTime" dataType="localTime"
+                  caption="{{languages.returndate||'Return Date'}}">
+                </dxi-column>
+                <dxi-column dataField="fleetTypeDesc" dataType="string" caption="{{languages.fleettype||'Fleet Type'}}">
+                </dxi-column>
+                <dxi-column dataField="createName" dataType="string" caption="{{languages.createuser||'Create User'}}">
+                </dxi-column>
+                <dxi-column [fixed]="true" [showInColumnChooser]="false" fixedPosition="right" caption="" dataField="bookNo" cellTemplate="diffDeleteTemplate"></dxi-column>
+
+                <dxo-editing mode="popup" [allowDeleting]="false">
+                </dxo-editing>
+               
+                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                  <div *ngIf="d.data.bookStatus == 'Booked' || d.data.bookStatus == 'Assigned'" class="dx-btn-group">
+                    <a (click)="cancelBooking(d.value)" href="javascript:void(0);" class="fa fa-times-circle fa-1x"></a>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffStatusBookTemplate'">
+                  <span class="badge" [ngClass]="setClassBookStatus(d.value)" style="font-size: 13px;margin-top: 2px;"> {{d.value}}</span>
+                </div>
+
+                <div *dxTemplate="let d of 'diffCellTemplate'">
+                  <a class="pointer" (click)="viewDetail(d.data.bookNo)">
+                    <span> {{d.value}}</span>
+                  </a>
+                </div>
+                <dxo-summary>
+                  <dxi-total-item showInColumn="bookNo" displayFormat="Total: {0} items" column="bookNo"
+                    summaryType="count">
+                  </dxi-total-item>
+                </dxo-summary>
+              </dx-data-grid>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>

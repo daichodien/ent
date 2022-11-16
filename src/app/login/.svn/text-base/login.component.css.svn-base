@@ -1,0 +1,23 @@
+@media only screen and (max-width: 500px) {
+  .login-box-body {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 65px !important;
+  }
+  .box-login-form{
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
+
+}
+
+.has-feedback {
+  margin-bottom: 15px !important;
+}
+
+.custom-input-bg:focus {
+   background-color: #fff;
+}
+input[type="password"] {
+  background-color : #fff; 
+}

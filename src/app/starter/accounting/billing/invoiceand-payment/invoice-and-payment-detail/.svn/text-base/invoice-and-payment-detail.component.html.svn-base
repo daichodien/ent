@@ -1,0 +1,431 @@
+<div class="content-wrapper">
+
+  <div class="content">
+    <div class="container-fluid">
+      <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+        <div class="row">
+
+          <div class="col-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}} <a *ngIf="invNo !='0'">[{{invNo}}]</a> </h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.bookno || "Book No"}}</label>
+                  <!-- <a class="col-2 control-label" href="#">{{languages.bookno || "Book No"}}</a> -->
+                  <!-- <label class="col-4" style="
+                  text-align: center;
+              "><strong>{{model.bookNo}}</strong></label> -->
+                  <div class="col-4">
+
+                    <input class="form-control" name="bookNo" [(ngModel)]="model.bookNo" #bookNo="ngModel" disabled>
+                    <span class="input-custom-link">
+                      <i class="fa fa-link" (click)="handleLinkBookNo(model.bookNo)"></i>
+                    </span>
+                    <span class="clearfix"></span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.billto || "Bill to"}}</label>
+                  <!-- <label class="col-4" style="
+                  text-align: center;
+              "><strong>{{billto}}</strong></label> -->
+                  <div class="col-4">
+                    <input class="form-control" name="billto" [(ngModel)]="billto" disabled>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.invdate || "Inv Date"}}</label>
+                  <div class="col-4">
+                    <dx-date-box [disabled]="isCheckPayment" width="100%" [(value)]="model.invDate"
+                      [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                    <span *ngIf="f.submitted && model.invDate == null" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Inv Date is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.period || "Period"}}</label>
+                  <div class="col-2">
+                    <dx-date-box [disabled]="isCheckPayment" width="100%" [(value)]="model.periodF"
+                      [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                    <span *ngIf="f.submitted && model.periodF == '' || model.periodF == null" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="PeriodF is required" aria-hidden="true"></i>
+                    </span>
+
+                  </div>
+                  <div class="col-2">
+                    <dx-date-box [disabled]="isCheckPayment" width="100%" [min]="model.periodF"
+                      [(value)]="model.periodT" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                    <span *ngIf="f.submitted && model.periodT == ''  || model.periodT == null"
+                      class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="PeriodT is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.payableamount || "Payable Amount"}}</label>
+                  <div class="col-4">
+                    <!-- <input class="form-control" name="amtPayable" [(ngModel)]="model.amtPayable" #amtPayable="ngModel"> -->
+                    <dx-number-box [disabled]="isCheckPayment" min="0" class="numberAlign" format="#,##0.00"
+                      [(value)]="model.amtPayable">
+                    </dx-number-box>
+                    <span *ngIf="f.submitted && model.amtPayable == null" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Payable Amount is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <!-- <label class="col-2 control-label">{{languages.taxamount || "Tax Amount"}}</label>
+                  <div class="col-4">
+                    <input disabled="true" class="form-control" name="fIDocNumber" [(ngModel)]="model.taxAmount"
+                      #fIDocNumber="ngModel">
+                  </div> -->
+                  <label class="col-2 control-label">{{languages.remark || "Remark"}}</label>
+                  <div class="col-4">
+                    <textarea style="height:40px;width:100%" name="remark" [(ngModel)]="model.remark" #remark="ngModel">
+                      </textarea>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.fldocno || "FI Doc No"}}</label>
+                  <div class="col-4">
+                    <input class="form-control" name="fIDocNumber" [(ngModel)]="model.fiDocNumber"
+                      #fIDocNumber="ngModel">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.sendmailinfo || "Send Mail Info"}}</label>
+
+                  <div class="col-2">
+                    <dx-date-box [disabled]="true" width="100%" [min]="model.sendDate" [(value)]="model.sendDate"
+                      [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                  </div>
+                  <div class="col-2">
+                    <textarea [disabled]='true' style="height:40px;width:100%" name="sendRemark"
+                      [(ngModel)]="model.sendRemark" #sendRemark="ngModel">
+                    </textarea>
+                  </div>
+
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.paymentstatus || "Payment Status"}}</label>
+                  <div class="col-2">
+                    <input class="form-control" value="{{paidDate}}" disabled>
+                  </div>
+                  <div class="col-2">
+                    <input class="form-control" value="{{paidRefNo}}" disabled>
+                  </div>
+                  <label class="col-2 control-label">{{languages.discounttype || "Discount Type"}}</label>
+
+                  <div class="col-4">
+                    <select [disabled]="isCheckPayment" (change)="changeDiscount()" class="form-control"
+                      [(ngModel)]="model.discountCode" name="discountCode">
+                      <option value="0"></option>
+                      <option *ngFor="let item of listDiscountCode" value="{{item.codeVariant}}">{{item.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.voucherserial || "Voucher Serial"}}</label>
+                  <div class="col-4">
+                    <input class="form-control" name="voucherSerialNo" [(ngModel)]="model.voucherSerialNo" (keyup)="getListVoucherBySerialNo()" > 
+                    <!-- <input class="form-control" name="billto" [(ngModel)]="billto" disabled> -->
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-8"></div>
+                  <div *ngIf="invNo != '0'" class="col-1">
+                    <button type="button" (click)="ShowPopupSendMailPayment()"
+                      class="btn btn-info btn-sm pull-right">{{languages.send || "Send"}}</button>
+                  </div>
+                  <div *ngIf="!isCheckPayment && invNo != '0'" class="col d-flex justify-content-center">
+                    <button type="button" (click)="ShowPopupPayment()"
+                      class="btn btn-info btn-sm">{{languages.payment || "Payment"}}</button>
+                  </div>
+                  <div *ngIf="invNo != '0'" class="col-1">
+                    <button type="button" (click)="PrintPayment()"
+                      class="btn btn-default btn-sm pull-left">{{languages.print || "Print"}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload></app-fileupload>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+                <div *ngIf="model.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{model.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{model.createUser}}</label>
+                  </div>
+                </div>
+                <div *ngIf="model.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{model.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{model.updateUser}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-8">
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+                <!-- Invoice not yet payment  -->
+                <div *ngIf="!isCheckPayment">
+                  <dx-data-grid #gridContainer id="gridContainer" (onEditorPreparing)="onEditorPreparing($event)"
+                    [dataSource]="dataSource" [allowColumnReordering]="true" (onInitNewRow)="initNewRow($event)"
+                    (onRowInserting)="logEvent($event,'insert')" (onRowInserted)="logEvent($event,'insert')" (onRowPrepared)="prepareInsertRow($event)"
+                    (onRowUpdated)="logEvent($event,'update')" (onRowRemoved)="deleteService($event)" format="#0.##">
+                    <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+                    </dxo-editing>
+                    <dxo-export [enabled]="true" fileName="Bookings"></dxo-export>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column dataField="itemNo" dataType="number" caption="{{languages.item||'Item'}}">
+                    </dxi-column>
+                    <dxi-column dataField="svcItemId" dataType="string"
+                      caption="{{languages.servicedetail||'Service Detail'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                      <dxo-lookup [dataSource]="listServiceItems" displayExpr="svcItemDesc" valueExpr="svcItemId">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="remark" dataType="string" caption="{{languages.description||'Description'}}">
+                    </dxi-column>
+                    <dxi-column dataField="unitPrice" dataType="number" format="#,##0.00" caption="{{languages.rate||'Rate'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column  dataField="taxCode"  alignment="center" cellTemplate="diffTaxCodeTemplate" caption="{{languages.taxCode||'Tax Code'}}">
+                      <dxo-lookup [dataSource]="listAVT" displayExpr="codeDesc" valueExpr="code">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="taxAmount" dataType="number" format="#,##0.00"
+                      caption="{{languages.taxAmount||'Tax Amount'}}">
+                    </dxi-column>
+                    <dxi-column dataField="billQty" alignment="center" dataType="number" caption="{{languages.qty||'Qty'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                    </dxi-column>
+                    <!-- <dxi-column dataField="itemAmount" dataType="number" format="#,##0.00"
+                      caption="{{languages.amount||'Amount'}}">
+                    </dxi-column> -->
+                    <dxi-column dataField="discount" dataType="number" format="#,##0.00"
+                      caption="{{languages.discount||'Discount'}}">
+                    </dxi-column>
+                    <dxi-column width="200" dataField="afterDiscount" dataType="number" format="#,##0.00"
+                      caption="{{languages.totalAmount||'Total Amount'}}">
+                    </dxi-column>
+
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                      [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true">
+                    </dxo-pager>
+                    <div *dxTemplate="let d of 'diffTaxCodeTemplate'">
+                      <span> {{formatTaxCode(d)}} %</span>
+                    </div>
+
+                  </dx-data-grid>
+                  <table class="dx-datagrid-table dx-datagrid-table-fixed" role="presentation"
+                    style="table-layout: fixed;">
+                    <!-- <colgroup style="">
+                      <col style="width: 58.4px;">
+                      <col style="width: 116.8px;">
+                      <col style="width: 103.2px;">
+                      <col style="width: 88px;">
+                      <col style="width: 53.6px;">
+                      <col style="width: 88.8px;">
+                      <col style="width: 87.2px;">
+                      <col style="width: 200px;">
+                      <col style="width: 100px;">
+                    </colgroup> -->
+                    <tbody role="presentation">
+
+
+                      <tr class="dx-row dx-data-row dx-row-lines dx-column-lines" role="row" aria-rowindex="3">
+                        <td role="gridcell" aria-colindex="1" style="text-align: right;"></td>
+                        <td role="gridcell" aria-colindex="2" style="text-align: left;"></td>
+                        <td role="gridcell" aria-colindex="3" style="text-align: left;">&nbsp;</td>
+                        <td role="gridcell" aria-colindex="4" style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;">&nbsp;</td>
+                        <td style="text-align: right; min-width: 200px; max-width: 200px; width: 200px;">
+                          <span class="resultMount" style="float: right;">{{total | number:'3.2-5'}} </span>
+                          <span class="resultMount" style="float: right; margin-right: 14px;">Sum: </span>
+                          <br>
+                          <span class="resultMount" style="float: right;">{{taxamount | number:'3.2-5'}}</span>
+                          <span class="resultMount" style="float: right; margin-right: 24px;">Tax Amount:
+                          </span>
+                          <br>
+                          <span class="resultMount"
+                            style="float: right;">{{totalAmountAfterTax | number:'3.2-5'}}</span>
+                          <span class="resultMount" style="float: right; margin-right: 14px;">Total: </span>
+                        </td>
+                      </tr>
+                      <tr class="dx-row dx-freespace-row dx-column-lines dx-state-invisible" role="presentation"
+                        style="height: 0px;">
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: left;"></td>
+                        <td style="text-align: left;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right; min-width: 200px; max-width: 200px; width: 200px;"></td>
+                        <td class="dx-command-edit" style="text-align: left;"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div
+                    class="dx-datagrid-rowsview dx-datagrid-nowrap dx-scrollable dx-visibility-change-handler dx-scrollable-both dx-scrollable-simulated dx-scrollable-customizable-scrollbars dx-last-row-border"
+                    role="presentation">
+                    <div class="dx-scrollable-wrapper">
+                      <div class="dx-scrollable-container">
+                        <div class="dx-scrollable-content" style="left: 0px; top: 0px; transform: none;">
+                          <div class="dx-datagrid-content">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div><span class="dx-datagrid-nodata dx-hidden">No data</span>
+                  </div>
+
+                </div>
+                <!-- Invoice have payment  -->
+                <div *ngIf="isCheckPayment">
+                  <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource">
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column dataField="itemNo" dataType="number" caption="{{languages.item||'Item'}}">
+                    </dxi-column>
+                    <dxi-column dataField="svcItemId" dataType="string"
+                      caption="{{languages.servicedetail||'Service Detail'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                      <dxo-lookup [dataSource]="listServiceItems" displayExpr="svcItemDesc" valueExpr="svcItemId">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="unitPrice" dataType="number" format="#,##0.00"
+                      caption="{{languages.rate||'Rate'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column  dataField="taxCode"  alignment="center" dataType="string" caption="{{languages.taxCode||'Tax Code'}}" >
+                      
+                    </dxi-column>
+                    <dxi-column dataField="taxAmount" dataType="number" format="#,##0.00" caption="{{languages.taxAmount||'Tax Amount'}}">
+                    </dxi-column>
+                    <dxi-column dataField="billQty" alignment="center" dataType="number" caption="{{languages.qty||'Qty'}}">
+                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                    </dxi-column>
+                    <!-- <dxi-column dataField="itemAmount" dataType="number" format="#,##0.00"
+                      caption="{{languages.amount||'Amount'}}">
+                    </dxi-column> -->
+                    
+                    <dxi-column dataField="discount" dataType="number" format="#,##0.00"
+                      caption="{{languages.discount||'Discount'}}">
+                    </dxi-column>
+                    <dxi-column dataField="afterDiscount" dataType="number" format="#,##0.00"
+                      caption="{{languages.afterdiscount||'Total Amount'}}">
+                    </dxi-column>
+                    <dxi-column caption="">
+                    </dxi-column>
+                    <!-- <dxo-summary [recalculateWhileEditing]="true">
+                      <dxi-total-item column="itemAmount" summaryType="sum" valueFormat="#,##0.00">
+                      </dxi-total-item>
+                      <dxi-total-item column="afterDiscount" summaryType="sum" valueFormat="#,##0.00">
+                      </dxi-total-item>
+                    </dxo-summary> -->
+                  </dx-data-grid>
+                  <table class="dx-datagrid-table dx-datagrid-table-fixed" role="presentation"
+                    style="table-layout: fixed;">
+                    <!-- <colgroup style="">
+                      <col style="width: 83.2px;">
+                      <col style="width: 180px;">
+                      <col style="width: 124.8px;">
+                      <col style="width: 76px;">
+                      <col style="width: 124.8px;">
+                      <col style="width: 122.4px;">
+                      <col style="width: 163.2px;">
+                      <col style="width: 21.6px;">
+                    </colgroup> -->
+                    <tbody role="presentation">
+
+
+                      <tr class="dx-row dx-data-row dx-row-lines dx-column-lines" role="row" aria-rowindex="3">
+                        <td role="gridcell" aria-colindex="1" style="text-align: right;"></td>
+                        <td role="gridcell" aria-colindex="2" style="text-align: left;"></td>
+                        <td role="gridcell" aria-colindex="3" style="text-align: left;">&nbsp;</td>
+                        <td role="gridcell" aria-colindex="4" style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;">
+                          <span class="resultMount" style="float: right;">{{total | number:'3.2-5'}} </span>
+                          <span class="resultMount" style="float: right; margin-right: 14px;">Sum: </span>
+                          <br>
+                          <span class="resultMount" style="float: right;">{{taxamount | number:'3.2-5'}}</span>
+                        <span class="resultMount" style=" margin-right: 24px;">Tax Amount({{model.discountCode}}%):
+                          </span>
+                          <br>
+                          <span class="resultMount"
+                            style="float: right;">{{totalAmountAfterTax | number:'3.2-5'}}</span>
+                          <span class="resultMount" style="float: right; margin-right: 14px;">Total: </span>
+                        </td>
+                        <td style="text-align: right; min-width: 200px; max-width: 200px; width: 200px;">
+
+                        </td>
+                      </tr>
+                      <tr class="dx-row dx-freespace-row dx-column-lines dx-state-invisible" role="presentation"
+                        style="height: 0px;">
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: left;"></td>
+                        <td style="text-align: left;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right; min-width: 200px; max-width: 200px; width: 200px;"></td>
+                        <td class="dx-command-edit" style="text-align: left;"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="group-btn-right">
+              <button [disabled]="isCheckPayment" type="submit" *ngIf="invNo != '0'"
+                class="btn btn-primary btn-md">{{languages.update || "Update"}}</button>
+              <button type="submit" *ngIf="invNo =='0'"
+                class="btn btn-primary btn-md">{{languages.save || "Save"}}</button>
+              <button type="button" (click)="back()"
+                class="btn btn-default btn-md">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

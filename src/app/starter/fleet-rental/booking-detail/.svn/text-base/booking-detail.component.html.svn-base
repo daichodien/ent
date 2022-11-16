@@ -1,0 +1,673 @@
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <form class="form-horizontal" (submit)="Save()">
+        <div class="row">
+          <div class="col-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}} <a
+                    *ngIf="this.bookNo != '0'">[{{ this.bookNo}}]</a> </h5>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.booktype || "Book Type"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.bookType" [items]="listBoookType" displayExpr="codeDesc"
+                      valueExpr="code" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="This field is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                    <!-- <span *ngIf="f.submitted && book.bookType == null" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="Book Type is required" aria-hidden="true"></i>
+                      </span> -->
+
+                  </div>
+                  <label class="col-2 control-label">{{languages.customer || "Customer"}}</label>
+                  <div class="col-3">
+                    <dx-select-box (onValueChanged)="copyInfoCustomer($event)" [(value)]="book.custId"
+                      [items]="listCustomer" displayExpr="customerName" valueExpr="custId" [searchEnabled]="true" itemTemplate="listItemCustomer">
+                      <div *dxTemplate="let itemData of 'listItemCustomer'; let itemIndex = index" id="image">
+                        <span class="tbl-inner-drop highlightCustomerName">
+                          {{itemData.customerName}}
+                        </span>
+                        <br />
+                        <span class="highlightCustomerType">{{itemData.cTitleDesc}}</span> <br />
+                        <span class="addressCustomer">{{itemData.address1}}</span>
+                        <!-- <span>{{itemData.cTitleDesc}} - {{itemData.address1}} </span> -->
+                      </div>
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Customer is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.fleetModelId" [items]="listFleetModel" displayExpr="fleetModelDesc"
+                      valueExpr="fleetModelId" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Fleet Model is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.status || "Status"}}</label>
+                  <div class="col-1">
+
+                    <span class="badge" [ngClass]="setClassBookStatus(book.bookStatus)"
+                      style="font-size: 13px;margin-top: 2px;">{{book.bookStatus}}</span>
+
+                  </div>
+                  <div *ngIf="book.bookStatus == 'Booked' && bookNo !='0'" class="col-2">
+                    <button type="button" (click)="ShowAssignFleetPopup()"
+                      class="btn btn-primary btncustom">{{languages.assignfleet || "Assign Fleet"}}</button>
+
+                  </div>
+                  <div *ngIf="bookFleets.fleet_Desc != null " class="col-1">
+                    <div *ngIf="book.bookStatus != 'Assigned' && book.bookStatus != 'Paid'">
+                      <span class="badge badge-primary"
+                        style="font-size: 13px;margin-top: 2px;">{{bookFleets.fleet_Desc}}</span>
+                    </div>
+                    <div *ngIf="book.bookStatus == 'Assigned' || book.bookStatus == 'Paid'">
+                      <button title="Edit Fleet" type="button" (click)="ShowAssignFleetPopup()"
+                        class="btn btn-primary btncustom">{{bookFleets.fleet_Desc}}</button>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="(book.bookStatus == 'Assigned' || book.bookStatus == 'Paid') && bookFleets.fleet_Desc == null">
+                    <button title="Edit Fleet" type="button" (click)="ShowAssignFleetPopup()"
+                      class="btn btn-primary btncustom">{{languages.assignfleet || "Assign Fleet"}}</button>
+                  </div>
+
+                  <div *ngIf="bookFleets.staffName !=null || bookFleets.mobileNo!= null  " class="col-1">
+                    <span class="badge badge-primary"
+                      style="font-size: 13px;margin-top: 2px;">{{bookFleets.staffName}}:&nbsp;{{bookFleets.mobileNo}}</span>
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.endusername || "End User Name"}}</label>
+                  <div class="col-3">
+                    <input class="form-control" [(ngModel)]="book.endUserName" #endUserName="ngModel"
+                      name="endUserName">
+                  </div>
+                  <label class="col-2 control-label">{{languages.endusermobile || "End User Mobile"}}</label>
+                  <div class="col-3">
+                    <input class="form-control" [(ngModel)]="book.endUserMobile" #endUserMobile="ngModel"
+                      name="endUserMobile">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.enduseremail || "End User Email"}}</label>
+                  <div class="col-3">
+                    <input class="form-control" [(ngModel)]="book.endUserEmail" #endUserEmail="ngModel"
+                      name="endUserEmail">
+                  </div>
+                  <label class="col-2 control-label">{{languages.booksource || "Book Source"}}</label>
+                  <div class="col-3">
+                    <select class="form-control" [(ngModel)]="book.bookSource" #bookSource="ngModel" name="bookSource">
+                      <option *ngFor="let item of listBookSource" [value]="item.code">{{item.codeDesc}}</option>
+                    </select>
+
+                    <!-- <input class="form-control" [(ngModel)]="book.bookSource" #bookSource="ngModel"
+                      name="bookSource"> -->
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.vourcherserialno || "Vourcher Serial No"}}</label>
+                  <div class="col-3">
+                    <input class="form-control" [(ngModel)]="book.voucherSerialNo" #voucherSerialNo="ngModel"
+                      name="voucherSerialNo">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.time || "Time"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.pickupdate || "Pick Up Date"}}</label>
+                  <div class="col-3">
+                    <dx-date-box (onOpened)="onOpened()" width="100%" [showClearButton]="false"
+                      placeholder="DD/MM/YYYY HH:mm" displayFormat="dd/MM/yyyy HH:mm" type="datetime"
+                      [(value)]="book.pickupTime">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Pick Up Date is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-date-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.pickupplace || "Pick Up Place"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.pickUpPlace" [items]="listPickupPlace" displayExpr="address"
+                      valueExpr="puId" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Pick Up Place is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+                  <div class="col-2">
+                    <dx-check-box [(value)]="book.isRepeatedDaily" text="Repeat Daily"></dx-check-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.returndate || "Return Date"}}</label>
+                  <div class="col-3">
+                    <dx-date-box width="100%" [min]="book.pickupTime" [showClearButton]="false"
+                      placeholder="DD/MM/YYYY HH:mm" displayFormat="dd/MM/yyyy HH:mm" type="datetime"
+                      [(value)]="book.returnTime">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Return Date is required"></dxi-validation-rule>
+                        <dxi-validation-rule type="range" [min]="book.pickupTime"
+                          message="Return Date can't be bigger than PickUp Date">
+                        </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-date-box>
+                  </div>
+
+                  <label class="col-2 control-label">{{languages.pickupplacedetail || "Pick Up Place Detail"}}</label>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="pickUpPlaceDetail" id="pickUpPlaceDetail"
+                      [(ngModel)]="book.pickUpPlaceDetail" #pickUpPlaceDetail="ngModel">
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label class="offset-5 col-2 control-label">{{languages.returnplace || "Return Place"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.returnPlace" [items]="listPickupPlace" displayExpr="address"
+                      valueExpr="puId" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Return Place is required"></dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label
+                    class="offset-5 col-2 control-label">{{languages.returnplacedetail || "Return Place Detail"}}</label>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="returnPlaceDetail" id="returnPlaceDetail"
+                      [(ngModel)]="book.returnPlaceDetail" #returnPlaceDetail="ngModel">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.contract || "Contract"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.contractfrom || "Contract From"}}</label>
+                  <div class="col-3">
+                    <dx-date-box (onOpened)="onOpened()" width="100%" [showClearButton]="false"
+                      placeholder="DD/MM/YYYY" displayFormat="dd/MM/yyyy" type="date"
+                      [(value)]="book.contractFrom">
+                       
+                    </dx-date-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.contractmemo || "Contract Memo"}}</label>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="ContractMemo" id="ContractMemo"
+                    [(ngModel)]="book.contractMemo" #ContractMemo="ngModel">
+                  </div>
+                  
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.contractto || "Contract To"}}</label>
+                  <div class="col-3">
+                    <dx-date-box width="100%" [min]="book.pickupTime" [showClearButton]="false"
+                      placeholder="DD/MM/YYYY" displayFormat="dd/MM/yyyy" type="date"
+                      [(value)]="book.contractTo">
+                      <!-- <dx-validator>
+                        <dxi-validation-rule type="range" [min]="book.contractfrom"
+                          message="Contract from can't be bigger than PickUp Date">
+                        </dxi-validation-rule>
+                      </dx-validator> -->
+                    </dx-date-box>
+                  </div>
+
+                  <label class="col-2 control-label">{{languages.servicetime || "Service Time"}}</label>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="ServiceTime" id="ServiceTime"
+                      [(ngModel)]="book.serviceTime" #ServiceTime="ngModel">
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.workingday || "Working Day"}}</label>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="workingDay" id="workingDay"
+                    [(ngModel)]="book.workingDay" #workingDay="ngModel">
+                  </div>
+                  <label class="col-2 control-label">{{languages.totalmileagemonth || "Total Mileage / Month"}}</label>
+                  <div class="col-3">
+                    <input type="text" class="form-control" name="TotalMileageMonth" id="TotalMileageMonth"
+                      [(ngModel)]="book.totalMileageMonth" #TotalMileageMonth="ngModel">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.vendor || "Vendor Assign"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">
+                    <!-- <input class="editcheck-1" style="margin-right: 10px; height: 17px; width: 17px;" type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkboxchangVendor" [checked]="checkboxchangVendor">  -->
+                    {{languages.vendor || "Vendor"}} 
+                  </label>
+                    <div class="col-3">
+                      <!-- <select class="form-control" [disabled]="!checkboxchangVendor" [(ngModel)]="book.vendorId" name="book">
+                        <option value=""></option>
+                        <option *ngFor="let book of listSupplierType" value={{book.suppId}} >{{book.supplierName}}</option>
+                      </select> -->
+                      <dx-select-box  (onValueChanged)="onValueVendorChanged($event)" [(ngModel)]="book.vendorId" [(value)]="book.vendorId" [items]="listSupplierType" displayExpr="supplierName" valueExpr="suppId" [searchEnabled]="true" [ngModelOptions]="{standalone: true}">
+                      </dx-select-box>
+                    </div>
+                  <label class="col-2 control-label">{{languages.extDriverName || "Ext Driver Name"}}</label>
+                    <div class="col-3">
+                      <input type="text" class="form-control" id="extDriverName" name="extDriverName" [(ngModel)]="book.extDriverName">
+                  </div>
+                  </div>
+                  <div class="form-group row" >
+                  <label class="col-2 control-label">{{languages.vendorRefNo || "Vendor Ref No"}}</label>
+                    <div class="col-3">
+                      <input type="text" class="form-control" id="vendorRefNo" name="vendorRefNo" [(ngModel)]="book.vendorRefNo">
+                  </div>
+                  <label class="col-2 control-label">{{languages.extFleetNo || "Ext Fleet No"}}</label>
+                    <div class="col-3">
+                      <input type="text" class="form-control" name="extFleetNo" id="extFleetNo" [(ngModel)]="book.extFleetNo">
+                  </div>
+                  </div> 
+                  <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.extMobileNo || "Ext Mobile No"}}</label>
+                    <div class="col-3">
+                      <input type="text" class="form-control" name="extMobileNo" id="extMobileNo" [(ngModel)]="book.extMobileNo">
+                  </div>
+                  <label class="col-2 control-label">{{languages.memo || "Memo"}}</label>
+                  <div class="col-3">
+                    <textarea style="height:80px; width:100%; padding-left:9px;" name="memo" id="memo" [(ngModel)]="book.memo">
+                    </textarea>
+                  </div>
+                </div>
+                </div>
+              </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.packageandservices || "Package & Services"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.salespackage || "Sales Package"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.svcPkgDtlId" [items]="servicePackages" displayExpr="packageDesc"
+                      valueExpr="svcPkgId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                  <label class="col-2 control-label">{{languages.foreignlanguage || "Foreign Language"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.requiredForignLanguage" [items]="listForeignLanguage"
+                      displayExpr="codeDesc" valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.includedriver || "Include Driver"}}</label>
+                  <div class="col-1">
+                    <dx-check-box [(value)]="book.isRequiredDriver" (onValueChanged)="onValueIncludedriver($event)">
+                    </dx-check-box>
+                  </div>
+                  <div class="col-2">
+                    <button *ngIf="IsCheckIncludeDriver" type="button" (click)="ShowDriverInfo()"
+                      class="btn btn-primary btncustom">{{languages.driverinfo || "Driver Info"}}</button>
+                  </div>
+
+                  <label
+                    class="col-2 control-label">{{languages.mobileinternet_WIFI || "Mobile Internet(WIFI)"}}</label>
+                  <div class="col-3">
+                    <dx-check-box [(value)]="isRequiredWIFI">
+
+                    </dx-check-box>
+
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.insurance || "Insurance"}}</label>
+                  <div class="col-3">
+                    <dx-select-box [(value)]="book.insuranceType" [items]="listInsurance" displayExpr="codeDesc"
+                      valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.overtimesurcharge || "Overtime Surcharge"}}</label>
+                  <div class="col-3">
+                    <dx-number-box class="numberAlign" format="#,##0.00" [(value)]="book.overtimeSurcharge">
+                    </dx-number-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.overkmsurcharge || "Over Km Surcharge"}}</label>
+                  <div class="col-3">
+                    <dx-number-box class="numberAlign" format="#,##0.00" [(value)]="book.overKMSurcharge">
+                    </dx-number-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.airportpickup || "Airport Pick Up"}}</label>
+                  <div class="col-3">
+                    <div class="row">
+                      <div class="col-2">
+                        <dx-check-box (onValueChanged)="onValueAirportPickUp($event)"
+                          [(value)]="book.isRequiredAirportPickUp"></dx-check-box>
+                      </div>
+
+                      <label *ngIf="!IsAirportPickUp"
+                        class="col-5 control-label">{{languages.flightno || "Flight No"}}</label>
+                      <div *ngIf="!IsAirportPickUp" class="col-md">
+                        <input class="form-control" name="flightNo" #flightNo="ngModel" [(ngModel)]="book.flightNo">
+                      </div>
+
+                    </div>
+                  </div>
+                  <label *ngIf="!IsAirportPickUp"
+                    class="col-2 control-label">{{languages.arivaltime || "Arival Time"}}</label>
+                  <div *ngIf="!IsAirportPickUp" class="col-3">
+                    <dx-date-box width="100%" [showClearButton]="false" placeholder="DD/MM/YYYY HH:mm"
+                      displayFormat="dd/MM/yyyy HH:mm" type="datetime" [(value)]="book.arrivalTime">
+                    </dx-date-box>
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.lodgingaddress || "Lodging Address"}}</label>
+                  <div class="col-3">
+                    <textarea style="height:80px;width:100%" name="lodgingAddress" #lodgingAddress="ngModel"
+                      [(ngModel)]="book.lodgingAddress">
+                    </textarea>
+                  </div>
+                  <label class="col-2 control-label">{{languages.intendedroute || "Intended Route"}}</label>
+                  <div class="col-3">
+                    <textarea style="height:80px;width:100%" name="routeMemo" #routeMemo="ngModel"
+                      [(ngModel)]="book.routeMemo">
+                    </textarea>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload>
+
+                </app-fileupload>
+              </div>
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-10">
+                    <h5 class="card-title">{{languages.servicecharges || "Service Charges"}}</h5>
+                  </div>
+                  <div class="col-2" *ngIf="this.bookNo !='0'">
+                    <button type="button" class="btn btn-primary fa fa-plus-circle"
+                      (click)="SaveServiceChargePopup(0)">&nbsp;{{languages.add || "Add"}}</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <dx-data-grid #gridContainer id="gridContainer" [dataSource]="bookSvcChargeDataSource" keyExpr="bscId">
+                  <dxo-export [enabled]="false" fileName="Assets"></dxo-export>
+                  <dxo-group-panel [visible]="false"></dxo-group-panel>
+                  <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                  <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                  <dxi-column dataField="svcItemDesc" dataType="string"
+                    caption="{{languages.svcitemdesc||'Service Item Desc'}}" cellTemplate="diffEditTemplate">
+                  </dxi-column>
+                  <dxi-column width="110px" dataField="itemDescription" dataType="string"
+                    caption="{{languages.itemdescription||'Item Description'}}">
+                  </dxi-column>
+                  <dxi-column dataField="unitPrice" dataType="number" format="#,##0.00"
+                  caption="{{languages.unitprice||'Unit Price'}}">
+                </dxi-column>
+                  <dxi-column width="55px" alignment="center" dataField="taxCode" dataType="string" cellTemplate="diffTaxCodeTemplate"
+                    caption="{{languages.taxCode||'Tax Code'}}">
+                  </dxi-column>
+                  <dxi-column dataField="taxAmount" dataType="number" format="#,##0.00"
+                  caption="{{languages.taxamount||'Tax Amount'}}" >
+                </dxi-column>
+                  <dxi-column dataField="currency" dataType="string" caption="{{languages.currency||'Currency'}}">
+                  </dxi-column>
+
+                  <dxi-column caption="" dataField="bscId" cellTemplate="diffDeleteTemplate"></dxi-column>
+                  <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                    <div class="dx-btn-group">
+                      <a (click)="deleteServicecharges(d.value)" class="fa fa-trash fa-1x">
+                      </a>
+                    </div>
+                  </div>
+                  <div *dxTemplate="let d of 'diffEditTemplate'">
+                    <a class="pointernofocus" (click)="SaveServiceChargePopup(d.data)">
+                      <span> {{d.value}}</span>
+                    </a>
+                  </div>
+                  <div *dxTemplate="let d of 'diffTaxCodeTemplate'">
+                    <span> {{formatTaxCode(d)}} %</span>
+                  </div>
+
+                  <dxo-paging [pageSize]="10"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                    [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+                  <dxo-editing mode="popup" [allowDeleting]="false">
+                  </dxo-editing>
+                </dx-data-grid>
+              </div>
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-9">
+                    <h5 class="card-title">{{languages.payment || "Payment"}}</h5>
+                  </div>
+                  <div *ngIf="this.bookNo !='0'" class="col-3">
+                    <button (click)="addNewPayment()" type="button" class="btn btn-primary fa fa-plus-circle"
+                      style="float: right;">&nbsp;{{languages.addinvoice || "Add Invoice"}}</button>
+
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-3 control-label">{{languages.paymentmethod || "Payment Method"}}</label>
+                  <div class="col-4">
+                    <dx-select-box [(value)]="book.paymentMethod" [items]="listPaymentMethodList" displayExpr="codeDesc"
+                      valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                  <label
+                    class="col-4 control-label">{{languages.requestforredinvoice || "Request for Red invoice"}}</label>
+                  <div class="col-1">
+                    <dx-check-box [(value)]="book.isRequestForRedInv"></dx-check-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-12">
+                    <dx-data-grid #gridContainer id="gridContainer" [dataSource]="listInvoice" keyExpr="invNo">
+                      <dxo-export [enabled]="false" fileName="Assets"></dxo-export>
+                      <dxo-group-panel [visible]="false"></dxo-group-panel>
+                      <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                      <dxi-column dataField="invNo" dataType="string" cellTemplate="diffCellTemplate" caption="{{languages.no||'No'}}">
+                      </dxi-column>
+                      <dxi-column dataField="invDate" dataType="date" caption="{{languages.invdate||'Inv Date'}}">
+                      </dxi-column>
+                      <dxi-column cellTemplate="statusInvoiceTemplate" dataField="isPaid" dataType="string"
+                        caption="{{languages.status||'Status'}}">
+                      </dxi-column>
+                      <dxi-column dataField="amtPayable" caption="{{languages.payableAmount||'Payable Amount'}}" format="#,##0.00"
+                        dataType="number">
+                      </dxi-column>
+                      <dxi-column caption="{{languages.paiddate||'Paid Date'}}" dataType="date" dataField="paidDate">
+                      </dxi-column>
+                      <div *dxTemplate="let d of 'statusInvoiceTemplate'">
+                        <span class="badge badge-danger" style="font-size: 100%" *ngIf="d.value=='1'">Paid</span>
+                        <span class="badge badge-info" style="font-size: 100%"
+                          *ngIf="d.value=='0' || !d.value">Pending</span>
+                      </div>
+                      <div *dxTemplate="let d of 'diffCellTemplate'">
+                        <!-- <a> {{d.value}}</a> -->
+                        <a class="pointernofocus" (click)="goPaymentDetail(d.value)">
+                          <span> {{d.value}}</span>         
+                        </a>
+                      </div>
+                    </dx-data-grid>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-9">
+                    <h5 class="card-title">{{languages.tripstatus || "Trip Status"}}</h5>
+                  </div>
+                  <div class="col-3" *ngIf="this.bookNo !='0'">
+                    <button type="button" (click)="ViewStatusHistory()" class="btn btn-primary fa fa-history"
+                      style="float: right;">&nbsp;
+                      {{languages.viewhistory || "View History"}}</button>
+                    <button *ngIf="book.bookStatus != 'Booked' && book.bookStatus != undefined" type="button"
+                      (click)="ViewTripRecordPopup()" style="float: right;margin-right: 7px;"
+                      class="btn btn-primary fa fa-plus-circle">&nbsp;{{languages.addtriprecord || "Add Trip Record"}}</button>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="card-body">
+                <dx-data-grid #gridContainer id="gridContainer" [dataSource]="tripRecords">
+                  <dxo-export [enabled]="false" fileName="tripRecords"></dxo-export>
+                  <dxo-group-panel [visible]="false"></dxo-group-panel>
+                  <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                  <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                  <dxi-column dataField="startTime" dataType="localTime" caption="{{languages.start||'Start'}}">
+                  </dxi-column>
+                  <dxi-column dataField="endTime" caption="{{languages.end||'End'}}" dataType="localTime">
+                  </dxi-column>
+
+                  <dxi-column dataField="routeMemo" caption="{{languages.route||'Route'}}" dataType="string">
+                  </dxi-column>
+
+                  <dxi-column dataField="expense" caption="{{languages.expenses||'Expenses'}}" dataType="number"
+                    format="#,##0.00">
+                  </dxi-column>
+
+                  <dxo-paging [pageSize]="10"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                    [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+                  <dxo-editing mode="popup" [allowDeleting]="false">
+                  </dxo-editing>
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-9">
+                    <h5 class="card-title">{{languages.fleettracking || "Fleet Tracking"}}</h5>
+                  </div>
+
+                </div>
+
+
+              </div>
+              <div class="card-body">
+
+                <dx-data-grid id="gridContainer" [dataSource]="dataSourceFleetTracking">
+                  <dxo-group-panel [visible]="false"></dxo-group-panel>
+                  <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                  <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+                  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                  <dxi-column dataField="staffName" caption="{{languages.staffname||'Staff Name'}}" dataType="string">
+                  </dxi-column>
+                  <dxi-column dataField="eventDate" caption="{{languages.eventdate||'Event Date'}}" dataType="datetime">
+                  </dxi-column>
+                  <dxi-column dataField="eventTypeDesc" caption="{{languages.eventype||'Event Type'}}"
+                    dataType="string">
+                  </dxi-column>
+                  <dxi-column dataField="placeDesc" caption="{{languages.placeDesc||'Place Desc'}}" dataType="datetime">
+                  </dxi-column>
+                  <dxi-column dataField="remark" caption="{{languages.remark||'Remark'}}" dataType="string">
+                  </dxi-column>
+                  <dxi-column dataField="lat" caption="{{languages.lat||'Lat'}}" dataType="number">
+                  </dxi-column>
+                  <dxi-column dataField="lon" caption="{{languages.lon||'Lon'}}" dataType="number">
+                  </dxi-column>
+                  <dxo-paging [pageSize]="10"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                    [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+                  <dxo-editing mode="popup" [allowDeleting]="false">
+                  </dxo-editing>
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="group-btn-right">
+              <!-- <button type="submit" class="btn btn-primary btn-md">{{languages.save || "Save"}}</button> -->
+              <dx-button id="button" text="Submit" class="btn btn-primary btn-md" type="success"
+                [useSubmitBehavior]="true">
+              </dx-button>
+
+              <button *ngIf="isBackable == null" type="button" class="btn btn-default btn-md"
+                (click)="urlback()">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>

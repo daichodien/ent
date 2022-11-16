@@ -1,0 +1,136 @@
+<div class="content-wrapper">
+
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form (ngSubmit)="onSubmit()" #f="ngForm">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label
+                                        class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                                    <div class="col-md-4">
+                                        <dx-select-box [dataSource]="listFleets" displayExpr="fleet_Desc"
+                                            valueExpr="fleet_Desc" [(value)]="searchModel.equipmentCode"
+                                            [searchEnabled]="true">
+                                        </dx-select-box>
+                                    </div>
+
+                                    <label class="col-md-2 control-label">{{languages.tripdate || "Trip Date"}}</label>
+                                    <div class="col-md-2">
+                                        <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                            type="date" [(value)]="searchModel.CheckDateF"
+                                            [max]="searchModel.CheckDateT" [min]='minDateF'>
+                                        </dx-date-box>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                            type="date" [(value)]="searchModel.CheckDateT"
+                                            [min]="searchModel.CheckDateF" [max]='maxDateT'>
+                                        </dx-date-box>
+                                    </div>
+                                    <label
+                                        class="col-md-2 control-label">{{languages.checktype || "Check Type"}}</label>
+                                    <div class="col-md-4">
+                                        <dx-select-box [dataSource]="checkTypes" displayExpr="codeDesc"
+                                            valueExpr="code" [(value)]="searchModel.checkType"
+                                            [searchEnabled]="true">
+                                        </dx-select-box>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer group-btn-right">
+                                <button type="submit"
+                                    class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <dx-data-grid #gridContainer id="gridContainer" keyExpr="clId" [dataSource]="dataSource"
+                                (onRowRemoving)="deleteCheckList($event)">
+
+                                <dxo-export [enabled]="true" fileName="Check_List_Inspection"></dxo-export>
+                                <dxo-column-chooser #columnChooser [enabled]="true" mode="select">
+                                </dxo-column-chooser>
+                                <dxo-editing mode="row" [allowDeleting]="true">
+                                </dxo-editing>
+                                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                                <dxi-column dataField="clId" dataType="string" [visible]="false"
+                                    caption="{{languages.clid || 'CLId'}}">
+                                </dxi-column>
+                                <dxi-column dataField="equipmentCode" dataType="string"
+                                    caption="{{languages.fleetdesc || 'Fleet Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="fleetModelDesc" dataType="string"
+                                    caption="{{languages.fleetmodel || 'Fleet Model'}}">
+                                </dxi-column>
+                                <dxi-column dataField="codeDesc" dataType="string"
+                                    caption="{{languages.fleetusetype || 'Fleet Use Type'}}">
+                                </dxi-column>
+                                <dxi-column dataField="checkType" dataType="string"
+                                    caption="{{languages.checktype || 'Check Type'}}">
+                                </dxi-column>
+                                <dxi-column dataField="checkDate" dataType="datetime"
+                                    caption="{{languages.checkdate || 'Check Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="shipmentNo" dataType="string" [visible]="false"
+                                    caption="{{languages.shipmentno || 'Shipment No'}}">
+                                </dxi-column>
+                                <dxi-column dataField="driverName" dataType="string"
+                                    caption="{{languages.drivername || 'Driver Name'}}">
+                                </dxi-column>
+                                <!-- <dxi-column dataField="scorePercent" dataType="string"
+                                    caption="{{languages.scorepercent || 'Score Percent'}}">
+                                </dxi-column> -->
+                                <dxi-column dataField="totalScore" dataType="string"
+                                    caption="{{languages.totalscore || 'Total Score'}}">
+                                </dxi-column>
+                                <dxi-column dataField="totalAllocatedScore" dataType="number"
+                                    caption="{{languages.totalallocatedscore || 'Total Allocated Score'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createUserName" dataType="string"
+                                    caption="{{languages.createuser || 'Create User'}}">
+                                </dxi-column>
+                                <dxi-column dataField="linksWeb" cellTemplate="detailTemplate" caption="">
+                                </dxi-column>
+                                <dxi-column dataField="" cellTemplate="galleryTemplate" caption="">
+                                </dxi-column>
+
+                                <dxo-paging [pageSize]="10"></dxo-paging>
+                                <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                                    [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+
+                                <div *dxTemplate="let d of 'detailTemplate'">
+                                    <a class="pointer" (click)="viewDetail(d.data.clId)">
+                                        <span>{{languages.viewdetail || d.value}}</span>
+                                    </a>
+                                </div>
+
+                                <div *dxTemplate="let d of 'galleryTemplate'">
+                                    <a class="pointer" href="javascript:void(0);" (click)="viewGalleries(d.data.clId)">
+                                        <span>{{languages.viewimages || 'View images'}}</span>
+                                    </a>
+                                </div>
+                                <dxo-summary>
+                                    <dxi-total-item showInColumn="equipmentCode" displayFormat="Total: {0} items" column="clId"
+                                      summaryType="count">
+                                    </dxi-total-item>
+                                  </dxo-summary>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

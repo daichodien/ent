@@ -1,0 +1,229 @@
+<div class="content-wrapper">
+
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+                            <div class="card-body">
+
+                                <div class="form-group row">
+
+                                    <label
+                                        class="col-md-2 control-label">{{languages.fleetgroup || "Fleet Group"}}</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" [(ngModel)]="modelSearch.fleetType"
+                                            name="fleetType">
+                                            <option value=""></option>
+                                            <option *ngFor="let fleetType of listFleetType" value="{{fleetType.code}}">
+                                                {{fleetType.codeDesc}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{languages.maker || "Maker"}}</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" [(ngModel)]="modelSearch.maker" name="maker">
+                                            <option value=""></option>
+                                            <option *ngFor="let maker of listMaker" value="{{maker.code}}">
+                                                {{maker.codeDesc}}</option>
+                                        </select>
+                                    </div>
+                                    <label
+                                        class="col-md-2 control-label">{{languages.fleetusetype || "Fleet Use Type"}}</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" [(ngModel)]="modelSearch.fleetusetype"
+                                            name="fleetusetype">
+                                            <option value=""></option>
+                                            <option *ngFor="let maker of listUseType" value="{{maker.code}}">
+                                                {{maker.codeDesc}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label
+                                        class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                                    <div class="col-md-2">
+                                        <dx-select-box [(value)]="modelSearch.fleetModel" [items]="listFleetModel"
+                                            displayExpr="fleetModelDesc" valueExpr="fleetModelId"
+                                            [searchEnabled]="true">
+                                        </dx-select-box>
+                                    </div>
+
+                                    <label class="col-md-2 control-label">{{languages.brand || "Brand"}}</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control" [(ngModel)]="modelSearch.brand" name="brand">
+                                            <option value=""></option>
+                                            <option *ngFor="let brand of listBrand" value="{{brand.code}}">
+                                                {{brand.codeDesc}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer group-btn-right">
+                                <button type="submit"
+                                    class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button>
+                            </div>
+                        </form>
+                    </div> -->
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-10">
+                                    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+                                        <div class="box-daily-search">
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                                                <div class="col-md-4">
+                                                    <dx-select-box [(value)]="modelSearch.fleetModel" height="33px"
+                                                        [items]="listFleetModel" displayExpr="fleetModelDesc"
+                                                        valueExpr="fleetModelId" [searchEnabled]="true"
+                                                        fieldTemplate="field">
+                                                        <dx-validator>
+                                                            <dxi-validation-rule type="required" message="Fleet model is required"></dxi-validation-rule>
+                                                        </dx-validator>
+                                                        <div *dxTemplate="let data of 'field'">
+                                                            <div class="custom-item">
+                                                                <img width="50px" src="{{data && data.featureImage}}" />
+                                                                <dx-text-box class="product-name"
+                                                                    [value]="data && data.fleetModelDesc"
+                                                                    [readOnly]="true"></dx-text-box>
+                                                            </div>
+                                                        </div>
+                                                        <div *dxTemplate="let data of 'item'">
+                                                            <div class="custom-item">
+                                                                <img width="50px" src="{{data.featureImage}}" />
+                                                                <div class="product-name">
+                                                                    {{data.fleetModelDesc}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </dx-select-box>
+                                                </div>
+
+                                                <label
+                                                    class="col-md-2 control-label">{{languages.fleetusetype || "Fleet Use Type"}}</label>
+                                                <div class="col-md-2">
+                                                    <select style="height: 33px!important;" class="form-control" [(ngModel)]="modelSearch.fleetusetype"
+                                                        name="fleetusetype">
+                                                        <option value=""></option>
+                                                        <option *ngFor="let maker of listUseType"
+                                                            value="{{maker.code}}">
+                                                            {{maker.codeDesc}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="2">
+                                                        <dx-button 
+                                                        id="button"
+                                                        text="{{languages.search || 'Search'}}"
+                                                        type="success"  
+                                                        [useSubmitBehavior]="true">
+                                                    </dx-button>
+                                                    <!-- <button type="submit"
+                                                        class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                   
+                                    <dx-scheduler #scheduler [dataSource]="appointmentsData" currentView="Schedule"
+                                        [currentDate]="currentDate" [startDayHour]="6" [endDayHour]="20"
+                                        [groups]="['priorityId']" [showCurrentTimeIndicator]="false"
+                                        allowUpdating="false" [crossScrollingEnabled]="true"
+                                        [elementAttr]="{ id: 'elementId', class: 'class-name' }"
+                                        resourceCellTemplate="headerTemplate" appointmentTemplate="appointment-template"
+                                        appointmentTooltipTemplate="appointment-template-hover">
+                                        <dxi-view type="week" name="Schedule" groupOrientation="vertical"
+                                            [cellDuration]="1000">
+                                        </dxi-view>
+                                        <dxi-resource [dataSource]="prioritiesData" fieldExpr="priorityId"
+                                            label="Priority" [allowMultiple]="true"></dxi-resource>
+                                        <div *dxTemplate="let appointment of 'headerTemplate'">
+                                            <div class="fleet-schedule-header">
+
+                                                <div class="book-fleet-content">
+                                                    <!-- <img class="border border-light rounded"
+                                                        [src]="appointment.data.fleetImage" alt="" /> -->
+                                                    <p><b>{{appointment.data.fleet_Desc}}</b><br>
+                                                        
+                                                       <span *ngIf="appointment.data.lastestMile">{{appointment.data.lastestMile}} km</span></p>
+                                                </div>
+                                                <div class="book-driver-content">
+                                                    <div *ngIf="appointment.data.dedicatedDriverId">
+                                                        <!-- <img class="border border-light rounded"
+                                                            onerror="this.src='/assets/img/missing_avatar1.png';"
+                                                            [src]="appointment.data.driverImage" alt="" /> -->
+                                                        <p>{{appointment.data.dedicatedDriverName}}
+                                                            <span
+                                                                *ngIf="appointment.data.dateofBirth">({{appointment.data.driverAge}})</span>
+                                                            <br>
+                                                            <span
+                                                                *ngIf="appointment.data.dateofJoin">{{appointment.data.dateOfJoin}}</span>
+                                                            {{appointment.data.lanuage}}</p>
+                                                    </div>
+                                                    <div *ngIf="!appointment.data.dedicatedDriverId">
+                                                        <p style="text-align: center;padding: 0;"> N/A</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *dxTemplate="let showtime of 'appointment-template'">
+                                            <div class='showtime-preview-book'>
+                                                <div>
+                                                    <span>{{showtime.appointmentData.customerName}}</span> <span class="book-status" > {{showtime.appointmentData.bookStatus}}</span><br>
+                                                    <span class="book-time">P {{showtime.appointmentData.pickup}}/ R {{showtime.appointmentData.return}}</span> 
+                                                    <a class="view-more-daily" [routerLink]="['/booking/',showtime.appointmentData.bookNo]"routerLinkActive="router-link-active" >
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *dxTemplate="let showtime of 'appointment-template-hover'">
+                                            <div class='showtime-preview-book'>
+                                                <div>
+                                                    <span>{{showtime.appointmentData.customerName}}</span> <span class="book-status" > {{showtime.appointmentData.bookStatus}}</span><br>
+                                                    <span class="book-time">From {{showtime.appointmentData.pickupDay}}/ To {{showtime.appointmentData.returnDay}}</span> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <dxo-appointment-dragging [group]="draggingGroupName"
+                                            [onRemove]="onAppointmentRemove" [onAdd]="onAppointmentAdd"
+                                            [onDragEnd]="onAppointmentAdd">
+                                        </dxo-appointment-dragging>
+                                    </dx-scheduler>
+                               
+                                </div>
+                                <div class="col-2">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Pending Booking</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <dx-draggable id="list" data="dropArea" [group]="draggingGroupName"
+                                                (onDragStart)="onListDragStart($event)">
+                                                <dx-draggable
+                                                    class="item dx-card dx-theme-text-color dx-theme-background-color"
+                                                    [clone]="true" [group]="draggingGroupName" [data]="task"
+                                                    (onDragStart)="onItemDragStart($event)"
+                                                    (onDragEnd)="onItemDragEnd($event)" *ngFor="let task of tasks">
+                                                    {{task.text}}
+                                                </dx-draggable>
+                                            </dx-draggable>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

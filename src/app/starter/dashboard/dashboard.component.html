@@ -1,0 +1,297 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <!-- /.content-header -->
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 row">
+          <div class="card card-primary card-outline">
+            <div class="card-body row">
+
+              <div class="col-12 col-md-4">
+                <!-- small box -->
+
+                <div class="small-box bg-info" style="background-color: #E97F02 !important;">
+                  <div class="inner">
+                    <h4>{{languages.todayutilization || 'Today Utilization'}} </h4>
+
+                    <h3>{{todayUserCar.usagePercent}}<sup style="font-size: 20px">%</sup></h3>
+                    <p>{{todayUserCar.usedCar}} / {{todayUserCar.totalCNT}}</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fa fa-truck"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">{{languages.moreinfo || 'More Info'}}<i
+                      class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+              </div>
+              <div class="col-12 col-md-4">
+                <!-- small box -->
+
+                <div class="small-box bg-info" style="background-color: #70C92F !important;">
+
+                  <div class="inner">
+                    <h4>{{languages.tomorrowutilization || 'Tomorrow Utilization'}} </h4>
+
+                    <h3>{{tomorowUseCar.usagePercent}}<sup style="font-size: 20px">%</sup></h3>
+                    <p>{{tomorowUseCar.usedCar}} / {{tomorowUseCar.totalCNT}}</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">{{languages.moreinfo || 'More Info'}}<i
+                      class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+              </div>
+              <!-- ./col -->
+
+              <!-- ./col -->
+
+              <div class="col-12 col-md-4">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h4>{{languages.driverfulfillment || 'Driver Fulfillment'}}</h4>
+
+                    <h3>{{drFullfillment.driverFullfillment}}<sup style="font-size: 20px">%</sup></h3>
+                    <p>{{drFullfillment.driverCNT}} / {{drFullfillment.total}}</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">{{languages.moreinfo || 'More Info'}}<i
+                      class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="card card-default">
+                  <h4 class="text-center"
+                    style="white-space:pre;font-size:20px;font-family:'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;font-weight:200;fill:#232323;cursor:default;"
+                    x="0" y="22" transform="translate(0,0)" text-anchor="middle">
+                    {{languages.pendingbookinginnextthreeday	|| 'Pending Booking(in next 3 days)'}}
+                  </h4>
+                  <dx-data-grid id="gridContainer" [dataSource]="pendingBookingNowAssignsDataSource"
+                    [remoteOperations]="false" [allowColumnReordering]="true" [rowAlternationEnabled]="true"
+                    [showBorders]="true" (onContentReady)="contentReady($event)">
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10, 25, 50, 100]"></dxo-pager>
+                    <dxo-group-panel [visible]="false"></dxo-group-panel>
+                    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+                    <dxi-column dataField="bookNo" caption="{{languages.bookingno || 'Booking No'}}"
+                      cellTemplate="diffCellTemplate"></dxi-column>
+                    <dxi-column dataField="customerName" caption="{{languages.customername || 'Customer Name'}}">
+                    </dxi-column>
+                    <dxi-column dataField="customerTypeDesc"
+                      caption="{{languages.customertypedesc || 'Customer Type Desc'}}"></dxi-column>
+                    <dxi-column dataField="fleetModelDesc" caption="{{languages.fleetmodeldesc || 'Fleet Model Desc'}}">
+                    </dxi-column>
+                    <dxi-column dataField="pickupTime" dataType="localTime"
+                      caption="{{languages.pickupdatetime || 'Pickup Time'}}"></dxi-column>
+                    <div *dxTemplate="let d of 'discountCellTemplate'">
+                      <div class="chart-cell">
+                        <dx-bullet [showTarget]="false" [showZeroLevel]="true" [startScaleValue]="0"
+                          [endScaleValue]="100" [value]="d.value * 100">
+                          <dxo-size [width]="150" [height]="35"></dxo-size>
+                          <dxo-tooltip [enabled]="true" [paddingTopBottom]="2" [customizeTooltip]="customizeTooltip">
+                            <dxo-font [size]="18"></dxo-font>
+                          </dxo-tooltip>
+                          <dxo-margin [top]="5" [bottom]="0" [left]="5"></dxo-margin>
+                        </dx-bullet>
+                      </div>
+                    </div>
+
+                    <div *dxTemplate="let d of 'diffCellTemplate'">
+                      <a class="pointer" (click)="viewDetail(d.data.bookNo)">
+                        <span> {{d.value}}</span>
+                      </a>
+                    </div>
+
+                  </dx-data-grid>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6">
+
+                <div class="card card-default">
+                  <h4 class="text-center"
+                    style="white-space:pre;font-size:20px;font-family:'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;font-weight:200;fill:#232323;cursor:default;"
+                    x="0" y="22" transform="translate(0,0)" text-anchor="middle">
+                    {{languages.pendingpayment || 'Pending Payment (in next 3 days)'}}
+                  </h4>
+                  <dx-data-grid id="gridContainer" [dataSource]="pendingPayments" [remoteOperations]="false"
+                    [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+                    (onContentReady)="contentReady($event)">
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10, 25, 50, 100]"></dxo-pager>
+                    <dxo-group-panel [visible]="false"></dxo-group-panel>
+                    <dxi-column dataField="bookNo" caption="{{languages.bookingno || 'Booking No'}}"
+                      cellTemplate="diffCellTemplate"></dxi-column>
+                    <dxi-column dataField="customerName" caption="{{languages.customername || 'Customer Name'}}">
+                    </dxi-column>
+                    <dxi-column dataField="customerTypeDesc"
+                      caption="{{languages.customertypedesc || 'Customer Type Desc'}}"></dxi-column>
+                    <dxi-column dataField="fleetModelDesc" caption="{{languages.fleetmodeldesc || 'Fleet Model Desc'}}">
+                    </dxi-column>
+                    <dxi-column dataField="pickupTime" dataType="localTime"
+                      caption="{{languages.pickupdatetime ||' Pickup Time'}}"></dxi-column>
+                    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                    <div *dxTemplate="let d of 'discountCellTemplate'">
+                      <div class="chart-cell">
+                        <dx-bullet [showTarget]="false" [showZeroLevel]="true" [startScaleValue]="0"
+                          [endScaleValue]="100" [value]="d.value * 100">
+                          <dxo-size [width]="150" [height]="35"></dxo-size>
+                          <dxo-tooltip [enabled]="true" [paddingTopBottom]="2" [customizeTooltip]="customizeTooltip">
+                            <dxo-font [size]="18"></dxo-font>
+                          </dxo-tooltip>
+                          <dxo-margin [top]="5" [bottom]="0" [left]="5"></dxo-margin>
+                        </dx-bullet>
+                      </div>
+                    </div>
+                    <div *dxTemplate="let d of 'diffCellTemplate'">
+                      <a class="pointer" (click)="viewDetail(d.data.bookNo)">
+                        <span> {{d.value}}</span>
+                      </a>
+                    </div>
+                  </dx-data-grid>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4">
+                <div class="card card-default">
+                  <h4 class="text-center"
+                    style="white-space:pre;font-size:20px;font-family:'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;font-weight:200;fill:#232323;cursor:default;"
+                    x="0" y="22" transform="translate(0,0)" text-anchor="middle">
+                    {{languages.mostincidentfleet || 'Most Incident Fleet (In 3 months)'}}
+                  </h4>
+                  <dx-data-grid id="gridContainer" [dataSource]="incidentFleet" [remoteOperations]="false"
+                    [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+                    (onContentReady)="contentReady($event)">
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10, 25, 50, 100]"></dxo-pager>
+                    <dxo-group-panel [visible]="false"></dxo-group-panel>
+                    <dxi-column dataField="fleet_Desc" caption="{{languages.fleetdesc || 'Fleet Desc'}}"></dxi-column>
+                    <dxi-column dataField="staffName" caption="{{languages.staffname || 'Staff Name'}}"></dxi-column>
+                    <dxi-column dataField="incidentCount" caption="{{languages.incidentCount || 'Incident Count'}}">
+                    </dxi-column>
+                    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                  </dx-data-grid>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="card card-default">
+                  <h4 class="text-center"
+                    style="white-space:pre;font-size:20px;font-family:'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;font-weight:200;fill:#232323;cursor:default;"
+                    x="0" y="22" transform="translate(0,0)" text-anchor="middle">
+                    {{languages.expiresoontaxinsurance || 'Expire Soon Tax & Insurance (In 1 month)'}}
+                  </h4>
+                  <dx-data-grid id="gridContainer" [dataSource]="expireTaxInsurance" [remoteOperations]="false"
+                    [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+                    (onContentReady)="contentReady($event)">
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10, 25, 50, 100]"></dxo-pager>
+                    <dxo-group-panel [visible]="false"></dxo-group-panel>
+                    <dxi-column dataField="fleet_Desc" caption="{{languages.fleetdesc || 'Fleet Desc'}}"></dxi-column>
+                    <dxi-column dataField="type" caption="{{languages.type || 'Type'}}"></dxi-column>
+                    <dxi-column dataField="expireDate" dataType="date"
+                      caption="{{languages.expiredate || 'ExpireDate'}}"></dxi-column>
+                    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                  </dx-data-grid>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="card card-default">
+                  <h4 class="text-center"
+                    style="white-space:pre;font-size:20px;font-family:'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;font-weight:200;fill:#232323;cursor:default;"
+                    x="0" y="22" transform="translate(0,0)" text-anchor="middle">
+                    {{languages.maintenancerequired || 'Maintenance Required (1 month)'}}
+                  </h4>
+                  <dx-data-grid id="gridContainer" [dataSource]="maintenanceRequireds" [remoteOperations]="false"
+                    [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+                    (onContentReady)="contentReady($event)">
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10, 25, 50, 100]"></dxo-pager>
+                    <dxo-group-panel [visible]="false"></dxo-group-panel>
+                    <dxi-column dataField="fleet_Desc" caption="{{languages.fleetdesc || 'Fleet Desc'}}"></dxi-column>
+                    <dxi-column dataField="nextSvcDate" dataType="date"
+                      caption="{{languages.nextsvcdate || 'Next Service Date'}}"></dxi-column>
+                    <dxi-column dataField="readMiles" caption="{{languages.readMiles || 'ReadMiles'}}"></dxi-column>
+                    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+                  </dx-data-grid>
+                </div>
+              </div>
+
+
+
+
+
+              <div class="col-12 col-md-4">
+                <div class="card card-default">
+                  <dx-pie-chart id="pie" palette="Soft" [dataSource]="fleetAnalysusOneFleetTypes" palette="bright">
+                    <dxo-title text="{{languages.fleetsbymodel || 'Fleets by Model'}}">
+                      <dxo-font size="20px"></dxo-font>
+                    </dxo-title>
+                    <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
+                      verticalAlignment="bottom" [columnCount]="6"></dxo-legend>
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxi-series argumentField="fleetModelDesc" valueField="flCount">
+                      <dxo-label [visible]="true" [customizeText]="customizeLabel">
+                        <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+                      </dxo-label>
+                    </dxi-series>
+                  </dx-pie-chart>
+                </div>
+
+
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="card card-default">
+                  <dx-pie-chart id="pie" palette="Soft" [dataSource]="fleetAnalysusTwooHowOlds" palette="bright">
+                    <dxo-title text="{{languages.fleetageingyearsold || 'Fleet Ageing (Years old)'}}">
+                      <dxo-font size="20px"></dxo-font>
+                    </dxo-title>
+                    <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
+                      verticalAlignment="bottom" [columnCount]="6"></dxo-legend>
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxi-series argumentField="numYear" valueField="cnt">
+                      <dxo-label [visible]="true" [customizeText]="customizeLabel">
+                        <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+                      </dxo-label>
+                    </dxi-series>
+                  </dx-pie-chart>
+                </div>
+
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="card card-default">
+                   
+                   
+                    <dx-pie-chart id="pie" palette="Soft" [dataSource]="fleetBrandAnalysusTwoos" palette="bright">
+                      <dxo-title text="{{languages.fleetmaker || 'Fleet Maker'}}">
+                        <dxo-font size="20px"></dxo-font>
+                      </dxo-title>
+                      <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
+                        verticalAlignment="bottom" [columnCount]="6"></dxo-legend>
+                      <dxo-export [enabled]="true"></dxo-export>
+                      <dxi-series argumentField="maker" valueField="flCount">
+                        <dxo-label [visible]="true" [customizeText]="customizeLabel">
+                          <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+                        </dxo-label>
+                      </dxi-series>
+                    </dx-pie-chart>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Main content -->
+  <div class="content">
+  </div>
+</div>

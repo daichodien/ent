@@ -1,0 +1,122 @@
+<div class="content-wrapper">
+
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-md-2 control-label">{{languages.pickupplace || "Pickup Place"}}</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" [(ngModel)]="modelSearch.pickUpPlace" name="pickUpPlace">
+                                            </div>
+                                            <label class="col-md-2 control-label">{{languages.area || "Area"}}</label>
+                                            <div class="col-md-4">
+                                                <dx-select-box [(value)]="modelSearch.areaCode" [items]="listAreas" displayExpr="areaDesc" valueExpr="areaCode" [searchEnabled]="true">
+                                                </dx-select-box>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </form>
+                        <div class="card-footer group-btn-right">
+                            <button [routerLink]="['0']" class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+                            <button class="btn btn-primary btn-sm pull-right" (click)="search()">{{languages.search || "Search"}}</button>
+                        </div>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="puId">
+                                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+
+                                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                                <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                                <dxi-column dataField="pickUpPlace" dataType="string" cellTemplate="diffRouteTemplate"
+                                    caption="{{languages.pickupplace||'Pickup Place'}}">
+                                </dxi-column>
+                                <dxi-column dataField="areaDesc" dataType="string" caption="{{languages.area||'Area'}}">
+                                </dxi-column>
+                                <dxi-column dataField="address" dataType="string" caption="{{languages.address||'Address'}}">
+                                </dxi-column>
+                                <dxi-column dataField="building" dataType="string" caption="{{languages.building||'Building'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createDate" dataType="datetime"
+                                    caption="{{languages.createdate||'Create Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createName"dataType="string"
+                                    caption="{{languages.createuser || 'Create User'}}">
+                                </dxi-column>
+                                <dxi-column dataField="updateDate" dataType="datetime"
+                                    caption="{{languages.updatedate || 'Update Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="upDateName" dataType="string"
+                                    caption="{{languages.updateuser||'Update User'}}">
+                                </dxi-column>
+
+                                <dxi-column caption="" dataField="puId" cellTemplate="diffDeleteTemplate"></dxi-column>
+
+                                <dxo-paging [pageSize]="10"></dxo-paging>
+                                <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                                    [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+                                <dxo-editing mode="popup" [allowDeleting]="false">
+                                </dxo-editing>
+                                <div *dxTemplate="let d of 'diffEditTemplate'">
+                                    <div class="dx-btn-group">
+                                        <!-- <a (click)="GetDetail(d.data.assetId,template)"
+                                            class="fa fa-pencil-square-o fa-1x">
+                                        </a> -->
+                                        <!-- <a (click)="Deleteasset(d.data.assetId)" class="fa fa-trash-o fa-1x">
+                                </a> -->
+                                    </div>
+                                </div>
+                                <div *dxTemplate="let d of 'diffCellTemplate'">
+                                    <!-- <a class="pointer" (click)="back(d.data.assetId)">
+                                        <span> {{d.value}}</span>
+                                    </a> -->
+                                </div>
+                                <div *dxTemplate="let d of 'diffStatusTemplate'">
+                                    <div style="text-align:center" class="box-grid-action">
+                                        <!-- <a (click)="edit(d.value)" tooltip="Quick edit">
+                                            <i class="fa fa-pencil-square-o fa-1x"></i>
+                                        </a> -->
+                                        <a (click)="delete(d.value)">
+                                            <i class="fa fa-trash-o fa-1x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                                    <div class="dx-btn-group">
+                                      <a (click)="delete(d.data.puId)" class="fa fa-trash fa-1x">
+                                      </a>
+                                    </div>
+                                </div>
+                                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                                    <a class="pointer" (click)="next(d.data.puId)">
+                                        {{d.value}}
+                                    </a>
+                                </div>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{languages.payment||'Payment'}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="formaddnew" class="form-horizontal" (submit)="save()">
+
+<div class="modal-body">
+
+    <div class="box box-primary">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="col-md-4 col-sm-4 control-label">Paid Date</label>
+              <div class="col-md-6 col-sm-6">
+                <dx-date-box width="100%" [(value)]="saveModel.paidDate" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date" invalidDateMessage="The date must have the following format: MM/dd/yyyy">
+                  <dx-validator >
+                    <dxi-validation-rule type="required" message="Paid Date is required"></dxi-validation-rule>
+                </dx-validator>
+                </dx-date-box>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-4 col-sm-4 control-label">Payment Ref No</label>
+              <div class="col-md-6 col-sm-6">
+                <input class="form-control" name="paidRefNo" [(ngModel)]="saveModel.paidRefNo" #paidRefNo="ngModel">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</div>
+<div class="modal-footer">
+  <div class="col-md-11 group-btn-right">
+    <button type="button" class="btn btn-sm btn-default pull-right"
+      (click)="bsModalRef.hide()">{{languages.close || 'Close'}}</button>
+    <dx-button [disabled]="IsSubmit" id="button" text="Submit" class="pull-right btn btn-primary btn-md" type="success"
+      [useSubmitBehavior]="true">
+    </dx-button>
+  </div>
+</div>
+</form>

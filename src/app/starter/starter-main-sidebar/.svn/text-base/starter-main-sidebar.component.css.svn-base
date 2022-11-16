@@ -1,0 +1,10 @@
+.logo-navbar-hidden {
+    display: none;
+}
+
+.logo-navbar-show {
+    display: block;
+}
+.nav-treeview {
+    padding-left: 15px!important;
+}

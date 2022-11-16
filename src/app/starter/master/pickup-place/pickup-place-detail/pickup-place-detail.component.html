@@ -1,0 +1,138 @@
+<div class="content-wrapper">
+
+  <!-- Main body-->
+  <div class="content">
+    <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.pickupplace || "Pickup Place"}} <span
+                      _ngcontent-c35="" class="required"></span></label>
+                  <div class="col-md-4">
+                    <input class="form-control" required maxlength="50" [(ngModel)]="pickUpPlaceModel.pickUpPlace"
+                      name="pickUpPlace" #pickUpPlace="ngModel">
+                    <span *ngIf="f.submitted && pickUpPlace.invalid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Pickup Place is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.area || "Area"}}</label>
+                  <div class="col-md-4 control-label">
+                    <dx-select-box [(value)]="pickUpPlaceModel.areaCode" [items]="listAreas" displayExpr="areaDesc"
+                      valueExpr="areaCode" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.address || "Address"}} <span _ngcontent-c35=""
+                      class="required"></span></label>
+                  <div class="col-md-4">
+                    <input class="form-control" required maxlength="256" [(ngModel)]="pickUpPlaceModel.address"
+                      name="address" #address="ngModel">
+                    <span *ngIf="f.submitted && address.invalid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Address Place is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+
+                  <label
+                    class="col-md-2 control-label">{{languages.officialpickupplace || "Official Pickup Place"}}</label>
+                  <div class="col-md-4 ">
+                    <dx-check-box [(value)]="isOfficialPickUpPlaceBl">
+                    </dx-check-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.building || "Building"}}</label>
+                  <div class="col-md-4 ">
+                    <input class="form-control" [(ngModel)]="pickUpPlaceModel.building" name="building"
+                      #building="ngModel">
+                  </div>
+                  <label
+                    class="col-md-2 control-label">{{languages.officialreturnplace || "Official Return Place"}}</label>
+                  <div class="col-md-4 ">
+                    <dx-check-box [(value)]="isOfficialReturnPlace">
+                    </dx-check-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.lat_lon || "Lat/Lon"}}</label>
+                  <div class="col-md-2">
+                    <input class="form-control" [(ngModel)]="pickUpPlaceModel.lat" name="lat" #lat="ngModel">
+                  </div>
+                  <div class="col-md-2">
+                    <input class="form-control" [(ngModel)]="pickUpPlaceModel.lon" name="lon" #lon="ngModel">
+                  </div>
+                  <div class="col-md-4">
+                    <button class="btn btn-primary" type="button"
+                      (click)="pickFromMap()">{{languages.pickfrommap || "Pick From MAP"}}</button>
+                  </div>
+                </div>
+                <!-- <div class="form-group row">
+                    <label class="col-md-2"></label>
+                    <div class="col-md-4">
+                      <input class="form-control" [(ngModel)]="pickUpPlaceModel.lon" name="lon" #lon="ngModel">
+                    </div>
+                </div> -->
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload>
+
+                </app-fileupload>
+              </div>
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+                <div *ngIf="pickUpPlaceModel.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{pickUpPlaceModel.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{pickUpPlaceModel.createName}}</label>
+                  </div>
+                </div>
+                <div *ngIf="pickUpPlaceModel.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{pickUpPlaceModel.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{pickUpPlaceModel.upDateName}}</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="group-btn-right">
+              <button class="btn btn-primary btn-md" type="submit">{{languages.save || "Save"}}</button>
+              <button class="btn btn-default btn-md" (click)="back()">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

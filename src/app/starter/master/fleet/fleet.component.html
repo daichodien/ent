@@ -1,0 +1,153 @@
+<div class="content-wrapper" style="min-height: 689px;">
+  
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+              <div class="card-body">
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" id="" [(ngModel)]="modelSearch.fleetDesc" name="fleetdesc">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.maker || "Maker"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="modelSearch.maker" name="maker">
+                      <option value=""></option>
+                      <option *ngFor="let maker of listMaker" value="{{maker.code}}">{{maker.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="modelSearch.fleetModel" [items]="listFleetModel"
+                      displayExpr="fleetModelDesc" valueExpr="fleetModelId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.fleettype || "Fleet Type"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="modelSearch.fleetType" name="fleetType">
+                      <option value=""></option>
+                      <option *ngFor="let fleetType of listFleetType" value="{{fleetType.code}}">{{fleetType.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.brand || "Brand"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="modelSearch.brand" name="brand">
+                      <option value=""></option>
+                      <option *ngFor="let brand of listBrand" value="{{brand.code}}">{{brand.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fleetstatus || "Fleet Status"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="modelSearch.fleetStatus" name="fleetStatus">
+                      <option value=""></option>
+                      <option *ngFor="let fleetStatus of listFleetStatus" value="{{fleetStatus.code}}">{{fleetStatus.codeDesc}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer group-btn-right">
+                <a class="btn btn-info btn-sm pull-right" [routerLink]="['new']">{{languages.new || "New"}}</a>
+                <button type="submit"
+                  class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button></div>
+            </form>
+
+          </div>
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="fltId"
+                [focusedRowKey]="focusIndex" [focusedRowEnabled]="true">
+
+                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+                <dxo-paging [pageSize]="pageSize" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                <dxi-column dataField="fleet_Desc" dataType="string" caption="{{languages.fleetdesc || 'Fleet Desc'}}"
+                  cellTemplate="diffRouteTemplate">
+                </dxi-column>
+                <dxi-column dataField="maker" dataType="string" caption="{{languages.maker||'Maker'}}">
+                </dxi-column>
+                <dxi-column dataField="brand" dataType="string" caption="{{languages.brand||'Brand'}}">
+                </dxi-column>
+                <dxi-column dataField="fleetType" dataType="string" caption="{{languages.fleettype||'FleetType'}}">
+                </dxi-column>
+                <dxi-column dataField="fleetColor" dataType="string" caption="{{languages.color||'Color'}}">
+                </dxi-column>
+                <dxi-column dataField="lastestMile" dataType="number"
+                  caption="{{languages.lastestmile||'Lastest Mile'}}">
+                </dxi-column>
+                <dxi-column dataField="purchaseDate" dataType="date"
+                  caption="{{languages.purchasedate||'Purchase Date'}}">
+                </dxi-column>
+                <dxi-column dataField="fuelType" dataType="string" caption="{{languages.fueltype||'Fuel Type'}}">
+                </dxi-column>
+                <dxi-column dataField="transmissionType" dataType="string"
+                  caption="{{languages.transmissiontype||'Transmission Type'}}">
+                </dxi-column>
+                <dxi-column dataField="manufacturedYear" dataType="string"
+                  caption="{{languages.manufacturedyear||'Manufactured Year'}}">
+                </dxi-column>
+                <dxi-column dataField="dedicatedDriverName" dataType="string"
+                  caption="{{languages.dedicateddrivername||'Dedicated Driver Name'}}">
+                </dxi-column>
+                <dxi-column dataField="fleetUseType" dataType="string"
+                  caption="{{languages.fleetusetype||'Fleet Use Type'}}">
+                </dxi-column>
+                <dxi-column dataField="fleetStatus" dataType="string"
+                  caption="{{languages.fleetstatus || 'Fleet Status'}}">
+                  <dxo-lookup
+                    [dataSource]="listFleetStatus"
+                    displayExpr="codeDesc"
+                    valueExpr="code">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="liquidatedDate" dataType="datetime"
+                caption="{{languages.liquidateddate||'Liquidated Date'}}">
+              </dxi-column>
+              <dxi-column dataField="liquidatedMemo"
+              caption="{{languages.liquidatedmemo||'Liquidated Memo'}}">
+            </dxi-column>
+                <dxi-column dataField="createDate" dataType="datetime"
+                caption="{{languages.createdate||'Create Date'}}">
+              </dxi-column>
+               
+                <dxi-column dataField="createName" dataType="string" caption="{{languages.createuser||'Create User'}}">
+                </dxi-column>
+                <dxi-column caption="" dataField="assetCode" cellTemplate="diffDeleteTemplate"></dxi-column>
+
+                <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true"
+                  [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
+
+                <dxo-editing mode="popup">
+                </dxo-editing>
+                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                  <div class="dx-btn-group">
+                    <a (click)="delete(d.data.fltId)" class="fa fa-trash fa-1x">
+                    </a>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                  <a class="pointer" (click)="back(d.data.fltId)">
+                    {{d.value}}
+                  </a>
+                </div>
+                <dxo-summary>
+                  <dxi-total-item showInColumn="fleet_Desc" displayFormat="Total: {0} items" column="fleet_Desc"
+                    summaryType="count">
+                  </dxi-total-item>
+                </dxo-summary>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

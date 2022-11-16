@@ -1,0 +1,11 @@
+tbody
+{
+    background-color: blue;
+}
+.custom-selectbox {
+    display: inline-block;
+    width: 50%;
+}
+.custom-label-std {
+    padding: 4px 10px;
+}

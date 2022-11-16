@@ -1,0 +1,160 @@
+<div class="content-wrapper">
+
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label
+                                        class="col-md-2 control-label">{{languages.fleetmodel || "Fleet Model"}}</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" [(ngModel)]="searchModel.fleetModelId"
+                                            name="fleetModelId" (search)='true'>
+                                            <option value=""></option>
+                                            <option *ngFor="let fleetModel of equipmentGroups"
+                                                value="{{fleetModel.fleetModelId}}">
+                                                {{fleetModel.fleetModelDesc}}</option>
+                                        </select>
+                                    </div>
+                                    <label
+                                        class="col-md-2 control-label">{{languages.incidentdate || "Incident Date"}}</label>
+                                    <div class="col-md-2">
+                                        <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                            type="date" [(value)]="searchModel.dateF">
+                                        </dx-date-box>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                            type="date" [(value)]="searchModel.dateT">
+                                        </dx-date-box>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{languages.fleetidesc || "Fleet Desc"}}</label>
+                                    <div class="col-md-4">
+                                        <!-- <input type="text" class="form-control" [(ngModel)]="searchModel.fleetId"
+                                    name="fleetId"> -->
+                                        <dx-select-box [dataSource]="fleetNumbers" displayExpr="fleet_Desc"
+                                            valueExpr="fltId" [(value)]="searchModel.fleetId" [searchEnabled]="true">
+                                        </dx-select-box>
+                                    </div>
+                                    <label
+                                        class="col-md-2 control-label">{{languages.fleettype || "Fleet Type"}}</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" [(ngModel)]="searchModel.fleetType"
+                                            name="fleetType" (search)='true'>
+                                            <option value=""></option>
+                                            <option *ngFor="let fleetType of equipmentGroups"
+                                                value="{{fleetType.fleetType}}">
+                                                {{fleetType.fleetTypeDesc}}</option>
+                                        </select>
+                                    </div>
+                                    <label
+                                        class="col-md-2 control-label">{{languages.incidenttype || "Incident Type"}}</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" [(ngModel)]="searchModel.incidentType"
+                                            name="incidentType" (search)='true'>
+                                            <option *ngFor="let incidentType of incidentTypes"
+                                                value="{{incidentType.code}}">
+                                                {{incidentType.codeDesc}}</option>
+                                        </select>
+                                    </div>
+
+                                    <label
+                                        class="col-md-2 control-label">{{languages.relatedparty || "Related Party"}}</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" [(ngModel)]="searchModel.relatedParty"
+                                            name="relatedParty">
+                                    </div>
+                                    <label class="col-md-2 control-label">{{languages.refno || "Ref No"}}</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" [(ngModel)]="searchModel.refNo"
+                                            name="refNo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer group-btn-right">
+                                <button type="submit" [routerLink]="['0']"
+                                    class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+                                <button type="button" class="btn btn-primary btn-sm pull-right"
+                                    (click)="searchFleetIncidents()">{{languages.search || "Search"}}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <dx-data-grid #gridContainer id="gridContainer" keyExpr="afId" [focusedRowKey]="focusIndex"
+                                [focusedRowEnabled]="true" [dataSource]="dataSource">
+
+                                <!-- <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+                              <dxo-paging [pageSize]="pageSize" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                              <dxo-group-panel [visible]="true"></dxo-group-panel> -->
+                                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>   
+                                <dxi-column dataField="fleet_Desc" dataType="string" cellTemplate="diffRouteTemplate"
+                                    caption="{{languages.fleetdesc || 'Fleet Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="fleetId" dataType="string"
+                                    caption="{{languages.fleetid || 'Fleet Id'}}">
+                                </dxi-column>
+                                <dxi-column dataField="tDate" dataType="date" caption="{{languages.date || 'Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="incidentType" dataType="string"
+                                    caption="{{languages.incidenttype || 'Incident Type'}}">
+                                </dxi-column>
+                                <dxi-column dataField="relatedParty" dataType="string"
+                                    caption="{{languages.relatedparty || 'Related Party'}}">
+                                </dxi-column>
+                                <dxi-column dataField="refNo" dataType="string"
+                                    caption="{{languages.refno || 'Ref No'}}">
+                                </dxi-column>
+                                <dxi-column dataField="amount" dataType="string" format="#,##0.00"
+                                    caption="{{languages.amount || 'Amount'}}">
+                                </dxi-column>
+                                <dxi-column dataField="relatedStaffInfo" dataType="string"
+                                    caption="{{languages.relatedstaffinfo || 'Related Staff Info'}}">
+                                </dxi-column>
+                                <dxi-column dataField="readMiles" dataType="string" format="#,##0"
+                                    caption="{{languages.readmiles || 'Read Miles'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createDate" dataType="datetime"
+                                    caption="{{languages.createdate || 'Create Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createName" dataType="string"
+                                    caption="{{languages.createuser || 'Create User'}}">
+                                </dxi-column>
+                                <dxi-column caption="" dataField="afId" cellTemplate="diffDeleteTemplate">
+                                </dxi-column>
+
+                                <dxo-summary>
+                                    <dxi-total-item column="fleet_Desc" summaryType="count">
+                                    </dxi-total-item>
+                                </dxo-summary>
+
+                                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                                    <a class="pointer" (click)="goDetail(d.data.afId)">
+                                        {{d.value}}
+                                    </a>
+                                </div>
+
+                                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                                    <div class="dx-btn-group">
+                                        <a (click)="delete(d.data.afId)" class="fa fa-trash fa-1x">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </dx-data-grid>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

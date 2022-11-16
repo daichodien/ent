@@ -1,0 +1,98 @@
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <div class="content">
+    <form name="formaddnew" class="form-horizontal" (ngSubmit)="f.form.valid && saveAnnouncement()" #f="ngForm" novalidate>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.subject || "Subject"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-8">
+                    <input class="form-control" id="subject" [(ngModel)]="announceDetail.subject" name="subject"
+                      #subject="ngModel" required>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.announcetype || "Ann Type"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-3">
+                    <select class="form-control" [(ngModel)]="announceDetail.annType" name="annType">
+                      <option value=""></option>
+                      <option *ngFor="let i of listAnnounceType" value="{{i.code}}">{{i.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+
+                  <label for="gender"
+                    class="col-sm-2 control-label">{{languages.relatedsubsidiary || "Related Subsidiary"}}</label>
+                  <div class="col-md-3">
+                    <select class="form-control" name="subsidiary">
+                      <option value=""></option>
+                      <option *ngFor="let i of listSubsidiary" value="{{i.subsidiaryId}}">{{i.subsidiaryName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.expiredate || "Expire Date"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-3">
+                    <dx-date-box width="100%" [min]="announceDetail.expireDate" [showClearButton]="false"
+                      displayFormat="dd/MM/yyyy" type="date" [(value)]="announceDetail.expireDate">
+                    </dx-date-box>
+                  </div>
+
+                  <label class="col-2 control-label">{{languages.requestforcountersign || "Request for Countersign"}}</label>
+                    <div class="col-md-3">
+                      <dx-check-box tabIndex="" [(value)]="announceDetail.requestforDriverAgreement"></dx-check-box>
+                    </div>
+                </div>
+
+              </div>
+              <div class="card card-primary card-outline">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-2 control-label">{{languages.description || "Description"}} <span
+                        class="required"></span></label>
+                    <div class="col-md-10" style="padding-left: 14px;">
+                      <app-tiny-editor [elementId]="'contents'" (onEditorKeyup)="keyupHandlerFunction($event)"
+                      [(tinymceModel)]="announceDetail.contents" [tmHeight]="300">
+                    </app-tiny-editor>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-2 control-label" for="attachment">{{languages.attachment || "Attachment"}} <span
+                        class="required"></span></label>
+                    <div class="col-md-7" style="margin-left: -5px;">
+                      <app-fileupload #uploadfile>
+                      </app-fileupload>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="group-btn-right">
+                    <button type="submit" class="btn btn-primary btn-md">{{this.textSubmit}}</button>
+                    <button class="btn btn-default btn-md" (click)="back()">{{languages.back || "Back"}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

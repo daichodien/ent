@@ -1,0 +1,273 @@
+<div class="content-wrapper" style="min-height: 689px;">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h3 class="m-0 text-dark">{{languages.userprofile || "User Profile"}}</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a ng-reflect-router-link="/starter/index"
+                href="/starter/index">{{languages.home || "Home"}}</a></li>
+            <li class="breadcrumb-item active">{{languages.userprofile || "User Profile"}}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card card-primary card-outline">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+              <div class="box-body box-profile">
+                <div class="border-avatar">
+                  <img *ngIf="globals._avatar!= null" class="profile-user-img img-responsive img-circle" 
+                  src="{{globals._avatar}}"  alt=""  style="max-height:100%" onError="this.src='/assets/img/missing_avatar1.png';" #imgRef  >
+                  <i *ngIf="avatar=='null'" class="fa fa-user"></i>
+                </div>
+                <p style="text-align:center">
+                  <a (click)="staticModal.show()" class="cursor-point" style="padding-right: 6px;">
+                    <i class="fa fa-upload" aria-hidden="true"></i> Change</a>
+                </p>
+                <h3 class="profile-username text-center">{{model.employeeName}}</h3>
+
+                <!-- <p class="text-muted text-center">Software Engineer</p> -->
+
+              </div>
+              <!-- /.box-body -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="card-header d-flex p-0">
+            <ul class="nav nav-pills" style="margin-bottom: -1px;">
+              <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Settings</a></li>
+              <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Change Password</a></li>
+              <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+
+            </ul>
+          </div><!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                <form (ngSubmit)="UpdateSettings()" #f="ngForm">
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">First Name</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="FirstName" [(ngModel)]="model.firstName" name="firstName"
+                        type="text">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Last Name</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="LastName" [(ngModel)]="model.lastName" name="lastName"
+                        type="text">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Employee Name</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="EmployeeName" [(ngModel)]="model.employeeName" name="employeeName"
+                        type="text">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Email</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="Email" [(ngModel)]="model.email" name="email" type="text">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Mobile No</label>
+                    <div class="col-md-4">
+                      <input class="form-control" id="mobile" [(ngModel)]="model.mobile" name="mobile" type="text">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Language</label>
+                    <div class="col-md-4">
+                      <select class="form-control" [(ngModel)]="model.language" name="language" #language="ngModel"
+                        class="form-control" name="language">
+                        <option *ngFor="let c of languages" [ngValue]="c.code">{{c.codeDesc}}</option>
+                      </select>
+                    </div>
+
+
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-4">
+                      <button class="align-middle btn btn-primary btn-sm" type="submit">Update</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                <form name="formaddnew" class="form-horizontal" (ngSubmit)="f2.form.valid && changePassword(f2)"
+                  #f2="ngForm" novalidate>
+
+                  <!-- current password -->
+
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Current Password</label>
+                    <div class="col-md-4">
+                      <div class="input-group">
+                      <input class="form-control" type="password" name="currentpassword" minlength="6" maxlength="50" #currentpassword="ngModel"
+                        [(ngModel)]="modelChangePass.currentpassword" [type]="fieldTextType ? 'text' : 'password'" id="currentpassword"
+                         required />
+                         <span class="input-group-addon">
+                          <i class="fa" [ngClass]="{
+                                  'fa-eye-slash': !fieldTextType,
+                                  'fa-eye': fieldTextType
+                                }" (click)="toggleFieldTextType()"></i>
+                          </span>
+                        </div>
+                      <span *ngIf="f2.submitted && !currentpassword.valid" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="Current password is required!" aria-hidden="true"></i>
+                      </span>
+                      <span *ngIf="currentpassword.errors?.minlength" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="Current password must be at least 6 characters long!"
+                          aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- end current password -->
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">New Password</label>
+                    <div class="col-md-4">
+                      <div class="input-group">
+                      <input type="password" name="password" minlength="6" maxlength="50"
+                        [(ngModel)]="modelChangePass.password" [type]="fieldTextType1 ? 'text' : 'password'" #password="ngModel" class="form-control" id="password"
+                        autocomplete="off" validateEqual="confirmPassword" reverse="true" required />
+                        <span class="input-group-addon">
+                          <i class="fa" [ngClass]="{
+                                  'fa-eye-slash': !fieldTextType1,
+                                  'fa-eye': fieldTextType1
+                                }" (click)="toggleFieldTextType1()"></i>
+                          </span>
+                      </div>
+                      <span *ngIf="f2.submitted && !password.valid" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="New password is required!" aria-hidden="true"></i>
+                      </span>
+                      <span *ngIf="password.errors?.minlength" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="New password must be at least 6 characters long!"
+                          placement="right" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label">Confirm Password</label>
+                    <div class="col-md-4">
+                      <div class="input-group">
+                      <input type="password" name="confirmPassword" minlength="6" maxlength="50"
+                        [(ngModel)]="modelChangePass.confirmPassword" [type]="fieldTextType2 ? 'text' : 'password'" #confirmPassword="ngModel" reverse="false"
+                        class="form-control" id="confirmPassword" autocomplete="off" validateEqual="password"
+                        required />
+                        <span class="input-group-addon">
+                          <i class="fa" [ngClass]="{
+                                  'fa-eye-slash': !fieldTextType2,
+                                  'fa-eye': fieldTextType2
+                                }" (click)="toggleFieldTextType2()"></i>
+                          </span>
+                      </div>
+                      <span *ngIf="f2.submitted && !confirmPassword.valid" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="Confirm Password is required!"
+                          aria-hidden="true"></i>
+                      </span>
+                      <span *ngIf="modelChangePass.password != modelChangePass.confirmPassword"
+                        class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="New password and Confirm password do not match!"
+                          aria-hidden="true"></i>
+                      </span>
+
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-4">
+                      <button class="align-middle btn btn-primary btn-sm" type="submit">Update</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="timeline">
+                <!-- The timeline -->
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <dx-data-grid #gridContainer 
+                    id="gridContainer" 
+                    [dataSource]="dataSourceUserLogin">
+                    <!-- (onEditorPreparing)="onEditorPreparing($event)"> -->
+                    <!-- keyExpr="userId"> -->
+                      <dxo-group-panel [visible]="true"></dxo-group-panel>
+                      <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                      <!-- <dxo-column-chooser [enabled]="true"></dxo-column-chooser> -->
+                      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                      <dxi-column caption="{{languages.username || 'Login User'}}" dataField="userId" dataType="string">
+                      </dxi-column>
+                      <!-- ad ip address -->
+                      <dxi-column dataField="lDate" dataType="date2" caption="{{languages.datetime || 'Login Date'}}">
+                      </dxi-column>
+                      <dxi-column dataField="fromSystem" caption="{{languages.system || 'From System'}}">
+                      </dxi-column>
+                      <dxi-column dataField="ipAddress" caption="{{languages.address || 'Address IP'}} IP">
+                      </dxi-column>
+                      <dxi-column dataField="note" caption="{{languages.note || 'Note'}}">
+                      </dxi-column>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-paging [pageSize]="50"></dxo-paging>
+                      <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[50]"
+                        [showInfo]="true"></dxo-pager>
+                      <dxo-editing mode="popup" [allowDeleting]="false">
+                      </dxo-editing>
+                    </dx-data-grid>
+                  </div>
+                </div>
+              </div>
+              <!-- /.tab-pane -->
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div><!-- /.card-body -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Update Avatar</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="box-upload-avatar">
+          <app-fileupload #innerFileUpload projectId="100" sectionId="107" maxFiles="1" maxSize="2"
+            fileExt="PNG,JPG,JPEG" isVatar=true>
+          </app-fileupload>
+
+        </div>
+        <div style="padding: 6px;">
+          <h5>
+            <span class="label label-success"> The max size for the avatar should be 128x128</span>
+          </h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" (click)="staticModal.hide()">Close</button>
+        <button class="btn btn-primary" (click)="updateAvatar()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>

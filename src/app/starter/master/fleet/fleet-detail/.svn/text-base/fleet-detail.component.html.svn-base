@@ -1,0 +1,372 @@
+<div class="content-wrapper" style="min-height: 689px;">
+  <div class="content">
+    <form (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <!-- Column 1 -->
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleetmodel || "Fleet Model"}}<span
+                          class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <select class="form-control" (ngModelChange)="onValueChanged($event)"
+                          [(ngModel)]="fleetModel.fleetModelId" name="fleetModel" #fleetModelId="ngModel" required>
+                          <option *ngFor="let item of listFleetModel" [ngValue]="item.fleetModelId">
+                            {{item.fleetModelDesc}}</option>
+                        </select>
+                        <span *ngIf="f.submitted && fleetModelId.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Fleet Desc is required." placement="right"></i>
+                        </span>
+                        <!-- <dx-select-box (onValueChanged)="onValueChanged($event)" name="fleetModelId"
+                              [items]="listFleetModel" [searchEnabled]="true" tabIndex="2" displayExpr="fleetModelDesc"
+                              valueExpr="fleetModelId" [(value)]="fleetModel.fleetModelId">
+                              <dx-validator>
+                                <dxi-validation-rule type="required" message="Fleet Model is required">
+                                </dxi-validation-rule>
+                              </dx-validator>
+                            </dx-select-box> -->
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.maker || "Maker"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" id="" value="{{nameMaker}}" disabled>
+
+                        <!-- <dx-select-box [dataSource]="listMaker" tabIndex="3" displayExpr="codeDesc" valueExpr="code"
+                          [searchEnabled]="true">
+                        </dx-select-box> -->
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.enginenumber || "Engine Number"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" tabIndex="5" id="" [(ngModel)]="fleetModel.engineNumber"
+                          name="fleetdesc">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.lastread || "Last Read"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-date-box tabIndex="7" [(value)]="fleetModel.lastRead" type="date">
+                        </dx-date-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.purchaseamount || "Purchase Amount"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-number-box class="numberAlign" format="#,##0.00" [(value)]="fleetModel.purchasePrice">
+                        </dx-number-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.purchasedate || "Purchase Date"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-date-box tabIndex="11" [(value)]="fleetModel.purchaseDate" type="date">
+                        </dx-date-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.manufactureyear || "Manufacture Year"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <!-- moth ,year,decade,century, -->
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" min="2010" max="2050"
+                          class="form-control" [(ngModel)]="fleetModel.manufacturedYear" name="manufacturedYear"
+                          #manufacturedYear="ngModel" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.registrationdate || "Registration Date"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-date-box tabIndex="7" [(value)]="fleetModel.registrationDate" type="date">
+                        </dx-date-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleetstatus || "Fleet Status"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listFleetStatus" [searchEnabled]="true" 
+                          displayExpr="codeDesc" valueExpr="code" [(value)]="fleetModel.fleetStatus" (onValueChanged)="onFleetStatusChanged($event)">
+                        </dx-select-box>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!--                Column2              -->
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label ">{{languages.vehiclenumber || "Vehicle Number"}}<span class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" tabIndex="1" class="form-control" id="vsnNumber" [(ngModel)]="fleetModel.vsnNumber" #vsnNumber="ngModel" name="vsnNumber" required >
+                          <span *ngIf="f.submitted && vsnNumber.invalid" class="help-block-custom">
+                            <i class="fa fa-exclamation-circle" tooltip="Vehicle Number is required." placement="right"></i>
+                          </span>
+                      </div>
+                     
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.brand || "Brand"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" id="" value="{{nameBrand}}" disabled>
+                        <!-- <dx-select-box [dataSource]="listBrand" tabIndex="4" [searchEnabled]="true"
+                          displayExpr="codeDesc" valueExpr="code">
+                        </dx-select-box> -->
+                      </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                      <label class="col-4 col-xs-3 control-label">{{languages.fleetdesc || "Fleet Desc"}}<span
+                         class="required"></span></label>
+                    <div class="col-md-8 col-sm-8 col-xs-9">
+                      <input type="text" tabIndex="1" class="form-control" id="" [(ngModel)]="fleetModel.fleet_Desc"
+                        name="fleet_Desc" #fleet_Desc="ngModel" required>
+                      <span *ngIf="f.submitted && fleet_Desc.invalid" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="Fleet Desc is required." placement="right"></i>
+                      </span>
+                    </div>
+                    </div> -->
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.lastmile || "Last Mile"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==7) return false;" tabIndex="8"
+                          class="form-control" [(ngModel)]="fleetModel.lastestMile" name="lastestMile">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.purchasetype || "Purchase Type"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listPurchaseType" tabIndex="10" [searchEnabled]="true"
+                          displayExpr="codeDesc" valueExpr="code" [(value)]="fleetModel.purchaseType">
+                        </dx-select-box>
+
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.ownership || "Ownership"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listOwnerShip" tabIndex="12" [searchEnabled]="true"
+                          displayExpr="codeDesc" valueExpr="code" [(value)]="fleetModel.ownerShip">
+                        </dx-select-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.dedicateddriver || "Dedicated Driver"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listDedicatedDriver" tabIndex="14" [searchEnabled]="true"
+                          displayExpr="staffName" valueExpr="staffID" [(value)]="fleetModel.dedicatedDriverId">
+                        </dx-select-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        class="col-4 control-label">{{languages.registrationexpdate || "Registration Exp Date"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-date-box tabIndex="7" [(value)]="fleetModel.registrationExpDate" type="date">
+                        </dx-date-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleetusetype || "Fleet Use Type"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listFleetUseType" tabIndex="10" [searchEnabled]="true"
+                          displayExpr="codeDesc" valueExpr="code" [(value)]="fleetModel.fleetUseType">
+                        </dx-select-box>
+
+                      </div>
+                    </div>
+                    <div class="form-group row" *ngIf="isRequiredLiquid">
+                      <label
+                        class="col-4 control-label">{{languages.liquidateddate  || "Liquidated Date "}}<span *ngIf="isRequiredLiquid" class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-date-box [(value)]="fleetModel.liquidatedDate" type="date">
+                          <dx-validator>
+                            <dxi-validation-rule *ngIf="isRequiredLiquid" type="required" message="Liquidated Date is required in case Fleet Status is Liquidated"></dxi-validation-rule>
+                          </dx-validator>
+                        </dx-date-box>                                          
+                      </div>
+                    </div>                   
+                    <div class="form-group row" *ngIf="isRequiredLiquid">
+                      <label class="col-4 control-label">{{languages.liquidatedmemo || "Liquidated Memo"}}<span *ngIf="isRequiredLiquid" class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" id="liquidatedMemo" [(ngModel)]="fleetModel.liquidatedMemo" #liquidatedMemo="ngModel" 
+                          name="liquidatedMemo" [required]="isRequiredLiquid">                         
+                          <span *ngIf="isRequiredLiquid && f.submitted && liquidatedMemo.invalid" class="help-block-custom">
+                            <i class="fa fa-exclamation-circle" tooltip="Liquidated Memo is required in case Fleet Status is Liquidated." placement="right"></i>
+                          </span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+                <div class="card-tools">
+
+                </div>
+              </div>
+              <div class="card-body">
+                <app-fileupload></app-fileupload>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.description || "Description"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.features || "Features"}}</label>
+                      <div class="col-md-8">
+                        <dx-text-area [height]="90" tabIndex="15" [(value)]="fleetModel.features">
+                        </dx-text-area>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.description || "Description"}}</label>
+                      <div class="col-md-8">
+                        <dx-text-area [height]="90" tabIndex="17" [(value)]="fleetModel.generalDescription">
+                        </dx-text-area>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.accessary || "Accessary"}}</label>
+                      <div class="col-md-8">
+                        <dx-text-area [height]="90" tabIndex="16" [(value)]="fleetModel.accessaries">
+                        </dx-text-area>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.color || "Color"}}</label>
+                      <div class="col-md-8">
+                        <dx-select-box id="custom-templates" [searchEnabled]="true" [dataSource]="listColor"
+                          displayExpr="Name" valueExpr="Name" [(value)]="this.fleetModel.fleetColor"
+                          fieldTemplate="field">
+                          <div *dxTemplate="let data of 'field'">
+                            <div class="custom-item row">
+                              <div class="col-md-4" style="width: 50%;height:26px;"
+                                [style.background-color]="data.Value">
+                              </div>
+                              <div class="col-md-8">
+                                <dx-text-box class="product-name" [value]="data.Name" [readOnly]="true"></dx-text-box>
+                              </div>
+                            </div>
+                          </div>
+                          <div *dxTemplate="let data of 'item'">
+
+                            <div class="custom-item row">
+                              <div class="col-md-4" style="width: 50%;height:25px;"
+                                [style.background-color]="data.Value">
+                              </div>
+                              <div class="col-md-8">
+                                <div class="product-name">
+                                  {{data.Name}}
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </dx-select-box>
+
+                        <!-- <input type="text" class="form-control" id="" [(ngModel)]="fleetModel.color" name="fleetdesc"> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+                <div *ngIf="fleetModel.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{fleetModel.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{fleetModel.createName}}</label>
+                  </div>
+                </div>
+                <div *ngIf="fleetModel.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{fleetModel.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{fleetModel.upDateName}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.lastest10 || "Lastest 10 booking"}}</h5>
+              </div>
+              <div class="card-body">
+                <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="bookNo">
+                  <dxo-load-panel
+                      [enabled]="true">
+                  </dxo-load-panel>
+                <dxo-export [enabled]="true" fileName="Bookings"></dxo-export>
+                <dxo-column-chooser #columnChooser
+                    [enabled]="true"
+                    [allowSearch]="true"
+                    mode="select">
+                </dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                <dxi-column width="75px" dataField="bookNo" dataType="string" cellTemplate="diffCellTemplate1" caption="{{languages.bookingno ||'Booking No'}}">
+                </dxi-column>
+                <dxi-column dataField="bookDate" dataType="localTime" [sortIndex]="0"
+                sortOrder="desc" caption="{{languages.bookingdate||'Booking Date'}}">
+                </dxi-column>
+                <dxi-column width="150px" dataField="customerName" dataType="string" caption="{{languages.customer||'Customer'}}">
+                </dxi-column>
+                <dxi-column dataField="bookStatus" dataType="string" caption="{{languages.status||'Status'}}">
+                </dxi-column>
+                <div *dxTemplate="let d of 'diffCellTemplate1'">
+                  <a class="pointernofocus" (click)="viewDetail(d.data.bookNo)">
+                    <span> {{d.value}}</span>
+                  </a>
+                </div>
+                </dx-data-grid>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" style="padding-bottom:10px ">
+            <button type="submit" class="btn btn-sm btn-default  pull-right"
+              (click)="urlback('../admin/master/fleet')">{{languages.back || "Back"}}</button>
+            <dx-button class="pull-right btn btn-primary btn-md" [disabled]="IsSubmit" id="button"
+              text="{{languages.save || 'Save'}}" style="margin-right:10px;" type="success" [useSubmitBehavior]="true">
+            </dx-button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

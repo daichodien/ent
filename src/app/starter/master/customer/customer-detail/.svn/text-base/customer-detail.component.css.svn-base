@@ -1,0 +1,329 @@
+
+.help-block-custom {
+    right: -5px;
+}
+input[type=radio]{
+    vertical-align: middle;
+}
+.radio-title{
+    padding-left: 10px;
+}
+.bold-tittle-tab {
+    font-weight: bold;
+}
+
+
+
+/* @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700); */
+
+.custom-tree-view-menu {
+    overflow: hidden;
+    position: relative;
+    min-height: 700px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.va_menu_icon {
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    font-size: 0;
+    text-indent: -9999px;
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    top: 57%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    z-index: 99;
+}
+
+.va_menu_icon:focus {
+    outline: none;
+}
+
+.va_menu_icon span {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 7px;
+    background: #fff;
+}
+
+.va_menu_icon span:before, .va_menu_icon span:after {
+    position: absolute;
+    display: block;
+    left: 0;
+    width: 100%;
+    height: 7px;
+    background-color: #fff;
+    content: "";
+}
+
+.va_menu_icon span:before {
+    top: -14px;
+}
+
+.va_menu_icon span:after {
+    bottom: -14px;
+}
+
+.va_menu_icon-X span {
+    transition: background 0s 0.3s;
+}
+
+.va_menu_icon-X span:before, .va_menu_icon-X span:after {
+    transition-duration: 0.3s, 0.3s;
+    transition-delay: 0.3s, 0s;
+}
+
+.va_menu_icon-X span:before {
+    transition-property: top, transform;
+}
+
+.va_menu_icon-X span:after {
+    transition-property: bottom, transform;
+}
+
+.va_menu_icon-X.is-active span {
+    background: none;
+}
+
+.va_menu_icon-X.is-active span:before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.va_menu_icon-X.is-active span:after {
+    bottom: 0;
+    transform: rotate(-45deg);
+}
+
+.va_menu_icon-X.is-active span:before, .va_menu_icon-X.is-active span:after {
+    transition-delay: 0s, 0.3s;
+}
+nav {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    z-index: 4;
+}
+.bubble_all {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FD898A;
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    z-index: 4;
+}
+.bubble_all:hover {
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+#one, #two, #three, #four {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    z-index: 3;
+    /* box-shadow: 0 0 20px -5px #111; */
+    text-align: center;
+}
+.bubble img:hover ~ h3 {
+     opacity: 1;
+}
+.bubble h3 {
+    /* opacity: 0; */
+    transition: all 400ms;
+    -webkit-transition: all 600ms;
+}
+
+#one:hover, #two:hover, #three:hover, #four:hover {
+    cursor: pointer;
+    opacity: 0.8!important;
+}
+
+#one svg {
+    width: 40px;
+    margin-top: 12px;
+}
+#one>h3 {
+    position: absolute;
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 16px;
+    color: #111111;
+    top: 50%;
+    left: 110px;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+#two {
+    /* background-color: #FDD0BC; */
+}
+#two svg {
+    width: 40px;
+    margin-top: 12px;
+}
+#two>h3 {
+    position: absolute;
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 16px;
+    color: #111111;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+}
+#three {
+    /* background-color: #EDB4B5; */
+}
+#three svg {
+    width: 40px;
+    margin-top: 14px;
+}
+#three>h3 {
+    position: absolute;
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 16px;
+    color: #111111;
+    top: 50%;
+    left: -90px;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+#four {
+    /* background-color: #CB86A0; */
+}
+#four svg {
+    width: 40px;
+    margin-top: 12px;
+}
+#four>h3 {
+    position: absolute;
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 16px;
+    color: #111111;
+    top: -30px;
+    left: 40%;
+    transform: translateX(-50%);
+    font-weight: bold;
+}
+section {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.start {
+    top: 0;
+    left: 0;
+    /* background-color: #445369; */
+    text-align: center;
+}
+.first {
+    left: 100%;
+    top: 0;
+    /* background-color: #FDEECF; */
+}
+.second {
+    left: 0;
+    top: 100%;
+    /* background-color: #FDD0BC; */
+}
+.third {
+    left: -100%;
+    top: 0;
+    /* background-color: #EDB4B5; */
+}
+.fourth {
+    left: 0;
+    top: -100%;
+    /* background-color: #CB86A0; */
+}
+section:first-child.content-tree-view {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}
+.content-tree-view {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    margin: 0 auto;
+    overflow-y: scroll;
+}
+.start h1 {
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 40px;
+    line-height: 100%;
+    color: #111111;
+}
+h2 {
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 40px;
+    color: #111111;
+    margin-top: 200px;
+}
+.content-tree-view p {
+    /* font-family: 'Roboto', sans-serif; */
+    font-size: 20px;
+    line-height: 1.3;
+    color: #111111;
+    margin: 50px 10px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 450px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    
+}
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    /* padding: 12px 15px; */
+    padding: 10px 15px;
+}
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}

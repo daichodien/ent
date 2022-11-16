@@ -1,0 +1,92 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{languages.selfdriverlicenseinformation||'Self Driver License Information'}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <form name="formaddnew" class="form-horizontal" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.name || 'Name'}}</label>
+                            <div class="col-6">
+                                <input class="form-control" [(ngModel)]="model.name" name="subject"
+                                    #subject="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.dob||'DOB'}}<span
+                                    class="required"></span></label>
+                            <div class="col-6">
+                                <dx-date-box width="100%" displayFormat="dd/MM/yyyy" type="date"
+                                    [(value)]="model.activityDate">
+                                </dx-date-box>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">Passport No</label>
+                            <div class="col-6">
+                                <input class="form-control" [(ngModel)]="model.PassportNo" name="PassportNo"
+                                    #PassportNo="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.icno||'IC No'}}</label>
+                            <div class="col-6">
+                                <input class="form-control" [(ngModel)]="model.icno" name="icno" #icno="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.mobilephone||'Mobile Phone'}}</label>
+                            <div class="col-6">
+                                <input class="form-control" [(ngModel)]="model.icno" name="icno" #icno="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.licenseno||'License No'}}</label>
+                            <div class="col-6">
+                                <input class="form-control" [(ngModel)]="model.icno" name="icno" #icno="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.licenseexp||'License Exp'}} </label>
+                            <div class="col-6">
+                                <dx-date-box width="100%" displayFormat="dd/MM/yyyy" type="date"
+                                    [(value)]="model.activityDate">
+                                </dx-date-box>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 control-label">{{languages.licenseclass||'License Class'}}</label>
+                            <div class="col-6">
+                                <select class="form-control" [(ngModel)]="model.icno" name="icno" #icno="ngModel">
+                                    <option value=""></option>
+                                    <option *ngFor="let item of listLicenseClass" value="{{item.code}}">
+                                        {{item.codeDesc}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+<div class="modal-footer">
+
+    <div class="col-12 group-btn-right">
+        <button type="button" class="btn btn-default pull-right"
+            (click)="bsModalRef.hide()">{{languages.close || 'Close'}}</button>
+        <button type="submit" class="btn btn-primary pull-right" [disabled]="IsSubmit">{{languages.save}}</button>
+    </div>
+
+</div>

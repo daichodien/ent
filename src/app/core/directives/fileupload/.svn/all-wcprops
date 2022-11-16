@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/MPLProjects/!svn/ver/15771/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/fileupload
+END
+fileupload.module.ts
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/fileupload/fileupload.module.ts
+END
+fileupload.component.ts
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/MPLProjects/!svn/ver/15771/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/fileupload/fileupload.component.ts
+END
+fileupload.component.css
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/MPLProjects/!svn/ver/7824/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/fileupload/fileupload.component.css
+END
+fileupload.component.html
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/MPLProjects/!svn/ver/11757/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/directives/fileupload/fileupload.component.html
+END

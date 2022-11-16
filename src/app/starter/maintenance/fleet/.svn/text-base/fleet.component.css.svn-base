@@ -1,0 +1,3 @@
+.dx-list-item .dx-item-content .dx-list-item-content .dx-state-hover {
+    background-color: red;
+}

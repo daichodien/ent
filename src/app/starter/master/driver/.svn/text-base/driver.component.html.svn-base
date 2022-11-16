@@ -1,0 +1,166 @@
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            <div class="card-body">
+              <form name="searchForm" class="form-horizontal" (ngSubmit)="search()" #f="ngForm" novalidate>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.staffname || "Staff Name"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" name="staffName" [(ngModel)]="searchModel.staffName"
+                      #staffName="ngModel">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.staffrole || "Staff Role"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searchModel.staffRole" name="staffRole">
+                      <option value=""></option>
+                      <option *ngFor="let staffRole of listStaffRoles" value="{{staffRole.code}}">{{staffRole.codeDesc}}
+                      </option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.englishlevel || "English Level"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searchModel.englishLevel" name="englishLevel">
+                      <option value=""></option>
+                      <option *ngFor="let englishLevel of listEnglishLevel" value="{{englishLevel.code}}">
+                        {{englishLevel.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.licenseclass || "License Class"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searchModel.licenseClass" name="licenseClass">
+                      <option value=""></option>
+                      <option *ngFor="let licenseClassItem of licenseClass" value="{{licenseClassItem.code}}">
+                        {{licenseClassItem.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.mobileno || "Mobile No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" name="MobileNo" [(ngModel)]="searchModel.mobileNo" #MobileNo="ngModel">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.staffstatus || "Staff Status"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="searchModel.staffStatus" name="staffStatus">
+                      <option value=""></option>
+                      <option *ngFor="let staffStatus of listStaffStatus" value="{{staffStatus.code}}">
+                        {{staffStatus.codeDesc}}</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer group-btn-right">
+              <button [routerLink]="['0']" class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+              <button class="btn btn-primary btn-sm pull-right"
+                (click)="search()">{{languages.search || "Search"}}</button>
+            </div>
+          </div>
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="staffID">
+                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxo-state-storing [enabled]="true" type="custom"></dxo-state-storing>
+                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                <dxi-column dataField="avatarThumbnail" dataType="string" cellTemplate="diffAvatarTemplate" caption="">
+                </dxi-column>
+                <dxi-column dataField="staffName" dataType="string" cellTemplate="diffEditTemplate"
+                  caption="{{languages.staffname||'Staff Name'}}">
+                </dxi-column>
+                <dxi-column dataField="icNo" dataType="string" caption="{{languages.icno||'IC No'}}">
+                </dxi-column>
+                <dxi-column dataField="mobileNo" dataType="string" caption="{{languages.mobileno||'Mobile No'}}">
+                </dxi-column>
+                <dxi-column dataField="staffRoleDesc" caption="{{languages.staffrole||'Staff Role'}}">
+                </dxi-column>
+                <dxi-column dataField="licNumber" dataType="string"
+                  caption="{{languages.licensenumber||'License Number'}}">
+                </dxi-column>
+                <dxi-column dataField="employeeCode" dataType="string"
+                  caption="{{languages.employeecode||'Employee Code'}}">
+                </dxi-column>
+                <dxi-column dataField="extLicNumber" dataType="string"
+                  caption="{{languages.externallicnumber||'External Lic Number'}}">
+                </dxi-column>
+                <dxi-column dataField="licenseExpDate" dataType="date2"
+                  caption="{{languages.licenseexpdate||'License ExpDate'}}">
+                </dxi-column>
+                <dxi-column dataField="licenseIssueDate" dataType="date2"
+                  caption="{{languages.licenseissuedate||'License Issue Date'}}">
+                </dxi-column>
+                <dxi-column dataField="dateofJoin" dataType="date" caption="{{languages.dateofjoin||'Date Of Join'}}">
+                </dxi-column>
+                <dxi-column dataField="staffStatusDesc" dataType="string"
+                  caption="{{languages.staffstatus||'Staff Status'}}">
+                </dxi-column>
+                <dxi-column dataField="englishLevel" caption="{{languages.englishlevel || 'English Level'}}">
+                </dxi-column>
+                <dxi-column dataField="fleet_Desc" dataType="string" caption="{{languages.fleet||'Fleet'}}">
+                </dxi-column>
+                <dxi-column dataField="licenseClassDesc" dataType="string"
+                  caption="{{languages.licenseclass||'License Class'}}">
+                </dxi-column>
+                <dxi-column dataField="createDate" dataType="datetime"
+                  caption="{{languages.createdate||'Create Date'}}">
+                </dxi-column>
+                <dxi-column dataField="createName" caption="{{languages.createuser || 'Create User'}}">
+                </dxi-column>
+                <dxi-column caption="" dataField="staffID"  [showInColumnChooser]="false"
+                   cellTemplate="ViewFleetAssignTemplate"></dxi-column>
+                <dxi-column caption="" dataField="staffID"  [showInColumnChooser]="false"
+                  cellTemplate="diffDeleteTemplate"></dxi-column>
+                <dxo-editing mode="popup" [allowDeleting]="false">
+                </dxo-editing>
+                <div *dxTemplate="let d of 'diffAvatarTemplate'">
+                  <div class="border-avatar">
+                    <img class="profile-user-img img-responsive img-circle"
+                      src="{{_urlImage}}/uploads/{{d.data.avatarThumbnail}}" alt="" style="max-height:100%"
+                      onError="this.src='/assets/img/missing_avatar1.png';" #imgRef>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                  <div class="dx-btn-group">
+                    <a (click)="delete(d.data.staffID)" class="fa fa-trash fa-1x">
+                    </a>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffEditTemplate'">
+                  <div>
+                    <a class="pointer" (click)="next(d.data.staffID)">
+                      <span> {{d.value}}</span>
+                    </a>
+                  </div>
+
+                </div>
+                <div *dxTemplate="let d of 'ViewFleetAssignTemplate'">
+                  <div>
+                    <a (click)="viewFleet(d.value)">
+                      <i class="fa fa-eye fa-1x"></i>
+                    </a>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffStatusTemplate'">
+                  <div style="text-align:center" class="box-grid-action">
+                    <a (click)="delete(d.value)">
+                      <i class="fa fa-trash-o fa-1x"></i>
+                    </a>
+                  </div>
+                </div>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>

@@ -1,0 +1,132 @@
+<div class="content-wrapper">
+
+  <!-- Main body-->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            <form>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <label class="col-md-2 control-label">{{languages.suppliername || "Supplier Name"}}</label>
+                      <div class="col-md-4">
+                        <input type="text" class="form-control" [(ngModel)]="modelSearch.supplierName"
+                          name="supplierName">
+                      </div>
+                      <label class="col-md-2 control-label">{{languages.country || "Country"}}</label>
+                      <div class="col-md-4">
+                        <select class="form-control" [(ngModel)]="modelSearch.country" name="country">
+                          <option value=""></option>
+                          <option *ngFor="let item of countries" [value]="item.countryId">{{item.countryName}}</option>
+                        </select>
+
+                      </div>
+                      <label class="col-md-2 control-label">{{languages.suppliertype || "Supplier Type"}}</label>
+                      <div class="col-md-4">
+
+                        <select class="form-control" [(ngModel)]="modelSearch.supplierType" name="supplierType">
+                          <option value=""></option>
+                          <option *ngFor="let item of listSupplierType" [value]="item.code">{{item.codeDesc}}</option>
+                        </select>
+                      </div>
+                      <label class="col-md-2 control-label">{{languages.mobileno || "Mobile No"}}</label>
+                      <div class="col-md-4">
+                          <input type="text" class="form-control" [(ngModel)]="modelSearch.mobileNo"
+                          name="mobileNo">
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </form>
+            <div class="card-footer group-btn-right">
+              <button [routerLink]="['0']" class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+              <button class="btn btn-primary btn-sm pull-right"
+                (click)="search()">{{languages.search || "Search"}}</button>
+            </div>
+          </div>
+
+          <div class="card card-default">
+            <div class="card-body">
+                <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="suppId"
+                [focusedRowKey]="focusIndex" [focusedRowEnabled]="true">
+                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+                <dxo-paging [pageSize]="pageSize" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column dataField="supplierName" dataType="string" cellTemplate="diffRouteTemplate"
+                    caption="{{languages.suppliername||'Supplier Name'}}">
+                </dxi-column>
+                <dxi-column dataField="firstName" dataType="string"
+                    caption="{{languages.firstname||'First Name'}}">
+                </dxi-column>
+                <dxi-column dataField="lastName" dataType="string"
+                    caption="{{languages.lastname||'Last Name'}}">
+                </dxi-column>
+                <dxi-column dataField="cTitle" dataType="string"
+                    caption="{{languages.titledesc||'Title Desc'}}">
+                </dxi-column>
+                <dxi-column dataField="mobileNo" dataType="string"
+                    caption="{{languages.mobileno||'Mobile No'}}">
+                </dxi-column>
+                <dxi-column dataField="address1" dataType="string"
+                    caption="{{languages.address1||'Address 1'}}">
+                </dxi-column>
+                <dxi-column dataField="address2" dataType="string"
+                    caption="{{languages.address2||'Address 2'}}">
+                </dxi-column>
+                <dxi-column dataField="address3" dataType="string"
+                    caption="{{languages.address2||'Address 2'}}">
+                </dxi-column>
+                <dxi-column dataField="emailAddress" dataType="string"
+                    caption="{{languages.emailaddress||'Email Address'}}">
+                </dxi-column>
+                <dxi-column dataField="supplierType" dataType="string"
+                    caption="{{languages.suppliertype||'Supplier Type'}}">
+                </dxi-column>
+                <dxi-column dataField="createDate" dataType="datetime"
+                    caption="{{languages.createdate||'Create Date'}}">
+                </dxi-column>
+                <dxi-column dataField="createUser" dataType="string"
+                    caption="{{languages.createuser || 'Create User'}}">
+                </dxi-column>
+                <dxi-column dataField="remark" dataType="string"
+                    caption="{{languages.remark || 'Remark'}}">
+                </dxi-column>
+                <dxi-column dataField="countryName" dataType="string"
+                    caption="{{languages.countryname||'Country Name'}}">
+                </dxi-column>
+                <dxi-column caption="" dataField="custId" cellTemplate="diffDeleteTemplate">
+                </dxi-column>
+
+                <dxo-editing mode="popup">
+                </dxo-editing>
+                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                    <a class="pointer" (click)="next(d.data.suppId)">
+                        {{d.value}}
+                    </a>
+                </div>
+                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                    <div class="dx-btn-group">
+                        <a (click)="delete(d.data.suppId)" class="fa fa-trash fa-1x">
+                        </a>
+                    </div>
+                </div>
+
+            </dx-data-grid>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

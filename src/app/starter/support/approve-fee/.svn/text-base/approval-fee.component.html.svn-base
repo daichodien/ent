@@ -1,0 +1,237 @@
+<div [ngClass]="!customerIdRequest ? 'content-wrapper' : 'content-tree-view'">
+
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title" *ngIf="customerIdRequest">{{"Trip Record"}}</h5>
+                            <h5 class="card-title" *ngIf="!customerIdRequest">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form (ngSubmit)="onSubmit()" #f="ngForm">
+                            <div class="card-body">
+                                <div *ngIf="customerIdRequest;then content else other_content"></div>
+                                <ng-template #content>
+                                    <div class="form-group row">
+                                        <label
+                                            class="col-md-2 control-label">{{languages.bookingno || "Booking No"}}</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" [(ngModel)]="searchModel.bookingNo"
+                                                name="bookingNo">
+                                        </div>
+                                        <label class="col-md-2 control-label">{{languages.tripdate || "Trip Date"}}</label>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateFrom">
+                                            </dx-date-box>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateTo">
+                                            </dx-date-box>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                                        <div class="col-md-4">
+    
+                                            <dx-select-box [dataSource]="listFleets" displayExpr="fleet_Desc"
+                                                valueExpr="fleet_Desc" [(value)]="searchModel.fleetDesc"
+                                                [searchEnabled]="true">
+                                            </dx-select-box>
+    
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template #other_content>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 control-label">{{languages.customer || "Customer"}}</label>
+                                        <div class="col-md-4">
+                                            <dx-select-box [dataSource]="customers" displayExpr="customerName"
+                                                valueExpr="custId" [(value)]="searchModel.customerNo"
+                                                [searchEnabled]="true">
+                                            </dx-select-box>
+    
+                                        </div>
+                                        <label class="col-md-2 control-label">{{languages.tripdate || "Trip Date"}}</label>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateFrom">
+                                            </dx-date-box>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy"
+                                                type="date" [(value)]="searchModel.dateTo">
+                                            </dx-date-box>
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.bookingno || "Booking No"}}</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" [(ngModel)]="searchModel.bookingNo"
+                                                name="bookingNo">
+                                        </div>
+                                        <label
+                                            class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                                        <div class="col-md-4">
+    
+                                            <dx-select-box [dataSource]="listFleets" displayExpr="fleet_Desc"
+                                                valueExpr="fleet_Desc" [(value)]="searchModel.fleetDesc"
+                                                [searchEnabled]="true">
+                                            </dx-select-box>
+    
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                
+
+                            </div>
+                            <div class="card-footer group-btn-right">
+                                <button type="submit"
+                                    class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <dx-data-grid #gridContainer id="gridContainer" keyExpr="trId" [dataSource]="dataSource"
+                                (onEditorPreparing)="editorPreparing($event)" (onRowUpdating)="updateAprrovedTripRecordFee($event)">
+
+                                <dxo-export [enabled]="true" fileName="Approval_Trip_Record_Fee" ></dxo-export>
+
+                                <dxo-column-chooser #columnChooser
+                                    [enabled]="true"
+                                    [allowSearch]="true"
+                                    mode="select">
+                                </dxo-column-chooser>
+
+                                <dxo-editing mode="popup" [allowUpdating]="true">
+                                    <dxo-popup title="Approved Trip Record Info" [showTitle]="true" [width]="730" [height]="300"
+                                        [position]="{ my: 'center', at: 'center', of: 'window' }">
+                                    </dxo-popup>
+                                    <dxo-form>
+                                        <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                                            <dxi-item dataField="bookNo"></dxi-item>
+                                            <dxi-item dataField="fleet_Desc"></dxi-item>
+                                            <dxi-item dataField="staffName"></dxi-item>
+                                            <dxi-item dataField="tollFee">
+                                                <dxi-validation-rule
+                                                    type="pattern"
+                                                    pattern="^(0|[1-9][0-9]*)$"
+                                                    message="Just digits only">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <dxi-item dataField="parkingFee">
+                                                <dxi-validation-rule
+                                                    type="pattern"
+                                                    pattern="^(0|[1-9][0-9]*)$"
+                                                    message="Just digits only">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <dxi-item dataField="remark"
+                                                    editorType="dxTextArea"
+                                                    [editorOptions]="{ height: 50 }">
+                                            </dxi-item>
+                                        </dxi-item>
+                                    </dxo-form>
+                                </dxo-editing>
+
+                               
+                                <dxi-column dataField="fleet_Desc" dataType="string"
+                                    caption="{{languages.fleetdesc || 'Fleet Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="staffName" dataType="string"
+                                    caption="{{languages.drivername || 'Driver Name'}}">
+                                </dxi-column>
+                                <dxi-column dataField="fleetModelDesc" dataType="string" [visible]="false"
+                                    caption="{{languages.fleetModelDesc || 'Model Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="lastestMile" dataType="string" format="#,##0" [visible]="false"
+                                    caption="{{languages.lastestmile || 'Latest Mile'}}">
+                                </dxi-column>
+                                <dxi-column dataField="lastRead" dataType="datetime" [width]="125" [visible]="false"
+                                    caption="{{languages.lastupdated || 'Last Updated'}}">
+                                </dxi-column>
+                                <dxi-column dataField="startTime" dataType="localTime" [width]="125"
+                                    caption="{{languages.startdate || 'Start Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="endTime" dataType="localTime" [width]="125"
+                                    caption="{{languages.enddate || 'End Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="overTime" dataType="string"
+                                    caption="{{languages.overtime || 'Over Time'}}">
+                                </dxi-column>
+                                <dxi-column dataField="startMile" dataType="string" format="#,##0" [visible]="false"
+                                    caption="{{languages.startmile || 'Start Mile'}}">
+                                </dxi-column>
+                                <dxi-column dataField="endMile" dataType="string" format="#,##0" [visible]="false"
+                                    caption="{{languages.endmile || 'End Mile'}}">
+                                </dxi-column>
+                                <dxi-column dataField="mileRun" dataType="string" format="#,##0"
+                                    caption="{{languages.milerun || 'Mile Run'}}">
+                                </dxi-column>
+                                <dxi-column dataField="routeMemo" dataType="string"
+                                    caption="{{languages.routememo || 'Route Memo'}}">
+                                </dxi-column>
+                                <dxi-column dataField="tollFee" dataType="string" format="#,##0.00"
+                                    caption="{{languages.tollfee || 'Toll Fee'}}">
+                                </dxi-column>
+                                <dxi-column dataField="parkingFee" dataType="string" format="#,##0.00"
+                                    caption="{{languages.parkingfee || 'Parking Fee'}}">
+                                </dxi-column>
+                                <dxi-column dataField="tollFeeApproved" dataType="string" format="#,##0.00"
+                                    caption="{{languages.tollfeeapproved || 'Toll Fee Approved'}}">
+                                </dxi-column>
+                                <dxi-column dataField="parkingFeeApproved" dataType="string" format="#,##0.00"
+                                    caption="{{languages.parkingfeeapproved || 'Parking Fee Approved'}}">
+                                </dxi-column>
+                                <dxi-column dataField="remarkFee" dataType="string"  [visible]="false"
+                                    caption="{{languages.feeremark || 'Fee Remark'}}">
+                                </dxi-column>
+                                <dxi-column dataField="tripMemo" dataType="string"  [visible]="false"
+                                    caption="{{languages.tripmemo || 'Trip Memo'}}">
+                                </dxi-column>
+                                <dxi-column dataField="remark" caption="{{languages.remark || 'Remark'}}" [visible]="false">
+                                </dxi-column>
+                                <dxi-column dataField="CreateName" dataType="string" [width]="125"
+                                    caption="{{languages.createuser || 'Created User'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createDate" dataType="datetime" [width]="125" [visible]="false"
+                                    caption="{{languages.createdate || 'Create Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="bookNo" dataType="string"
+                                    caption="{{languages.bookingno || 'Booking No'}}" cellTemplate="diffCellTemplateBookNo">
+                                </dxi-column>
+                                <dxi-column dataField="customerName" dataType="string"
+                                    caption="{{languages.customerName || 'Customer Name'}}">
+                                </dxi-column>
+                                <dxi-column dataField="approveUser" dataType="string"
+                                    caption="{{languages.approveUser || 'Approve User'}}">
+                                </dxi-column>
+                                <dxi-column dataField="approvalDate" dataType="localTime"
+                                    caption="{{languages.approvalDate || 'Approval Date'}}">
+                                </dxi-column>
+                                <div *dxTemplate="let d of 'diffCellTemplateBookNo'">
+                                    <a class="pointer" (click)="viewDetailBooking(d.data.bookNo)">
+                                      {{d.value}}
+                                    </a>
+                                </div>
+                                <dxi-column dataField="approved" dataType="string" [visible]="false"
+                                    caption="{{languages.status || 'Status'}}">
+                                </dxi-column>
+                                <dxi-column dataField="endUserVerifyDate" dataType="datetime" [visible]="false"
+                                caption="{{languages.enduserverifydate || 'End User Verify Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="isApprovel" dataType="string" [visible]="false"
+                                caption="{{languages.enduserverify || 'End User Verify'}}">
+                                </dxi-column>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

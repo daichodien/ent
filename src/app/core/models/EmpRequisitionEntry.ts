@@ -1,0 +1,24 @@
+export class EmpRequisitionEntry
+{
+    SubsidiaryId:string;
+    DivisionCode:string;
+    DeptCode:string;
+    JobTitle:string;
+    Qty:number;
+    ExpectedStartDate:Date;
+    IsNew:string;
+    ReplaceFor:string;
+    EducationLevel:string;
+    ExperienceYear:string;
+    AgeRange:string;
+    JobDescription:string;
+    RequiredSkill:string;
+    LanguageSkill:string;
+    Benefit:string;
+    CreateUser:string;
+    ReportTo:string;
+    WorkingLocation:string;
+    Gender:string;
+    EmpReqStatus:string;
+    Id:string;
+}

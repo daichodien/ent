@@ -1,0 +1,332 @@
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <div class="content">
+    <form name="formaddnew" class="form-horizontal" (ngSubmit)="f.form.valid && Save()" #f="ngForm" novalidate>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.staffname || "Staff Name"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-4">
+                    <input class="form-control" id="staffName" [(ngModel)]="driver.staffName" name="staffName"
+                      #staffName="ngModel" required>
+                    <span *ngIf="f.submitted && !staffName.valid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Staff Name is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.staffrole || "Staff Role"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="driver.staffRole" name="staffRole" #staffRole="ngModel"
+                      required>
+                      <option value=""></option>
+                      <option *ngFor="let item of listStaffRoles " value="{{item.code}}">{{item.codeDesc}}</option>
+                    </select>
+                    <span *ngIf="f.submitted && !staffRole.valid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="staff Role is required" aria-hidden="true"></i>
+                    </span>
+                    <!-- <dx-select-box displayExpr="codeDesc" [(value)]="driver.staffRole" valueExpr="code" [items]="listStaffRoles" [searchEnabled]="true">
+                    </dx-select-box> -->
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.icno || "IC No"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="driver.icNo" name="iCNo" #iCNo="ngModel"
+                      required>
+                    <span *ngIf="f.submitted && !iCNo.valid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="IC No is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.mobileno || "Mobile No"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="driver.mobileNo" name="mobileNo"
+                      #mobileNo="ngModel" required pattern="[0-9 ]+">
+                    <span *ngIf="f.submitted && !mobileNo.valid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Mobile No is required" aria-hidden="true"></i>
+                    </span>
+                    <span *ngIf="f.submitted && mobileNo.errors?.pattern" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Invalid mobile no" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.licensenumber || "License Number"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="driver.licNumber" name="licenseNumber" required
+                      #licenseNumber="ngModel">
+                      <span *ngIf="f.submitted && !licenseNumber.valid" class="help-block-custom">
+                        <i class="fa fa-exclamation-circle" tooltip="License Number Code No is required" aria-hidden="true"></i>
+                      </span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.employeecode || "Employee Code"}} <span
+                      class="required"></span></label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="driver.employeeCode" name="employeeCode"
+                      #employeeCode="ngModel" required>
+                    <span *ngIf="f.submitted && !employeeCode.valid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Employee Code No is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.licenseclass || "License Class"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [items]="listLicenseClass" [(value)]="driver.licenseClass" displayExpr="codeDesc"
+                      valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.icnoissuedate || "IC No Issue Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box type="date" [(value)]="driver.icNoIssueDate" >
+                    </dx-date-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.licenseexpdate || "License Exp Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box type="date" [(value)]="driver.licenseExpDate">
+                    </dx-date-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.licenseissuedate || "License Issue Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box type="date"  [(value)]="driver.licenseIssueDate">
+                    </dx-date-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.externallicenseno || "External License No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="driver.extLicNumber" name="externalLicenseNo"
+                      #externalLicenseNo="ngModel">
+                  </div>
+                  <label class="col-2 control-label">{{languages.icnoissueplace || "IC No Issue Place"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="driver.icNoIssuePlace" name="icNoIssuePlace"
+                      #icNoIssuePlace="ngModel">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.dateofbirth || "Date Of Birth"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box type="date" [(value)]="driver.dateofBirth">
+                    </dx-date-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.dateofjoin || "Date Of Join"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box type="date" [(value)]="driver.dateofJoin">
+                    </dx-date-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  
+                  <label class="col-2 control-label">{{languages.englishlevel || "English Level"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box displayExpr="codeDesc" [(value)]="driver.englishLevel" [items]="listEnglishLevel"
+                      valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.staffstatus || "Staff Status"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box displayExpr="codeDesc" [(value)]="driver.staffStatus" [items]="listStaffStatus"
+                      valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                 
+                  <label class="col-2 control-label">{{languages.resigndate || "Resign Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box type="date" [(value)]="driver.resignDate">
+                    </dx-date-box>
+                  </div>
+                  <label class="col-2 control-label">{{languages.foreignlanguage || "Foreign Language"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box displayExpr="codeDesc" [(value)]="driver.foreignLanguage" [items]="listForeignLanguage"
+                      valueExpr="code" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.staffnote || "Staff Note"}}</label>
+                  <div class="col-md-4">
+                    <dx-text-area [height]="90" [(value)]="driver.staffNote">
+                    </dx-text-area>
+                  </div>
+                  <label class="col-2 control-label">{{languages.resignnote || "Resign Note"}}</label>
+                  <div class="col-md-4">
+                    <dx-text-area [height]="90" [(value)]="driver.resignNote">
+                    </dx-text-area>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.avatar || "Avatar"}}</h5>
+              </div>
+              <div class="box-body box-profile">
+                <div class="border-avatar">
+                  <img class="profile-user-img img-responsive img-circle"
+                    src="{{_urlImage}}/uploads/{{driver.avatarThumbnail}}" alt="" style="max-height:100%"
+                    onError="this.src='/assets/img/missing_avatar1.png';" #imgRef>
+                  <!-- <i *ngIf="avatar.src=='null'" class="fa fa-user"></i> -->
+                </div>
+                <div class="row justify-content-md-center">
+                  <div class="col-2">
+                    <p *ngIf="staffId!=0" (click)="staticModal.show()" style="text-align:center">
+                      <a class="cursor-point" style="padding-right: 6px;">
+                        <i class="fa fa-upload" aria-hidden="true"></i> Change</a>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <p *ngIf="staffId!=0" (click)="removeAvatar()" style="text-align:center">
+                      <a class="cursor-point" style="padding-right: 6px;">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> Remove</a>
+                    </p>
+                  </div>
+                </div>
+
+
+
+
+                <!-- <p class="text-muted text-center">Software Engineer</p> -->
+
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload #uploadfile>
+
+                </app-fileupload>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+
+                <div *ngIf="driver.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{driver.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{driver.createName}}</label>
+                  </div>
+                </div>
+                <div *ngIf="driver.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{driver.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{driver.upDateName}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.lastest10 || "Lastest 10 booking"}}</h5>
+              </div>
+              <div class="card-body">
+                <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="bookNo">
+                  <dxo-load-panel
+                      [enabled]="true">
+                  </dxo-load-panel>
+                <dxo-export [enabled]="true" fileName="Bookings"></dxo-export>
+                <dxo-column-chooser #columnChooser
+                    [enabled]="true"
+                    [allowSearch]="true"
+                    mode="select">
+                </dxo-column-chooser>
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                <dxi-column width="75px" dataField="bookNo" dataType="string" cellTemplate="diffCellTemplate1" caption="{{languages.bookingno ||'Booking No'}}">
+                </dxi-column>
+                <dxi-column dataField="bookDate" dataType="localTime" [sortIndex]="0"
+                sortOrder="desc" caption="{{languages.bookingdate||'Booking Date'}}">
+                </dxi-column>
+                <dxi-column width="150px" dataField="customerName" dataType="string" caption="{{languages.customer||'Customer'}}">
+                </dxi-column>
+                <dxi-column dataField="bookStatus" dataType="string" caption="{{languages.status||'Status'}}">
+                </dxi-column>
+                <div *dxTemplate="let d of 'diffCellTemplate1'">
+                  <a class="pointernofocus" (click)="viewDetail(d.data.bookNo)">
+                    <span> {{d.value}}</span>
+                  </a>
+                </div>
+                </dx-data-grid>
+                </div>
+              </div>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="group-btn-right">
+              <button type="submit" class="btn btn-primary btn-md">{{languages.save || "Save"}}</button>
+              <button class="btn btn-default btn-md" (click)="back()">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+    </form>
+  </div>
+
+  <!-- /.content -->
+</div>
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Update Avatar</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="box-upload-avatar">
+          <app-fileupload #uploadAvatar projectId="100" sectionId="107" maxFiles="1" maxSize="2" fileExt="PNG,JPG,JPEG"
+            isVatar=true>
+          </app-fileupload>
+
+        </div>
+        <div style="padding: 6px;">
+          <h5>
+            <span class="label label-success"> The max size for the avatar should be 128x128</span>
+          </h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" (click)="staticModal.hide()">Close</button>
+        <button class="btn btn-primary" (click)="updateAvatar()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>

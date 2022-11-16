@@ -1,0 +1,89 @@
+8
+
+dir
+16684
+https://115.75.188.198:8443/svn/MPLProjects/13.Enterprise_Project/Sources/Clients/Admin/src/app/starter/accounting/billing/invoiceand-payment
+https://115.75.188.198:8443/svn/MPLProjects
+
+
+
+2022-11-15T07:11:22.200845Z
+16684
+thien.hoang
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+960746d7-80ac-ab40-9532-614e99d24802
+
+invoice-and-payment-detail
+dir
+
+invoiceand-payment.component.css
+file
+
+
+
+
+2022-10-31T08:03:41.447000Z
+d41d8cd98f00b204e9800998ecf8427e
+2019-08-14T03:42:41.995078Z
+9236
+kiet.huynh
+has-props
+
+invoiceand-payment.component.html
+file
+
+
+
+
+2022-10-31T08:03:41.447000Z
+6e456d71ec02e581643fd36b5a472d60
+2022-10-20T06:58:42.277448Z
+16444
+thien.tran
+has-props
+
+invoiceand-payment.component.spec.ts
+file
+
+
+
+
+2022-10-31T08:03:41.447000Z
+5c10fe959e27cf804208b3752c9df07c
+2019-08-14T03:42:41.995078Z
+9236
+kiet.huynh
+has-props
+
+invoiceand-payment.component.ts
+file
+
+
+
+
+2022-10-31T08:03:41.447000Z
+b3f463dd757a481bb52cf40654c7670b
+2022-10-20T06:58:42.277448Z
+16444
+thien.tran
+has-props
+
+payment-popup
+dir
+
+send-mail
+dir
+

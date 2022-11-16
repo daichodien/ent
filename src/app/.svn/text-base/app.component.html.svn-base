@@ -1,0 +1,5 @@
+<alert></alert>
+<router-outlet></router-outlet>
+<ng2-slim-loading-bar></ng2-slim-loading-bar>
+<ngx-spinner bdOpacity=0.6 bdColor="rgba(173,159,159,0.51)" size="default" color="#0daa30" type="ball-spin-clockwise">
+</ngx-spinner>

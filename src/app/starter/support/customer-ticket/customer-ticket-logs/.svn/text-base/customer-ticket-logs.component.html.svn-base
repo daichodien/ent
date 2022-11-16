@@ -1,0 +1,183 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{languages.customerticketdetail||'Customer Ticket Logs'}} {{model.subject}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="box box-widget" style=" border: 1px solid #ededed;">
+            <div class="box-header with-border">
+              <div class="user-block" style="height: 60px;padding: 10px;border-bottom: 1px solid #ededed;">
+
+                <img class="img-circle" onerror="this.src='/assets/img/missing_avatar.svg.png';"
+                  src="/uploads/2019\6\26\_636971383558275586avatar.jpg">
+                <span class="username"><a href="#">{{model.employeeName}}</a></span>
+                <span class="description"> {{this.commonSvc.convertDateTime(model.tDate)}}</span>
+              </div>
+
+              <div class="box-tools">
+              </div>
+
+            </div>
+            <div class="box-body" style="padding-left: 5px;padding-top: 10px;">
+              <div class="form-group row">
+
+
+                <label class="col-md-2 control-label">Related Customer</label>
+                <div class="col-md-4 input-group">
+             
+                  <input type="text" class="form-control" value="{{model.relatedCustomer}}" disabled>
+                </div>
+                <label class="col-md-2 control-label">Date</label>
+                <div class="col-md-4 input-group">
+                 
+                  <label class="form-control">{{this.commonSvc.convertDateTime(model.tDate)  }}</label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-2 control-label">Assign To</label>
+
+                <div class="col-md-4 input-group">
+               
+                  <input type="text" class="form-control" value="{{model.nameAssignTo}}" disabled>
+                </div>
+
+                <label class="col-md-2 control-label">Type Incident</label>
+
+                <div class="col-md-4 input-group">
+              
+                  <select class="form-control" disabled [(ngModel)]="model.incidentType" name="type" #type="ngModel">
+                    <option value=""></option>
+                    <option *ngFor="let incidentType of incidentTypes" value="{{incidentType.code}}">
+                      {{incidentType.codeDesc}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-2 control-label">Related Party</label>
+
+                <div class="col-md-4 input-group">
+                
+                  <input class="form-control" disabled [(ngModel)]="model.relatedParty" name="relatedparty"
+                    #relatedparty="ngModel" />
+                </div>
+
+
+                <label class="col-md-2 control-label">Ticket Type</label>
+
+                <div class="col-md-4 input-group">
+                
+
+                  <select class="form-control" [(ngModel)]="model.type" name="type" (search)='true' disabled>
+                    <option value=""></option>
+                    <option *ngFor="let item of listTicketType" value="{{item.code}}">
+                      {{item.codeDesc}}</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-2 control-label">Detail</label>
+                <div class="col-md-10">
+                   <textarea name="text" class="" style="width: 100%;overflow-y: auto;
+                   word-wrap:break-word" id="" cols="20" rows="3"
+                    value="{{model.details}}" disabled>
+                </textarea>
+              </div>
+
+              </div>
+
+            </div>
+            <div class="box-footer box-comments">
+              <!---->
+
+            </div>
+            <div id="items" *ngFor="let item of listLogs">
+              <div class="item" style="padding: 10px;">
+                <img class="img-circle" onerror="this.src='/assets/img/missing_avatar.svg.png';"
+                  src="/uploads/2019\6\26\_636971383558275586avatar.jpg">
+                <a class="name">
+                  <small class="text-muted pull-right"><i
+                      class="fa fa-clock-o"></i>{{this.commonSvc.convertDateTime(item.createdOn) }}</small>
+                  {{item.createdBy}}
+                </a>
+                <p class="message" style="padding-left: 35px;">
+
+                  {{item.details}}
+                </p>
+              </div>
+
+            </div>
+
+
+
+            <div class="box-footer">
+
+              <img alt="Alt Text" class="img-responsive img-circle img-sm" src="/assets/img/missing_avatar.svg.png"
+                style="margin-top: 4px;">
+              <div class="input-group" style="width: 94%;">
+                <input class="form-control ng-untouched ng-pristine ng-valid" [(ngModel)]="saveLogIncidentsDto.details"
+                  name="details" placeholder="Type Message ..." style="height:38px!important">
+
+
+                <span class="input-group-btn">
+                  <button class="btn btn-success btn-flat" (click)="Save('COMMENT')" type="button">Send</button>
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-3">
+
+
+
+          <div class="form-group">
+            <label>Resolution Memo</label>
+
+            <div class="input-group">
+              
+
+              <textarea name="text" class="" style="height:214px; width: 100%;" id=""  [(ngModel)]="model.resolutionMemo">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Resolved Date</label>
+
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <label class="form-control">{{this.commonSvc.convertDateTime(model.resolvedDate)  }}</label>
+            </div>
+            <!-- /.input group -->
+          </div>
+
+
+          <div class="form-group" style="padding-top:10px;">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- <button type="button" *ngIf="model.status !='TODO'"  (click)="updateStatus('TODO','To do')"
+                  class="btn btn-sm btn-block status-todo">To do</button> -->
+                <button type="button" [disabled]="model.status=='INPR'" (click)="updateStatus('INPR','InProgess')"
+                  class="btn btn-sm btn-block status-inpr">InProgess</button>
+                <button type="button" [disabled]="model.status=='DONE'" (click)="updateStatus('DONE','Done')"
+                  class="btn btn-sm btn-block status-closed">Done</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

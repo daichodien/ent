@@ -1,0 +1,54 @@
+8
+
+dir
+16684
+https://115.75.188.198:8443/svn/MPLProjects/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/services/web-portal
+https://115.75.188.198:8443/svn/MPLProjects
+
+
+
+2020-03-10T09:01:22.405283Z
+12704
+tuan.pham
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+960746d7-80ac-ab40-9532-614e99d24802
+
+web-portal.service.spec.ts
+file
+
+
+
+
+2022-10-31T08:03:43.244000Z
+fbbdf2ce7da4b143838312aa2483b1be
+2019-11-06T07:36:31.237025Z
+10921
+binh.thach
+has-props
+
+web-portal.service.ts
+file
+
+
+
+
+2022-10-31T08:03:43.244000Z
+9ae979f066bc4595fe5c6f433f3d9346
+2020-03-10T09:01:22.405283Z
+12704
+tuan.pham
+has-props
+

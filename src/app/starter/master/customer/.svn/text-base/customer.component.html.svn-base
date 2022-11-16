@@ -1,0 +1,126 @@
+<div class="content-wrapper">
+    <!-- Main body-->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title">{{languages.general || "General"}}</h5>
+                        </div>
+                        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label
+                                        class="col-md-2 control-label">{{languages.customername || "Customer Name"}}</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="" name="customerName"
+                                            [(ngModel)]="customerModel.customerName">
+                                    </div>
+                                    <label class="col-md-2 control-label">{{languages.country || "Country"}}</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" [(ngModel)]="customerModel.country" name="country">
+                                            <option value=""></option>
+                                            <option *ngFor="let country of countries" value="{{country.countryId}}">
+                                                {{country.countryName}}</option>
+                                        </select>
+                                    </div>
+                                    <label
+                                        class="col-md-2 control-label">{{languages.customertype || "Customer Type"}}</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" [(ngModel)]="customerModel.customerType"
+                                            name="customerType">
+                                            <option value=""></option>
+                                            <option *ngFor="let customerType of listCustomerType"
+                                                value="{{customerType.code}}">{{customerType.codeDesc}}</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-md-2 control-label">{{languages.mobileno || "Mobile No"}}</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" [(ngModel)]="customerModel.mobileNo"
+                                            name="mobileno">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer group-btn-right">
+                                <button [routerLink]="['0']"
+                                    class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+                                <button type="submit"
+                                    class="btn btn-primary btn-sm pull-right">{{languages.search || "Search"}}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="custId"
+                                [focusedRowKey]="focusIndex" [focusedRowEnabled]="true">
+                                <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+                                <dxo-paging [pageSize]="pageSize" pageIndex="{{pageIndex || 0}}"></dxo-paging>
+                                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                                <dxi-column dataField="customerName" dataType="string" cellTemplate="diffRouteTemplate"
+                                    caption="{{languages.customername||'Customer Name'}}">
+                                </dxi-column>
+                                <dxi-column dataField="firstName" dataType="string"
+                                    caption="{{languages.firstname||'First Name'}}">
+                                </dxi-column>
+                                <dxi-column dataField="lastName" dataType="string"
+                                    caption="{{languages.lastname||'Last Name'}}">
+                                </dxi-column>
+                                <dxi-column dataField="cTitleDesc" dataType="string"
+                                    caption="{{languages.titledesc||'Title Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="mobileNo" dataType="string"
+                                    caption="{{languages.mobileno||'Mobile No'}}">
+                                </dxi-column>
+                                <dxi-column dataField="address1" dataType="string"
+                                    caption="{{languages.address1||'Address 1'}}">
+                                </dxi-column>
+                                <dxi-column dataField="address2" dataType="string"
+                                    caption="{{languages.address2||'Address 2'}}">
+                                </dxi-column>
+                                <dxi-column dataField="emailAddress" dataType="string"
+                                    caption="{{languages.emailaddress||'Email Address'}}">
+                                </dxi-column>
+                                <dxi-column dataField="customerTypeDesc" dataType="string"
+                                    caption="{{languages.customertypedesc||'Customer Type Desc'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createDate" dataType="datetime"
+                                    caption="{{languages.createdate||'Create Date'}}">
+                                </dxi-column>
+                                <dxi-column dataField="createName" dataType="string"
+                                    caption="{{languages.createuser || 'Create User'}}">
+                                </dxi-column>
+                                <dxi-column dataField="countryName" dataType="string"
+                                    caption="{{languages.countryname || 'Country Name'}}">
+                                </dxi-column>
+                                <dxi-column dataField="taxRegNumber" dataType="string"
+                                    caption="{{languages.taxregnumber||'Tax Reg Number'}}">
+                                </dxi-column>
+                                <dxi-column caption="" dataField="custId" cellTemplate="diffDeleteTemplate">
+                                </dxi-column>
+
+                                <dxo-editing mode="popup">
+                                </dxo-editing>
+                                <div *dxTemplate="let d of 'diffRouteTemplate'">
+                                    <a class="pointer" (click)="next(d.data.custId)">
+                                        {{d.value}}
+                                    </a>
+                                </div>
+                                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                                    <div class="dx-btn-group">
+                                        <a (click)="delete(d.data.custId)" class="fa fa-trash fa-1x">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </dx-data-grid>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+<div [ngClass]="!customerIdRequest ? 'content-wrapper' : 'content-tree-view'" style="min-height: 689px;">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title" *ngIf="customerIdRequest">{{"Payment"}}</h5>
+              <h5 class="card-title" *ngIf="!customerIdRequest">{{languages.general || "General"}}</h5>
+            </div>
+            <div class="card-body">
+              <div *ngIf="customerIdRequest;then content else other_content"></div>
+              <ng-template #content>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.bookingno || "Booking No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="searchModel.bookNo" name="bookNo" #bookNo="ngModel" />
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.invdate || "Inv Date"}}</label>
+                  <div class="col-md-2">
+                    <dx-date-box width="100%" [showClearButton]="false" [(value)]="searchModel.invDateF" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                  </div>
+                  <div class="col-md-2">
+                    <dx-date-box width="100%" [showClearButton]="false" [(value)]="searchModel.invDateT" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.invoiceno || "Invoice No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="searchModel.invNo" name="invNo" #invNo="ngModel">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.paidonly || "Paid Only"}}</label>
+                  <div class="col-md-4">
+                    <input type="checkbox" [(ngModel)]="searchModel.paidOnly" name="paidOnly" #paidOnly="ngModel">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fldocno || "FL Doc No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="searchModel.fiDocNo" name="fiDocNo" #fiDocNo="ngModel">
+                  </div>
+                </div>
+              </ng-template>
+
+              <ng-template #other_content>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.customer || "Customer"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [(value)]="searchModel.custId" [items]="listCustomer" showClearButton="true" displayExpr="customerName"
+                      valueExpr="custId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.invdate || "Inv Date"}}</label>
+                  <div class="col-md-2">
+                    <dx-date-box width="100%" [showClearButton]="false" [(value)]="searchModel.invDateF" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                  </div>
+                  <div class="col-md-2">
+                    <dx-date-box width="100%" [showClearButton]="false" [(value)]="searchModel.invDateT" displayFormat="dd/MM/yyyy" type="date">
+                    </dx-date-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.bookingno || "Booking No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="searchModel.bookNo" name="bookNo" #bookNo="ngModel" />
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.paidonly || "Paid Only"}}</label>
+                  <div class="col-md-4">
+                    <input type="checkbox" [(ngModel)]="searchModel.paidOnly" name="paidOnly" #paidOnly="ngModel">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.invoiceno || "Invoice No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="searchModel.invNo" name="invNo" #invNo="ngModel">
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.fldocno || "FL Doc No"}}</label>
+                  <div class="col-md-4">
+                    <input class="form-control" [(ngModel)]="searchModel.fiDocNo" name="fiDocNo" #fiDocNo="ngModel">
+                  </div>
+                </div>
+              </ng-template>
+
+              
+
+            </div>
+            <div class="card-footer group-btn-right">
+              <button [routerLink]="['0']" class="btn btn-info btn-sm pull-right" *ngIf="!customerIdRequest">{{languages.new || "New"}}</button>
+              <button class="btn btn-primary btn-sm pull-right" (click)="search()" >{{languages.search || "Search"}}</button>
+
+            </div>
+          </div>
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource">
+                <dxo-export [enabled]="true" fileName="Invoices"></dxo-export>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+
+                <dxi-column dataField="invNo" dataType="string" cellTemplate="diffCellTemplate"
+                  caption="{{languages.invno||'Inv No'}}">
+                </dxi-column>
+                <dxi-column dataField="customerName" dataType="string" caption="{{languages.customername||'Customer'}}">
+              </dxi-column>
+                <dxi-column dataField="invDate" dataType="localTime" caption="{{languages.invdate||'Inv Date'}}">
+                </dxi-column>
+                <dxi-column dataField="amtPayable" dataType="string" format="#,##0.00"
+                  caption="{{languages.amountpayable||'Amount payable'}}">
+                </dxi-column>
+                <dxi-column dataField="paidType"   caption="{{languages.paidtype||'Paid type'}}">
+                </dxi-column>
+                <dxi-column dataField="isPaid" cellTemplate="statusInvoiceTemplate"  caption="{{languages.ispaid||'Is Paid'}}">
+                </dxi-column>
+                <dxi-column dataField="bookNo" dataType="string" caption="{{languages.bookingno||'Booking No'}}" cellTemplate='viewBooking'>
+                </dxi-column>
+                <dxi-column dataField="fiDocNo" dataType="string" caption="{{languages.fidocno||'FI Doc No'}}">
+                </dxi-column>
+                <dxi-column dataField="createDate" dataType="date" displayFormat="dd/MM/yyyy"
+                caption="{{languages.createdate||'Create Date'}}" [formItem]="{visible: false}">
+                </dxi-column>
+                <dxi-column dataField="createUser" dataType="string"
+                  caption="{{languages.createuser||'Create User'}}" [formItem]="{visible: false}">
+                </dxi-column>
+
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true">
+                </dxo-pager>
+                
+                <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                  <div class="dx-btn-group">
+                    <a (click)="delete(d.value)" class="fa fa-trash fa-1x">
+                    </a>
+                  </div>
+                </div>
+                <div *dxTemplate="let d of 'diffStatusBookTemplate'">
+                  <span class="badge" [ngClass]="setClassBookStatus(d.value)" style="font-size: 13px;margin-top: 2px;">
+                    {{d.value}}</span>
+                </div>
+
+                <div *dxTemplate="let d of 'diffCellTemplate'">
+                  <a class="pointer" (click)="goDetail(d.value)"  routerLinkActive="router-link-active" >
+                    <span> {{d.value}}</span>
+                  </a>
+                </div>
+                <div *dxTemplate="let d of 'statusInvoiceTemplate'">
+                  <span class="badge badge-danger" style="font-size: 100%" *ngIf="d.value=='1'">Paid</span>
+                  <span class="badge badge-info"  style="font-size: 100%" *ngIf="d.value=='0' || !d.value">Pending</span>
+                </div>
+                <div *dxTemplate="let d of 'viewBooking'">
+                  <a class="pointer" (click)="viewDetail(d.data.bookNo)">
+                    <span> {{d.value}}</span>
+                  </a>
+                </div>
+                <dxo-summary>
+                  <dxi-total-item showInColumn="invNo" displayFormat="Total: {0} items" column="invNo"
+                    summaryType="count">
+                  </dxi-total-item>
+                </dxo-summary>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

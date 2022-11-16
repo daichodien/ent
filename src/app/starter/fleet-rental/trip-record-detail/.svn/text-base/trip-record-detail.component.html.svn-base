@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{languages.addtriprecord||'Add Trip Record'}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form name="form" (ngSubmit)="f.form.valid && Save()" #f="ngForm" novalidate>
+    <div class="modal-body">
+
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">{{languages.starttime || 'Start Time'}}</label>
+                            <div class="col-md-5">
+                                <dx-date-box width="100%" [showClearButton]="false" placeholder="DD/MM HH:mm"
+                                    displayFormat="dd/MM HH:mm" type="datetime"
+                                    [(value)]="saveBookTripRecordModel.startTime">
+                                </dx-date-box>
+
+                                <span *ngIf="f.submitted && saveBookTripRecordModel.startTime == null"
+                                    class="help-block-custom">
+                                    <i class="fa fa-exclamation-circle" tooltip="Start Time is required"
+                                        aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control"
+                                    [(ngModel)]="saveBookTripRecordModel.startMile" name="startMile"
+                                    #startMile="ngModel" required />
+                                <span *ngIf="f.submitted &&  !startMile.valid " class="help-block-custom">
+                                    <i class="fa fa-exclamation-circle" tooltip="End Mile is required"
+                                        aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary btn-sm pull-right" (click)="getMile()">{{languages.copylast || 'Copy Last'}}</button>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">{{languages.endtime||'End Time'}}</label>
+                            <div class="col-md-5">
+                                <dx-date-box width="100%" [min]="saveBookTripRecordModel.startTime"
+                                    [showClearButton]="false" placeholder="DD/MM HH:mm" displayFormat="dd/MM HH:mm"
+                                    type="datetime" [(value)]="saveBookTripRecordModel.endTime">
+                                </dx-date-box>
+                                <span *ngIf="f.submitted && saveBookTripRecordModel.endTime == null"
+                                    class="help-block-custom">
+                                    <i class="fa fa-exclamation-circle" tooltip="End Time is required"
+                                        aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" [(ngModel)]="saveBookTripRecordModel.endMile"
+                                    name="endMile" #endMile="ngModel" required />
+                                <span *ngIf="f.submitted &&  !endMile.valid " class="help-block-custom">
+                                    <i class="fa fa-exclamation-circle" tooltip="End Mile is required"
+                                        aria-hidden="true"></i>
+                                </span>
+                                <span *ngIf="saveBookTripRecordModel.startMile > saveBookTripRecordModel.endMile"
+                                    class="help-block-custom">
+                                    <i class="fa fa-exclamation-circle"
+                                        tooltip="End Mile must be bigger than Start Mile" aria-hidden="true"></i>
+                                </span>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">Route</label>
+                            <div class="col-md-8">
+                                <input class="form-control" [(ngModel)]="saveBookTripRecordModel.routeMemo"
+                                    name="routeMemo" #routeMemo="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">{{languages.tollparking||'Toll/ Parking'}}</label>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" [(ngModel)]="saveBookTripRecordModel.tollFee"
+                                    name="tollFee" #tollFee="ngModel" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <input type="number" class="form-control"
+                                    [(ngModel)]="saveBookTripRecordModel.parkingFee" name="parkingFee"
+                                    #parkingFee="ngModel" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">{{languages.tripmemo||'Trip Memo'}}</label>
+                            <div class="col-md-8">
+                                <textarea style="height:80px;width:100%" [(ngModel)]="saveBookTripRecordModel.tripMemo"
+                                    name="tripMemo" #tripMemo="ngModel">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="col-md-11 group-btn-right">
+            <button type="button" class="btn btn-default btn-sm pull-right"
+                (click)="bsModalRef.hide()">{{languages.close || 'Close'}}</button>
+            <button type="submit" class="btn btn-primary btn-sm pull-right"
+                [disabled]="IsSubmit">{{languages.submit || 'Submit'}}</button>
+        </div>
+    </div>
+</form>

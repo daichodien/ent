@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/MPLProjects/!svn/ver/16571/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/booking
+END
+saveBookInvoice.ts
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/MPLProjects/!svn/ver/11768/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/booking/saveBookInvoice.ts
+END
+bookSvcChargeDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/MPLProjects/!svn/ver/16571/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/booking/bookSvcChargeDto.ts
+END
+bookAcceptRequestDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/MPLProjects/!svn/ver/9114/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/booking/bookAcceptRequestDto.ts
+END
+bookingSearchDto.ts
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/MPLProjects/!svn/ver/16520/13.Enterprise_Project/Sources/Clients/Admin/src/app/core/models/booking/bookingSearchDto.ts
+END

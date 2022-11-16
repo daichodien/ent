@@ -1,0 +1,73 @@
+8
+
+dir
+16684
+https://115.75.188.198:8443/svn/MPLProjects/13.Enterprise_Project/Sources/Clients/Admin/src/app/starter/fleet-rental/booking-detail
+https://115.75.188.198:8443/svn/MPLProjects
+
+
+
+2022-11-15T07:11:22.200845Z
+16684
+thien.hoang
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+960746d7-80ac-ab40-9532-614e99d24802
+
+assign-fleet
+dir
+
+booking-detail.component.css
+file
+
+
+
+
+2022-10-31T08:03:42.088000Z
+81831ee04b0cb55be358fab0ec332720
+2022-08-15T10:18:19.809463Z
+15814
+thien.hoang
+has-props
+
+booking-detail.component.html
+file
+
+
+
+
+2022-11-03T09:55:47.223000Z
+b0bc9f572c34ea1c817678453b5ece45
+2022-11-03T09:55:22.330026Z
+16590
+thien.tran
+has-props
+
+booking-detail.component.ts
+file
+
+
+
+
+2022-11-15T07:12:33.847000Z
+c133b79eb4629e428525964fef43147d
+2022-11-15T07:11:22.200845Z
+16684
+thien.hoang
+has-props
+
+service-charges-add
+dir
+

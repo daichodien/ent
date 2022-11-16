@@ -1,0 +1,99 @@
+8
+
+dir
+16684
+https://115.75.188.198:8443/svn/MPLProjects/13.Enterprise_Project/Sources/Clients/Admin/src/assets/skins/lightgray
+https://115.75.188.198:8443/svn/MPLProjects
+
+
+
+2019-11-15T03:57:51.989603Z
+11061
+binh.thach
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+960746d7-80ac-ab40-9532-614e99d24802
+
+content.inline.min.css
+file
+
+
+
+
+2022-10-31T08:03:45.493000Z
+0de56511864c9de2a5cdb878010fc550
+2019-11-15T03:57:51.989603Z
+11061
+binh.thach
+has-props
+
+content.min.css
+file
+
+
+
+
+2022-10-31T08:03:45.493000Z
+0be8f6d47b7eb85f49cbb5b54feb4b40
+2019-11-15T03:57:51.989603Z
+11061
+binh.thach
+has-props
+
+content.mobile.min.css
+file
+
+
+
+
+2022-10-31T08:03:45.493000Z
+0684a64086ad1114949a1e51f06aa750
+2019-11-15T03:57:51.989603Z
+11061
+binh.thach
+has-props
+
+fonts
+dir
+
+img
+dir
+
+skin.min.css
+file
+
+
+
+
+2022-10-31T08:03:45.493000Z
+535a474e0799c2da9168379230ea07fd
+2019-11-15T03:57:51.989603Z
+11061
+binh.thach
+has-props
+
+skin.mobile.min.css
+file
+
+
+
+
+2022-10-31T08:03:45.493000Z
+ba1e17fc9a70ddfd8e5c013268a446cd
+2019-11-15T03:57:51.989603Z
+11061
+binh.thach
+has-props
+

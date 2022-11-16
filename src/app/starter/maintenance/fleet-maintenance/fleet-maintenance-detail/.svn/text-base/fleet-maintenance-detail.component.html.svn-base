@@ -1,0 +1,256 @@
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <div class="content">
+    <form name="formaddnew" class="form-horizontal" (submit)="save()">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+              <div class="card-body">
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.fleetdesc || "Fleet Desc"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [dataSource]="equipmentGroups" displayExpr="fleet_Desc" valueExpr="fltId"
+                      [(value)]="fleetMaintenanceDto.fleetId" [searchEnabled]="true">
+                      <dx-validator>
+                        <dxi-validation-rule type="required" message="Fleet Desc field is required">
+                        </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-select-box>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.servicedate || "Service Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" 
+                      placeholder="DD/MM/YYYY" type="date" [(value)]="fleetMaintenanceDto.tDate">
+                      <dx-validator>
+                          <dxi-validation-rule type="required" message="Service Date field is required">
+                          </dxi-validation-rule>
+                      </dx-validator>
+                    </dx-date-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.servicetype || "Service Type"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="fleetMaintenanceDto.svcType" name="svcType"
+                      (search)='true'>
+                      <option *ngFor="let servicetype of serviceTypes" value="{{servicetype.code}}">
+                        {{servicetype.codeDesc}}</option>
+                    </select>
+                  </div>
+                  <!-- <label class="col-md-2 control-label">{{languages.relatedparty || "Related Party"}}</label> -->
+                  <!-- <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="fleetMaintenanceDto.relatedParty"
+                      #relatedParty="ngModel" name="relatedParty">
+                  </div> -->
+
+                  <label class="col-md-2 control-label">{{languages.supplier || "Supplier"}}</label>
+                  <div class="col-md-4">
+                    <dx-select-box [dataSource]="listSupplier" displayExpr="supplierName" valueExpr="suppId"
+                      [(value)]="fleetMaintenanceDto.relatedParty" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.amount || "Amount"}}</label>
+                  <div class="col-md-4">
+                    <dx-number-box class="numberAlign" format="#,##0.00" [(value)]="fleetMaintenanceDto.amount">
+                    </dx-number-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.refno || "Ref No"}}</label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" [(ngModel)]="fleetMaintenanceDto.refNo" name="refNo">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.discount || "Discount"}}</label>
+                  <div class="col-md-4">
+                    <dx-number-box class="numberAlign" format="#,##0.00" [(value)]="fleetMaintenanceDto.discount">
+                    </dx-number-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.servicelevel || "Service Level"}}</label>
+                  <div class="col-md-4">
+                    <select class="form-control" [(ngModel)]="fleetMaintenanceDto.serviceLevel" name="servicelevel"
+                      (search)='true'>
+                      <option *ngFor="let servicetype of serviceLevels" value="{{servicetype.code}}">
+                        {{servicetype.codeDesc}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.readmiles || "Read Miles"}}</label>
+                  <div class="col-md-4">
+                    <dx-number-box class="numberAlign" format="#,##0" [(value)]="fleetMaintenanceDto.readMiles">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Read Miles field is required">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-number-box>
+                  </div>
+
+                  <label class="col-md-2 control-label">{{languages.nextservicedate || "Next Service Date"}}</label>
+                  <div class="col-md-4">
+                    <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                      placeholder="DD/MM/YYYY" [(value)]="fleetMaintenanceDto.nextSvcDate" name="nextSvcDate">
+                      <dx-validator>  
+                          <dxi-validation-rule 
+                              type="range"
+                              [min]="fleetMaintenanceDto.tDate"
+                              message="Next Service Date must be greater than Service Date">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-date-box>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-2 control-label">{{languages.remark || "Remark"}}</label>
+                  <div class="col-md-4" style="padding-left: 13.5px !important; padding-right: 13px !important;">
+                    <textarea style="width: 100%;" cols="30" rows="3" [(ngModel)]="fleetMaintenanceDto.remark"
+                      name="remark" #remark="ngModel"></textarea>
+                  </div>
+                  <label class="col-md-2 control-label">{{languages.nextservicemiles || "Next Service Miles"}}</label>
+                  <div class="col-md-4">
+                    <dx-number-box class="numberAlign" format="#,##0" [(value)]="fleetMaintenanceDto.nextSvcMiles">
+                        <dx-validator>  
+                          <dxi-validation-rule 
+                              type="range"
+                              [min]="fleetMaintenanceDto.readMiles + 1"
+                              message="Next Service Miles must be greater than Read Miles">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-number-box>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.serviceitems || "Service Items"}}</h5>
+              </div>
+              <div class="card-body">
+
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <dx-data-grid #gridContainer id="gridContainer" [dataSource]="serviceItems" 
+                      (onInitNewRow)='onInitNewRow($event)'
+                      (onEditorPreparing)='onEditorPreparing($event)' (onRowUpdated)="onRowChanging($event, 'update')"
+                      (onRowInserted)="onRowChanging($event, 'insert')" (onRowInserting)="onRowChanging($event, 'insert')"(onRowRemoved)="onRowDelete($event)"  >
+
+                      <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+                      </dxo-editing>
+
+                      <dxi-column dataField="maintenanceCode" dataType="string" caption="{{languages.servicetype || 'Service Type'}}">
+                        <dxi-validation-rule type="required"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="serviceItemTypes" displayExpr="codeDesc" valueExpr="code">
+                        </dxo-lookup>
+                      </dxi-column>
+
+                      <dxi-column dataField="qty" width="40" dataType="number" caption="{{languages.qty || 'QTy'}}" format="#,##0">
+                      </dxi-column>
+                      <dxi-column dataField="unitPrice" dataType="number"
+                        caption="{{languages.unitprice || 'Unit Price'}}" format="#,##0.00">
+                      </dxi-column>
+                      <dxi-column dataField="amount" width="200" dataType="number" format="#,##0.00"
+                        caption="{{languages.amount || 'Amount'}}">
+                      </dxi-column>
+                      <dxi-column dataField="remark" dataType="string" caption="{{languages.remark || 'Remark'}}">
+                      </dxi-column>
+                    </dx-data-grid>
+                    <div style="margin-left: 54.333333%;width: 144px;">
+                      <span class="resultMount" >Sum       : </span>
+                      <span class="resultMount" style="float: right;" >{{total | number:'3.2-5' || '0.00'}}</span>
+                      <br>
+                      <span class="resultMount" >VAT(10%) : </span>
+                      <span class="resultMount" style="float: right;">{{taxamount | number:'3.2-5' || '0.00'}}</span>
+                      <br>
+                      <span class="resultMount" >Total : </span>
+                      <span class="resultMount" style="float: right;">{{totalAmountAfterTax | number:'3.2-5' || '0.00'}}</span>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-md-4">
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload>
+
+                </app-fileupload>
+              </div>
+            </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+
+                <div *ngIf="fleetMaintenanceDto.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{fleetMaintenanceDto.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{fleetMaintenanceDto.createName}}</label>
+                  </div>
+
+                </div>
+                <div *ngIf="fleetMaintenanceDto.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{fleetMaintenanceDto.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{fleetMaintenanceDto.upDateName}}</label>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="group-btn-right">
+              <dx-button style="padding: 0.2px 0.5rem;font-size: 16px !important; line-height: 1.5;" text="Save" 
+                class="btn btn-primary btn-md" type="success" [useSubmitBehavior]="true">
+                </dx-button>
+              <button type="button" class="btn btn-default btn-md" (click)="back()">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+    </form>
+  </div>
+
+  <!-- /.content -->
+</div>

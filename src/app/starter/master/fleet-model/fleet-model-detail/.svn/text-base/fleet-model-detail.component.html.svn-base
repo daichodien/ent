@@ -1,0 +1,429 @@
+<div class="content-wrapper" style="min-height: 689px;">
+  <div class="content">
+    <div class="container-fluid">
+      <form (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <!-- Column 1 -->
+                  <div class="col-md-6">
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.maker || "Maker"}}<span
+                          class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <select class="form-control" (change)="changeMaker()" tabIndex="1"
+                          [(ngModel)]="fleetModel.maker" name="maker" #maker="ngModel" required>
+                          <option *ngFor="let item of listMaker" [ngValue]="item.code">
+                            {{item.codeDesc}}</option>
+                        </select>
+                        <span *ngIf="f.submitted && maker.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Maker is required." placement="right"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleettype || "Fleet Type"}}<span
+                          class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <select class="form-control" tabIndex="3" [(ngModel)]="fleetModel.fleetType" name="fleetType"
+                          #fleetType="ngModel" required>
+                          <option *ngFor="let item of listFleetType" [ngValue]="item.code">
+                            {{item.codeDesc}}</option>
+                        </select>
+                        <span *ngIf="f.submitted && fleetType.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Fleet Type is required." placement="right"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.enginecapacity || "Engine Capacity"}}<span
+                          _ngcontent-c35="" class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" class="form-control"
+                          tabIndex="5" id="" [(ngModel)]="fleetModel.engineCapacityCC" name="engineCapacityCC"
+                          #engineCapacityCC="ngModel" required>
+                        <span *ngIf="f.submitted &&engineCapacityCC.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Engine Capacity is required."
+                            placement="right"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fueltype || "Fuel Type"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listFuelType" tabIndex="7" displayExpr="codeDesc" valueExpr="code"
+                          [(value)]="fleetModel.fuelType" [searchEnabled]="true">
+                        </dx-select-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.cargosmall_big || "Cargo Small / Big"}}</label>
+                      <div class="col-md-4 col-sm-4">
+                        <input type="number" tabIndex="9" class="form-control" id="" [(ngModel)]="fleetModel.smallCargo"
+                          name="cargosmall">
+                      </div>
+                      <div class="col-md-4 col-sm-4">
+                        <input type="number" tabIndex="10" class="form-control" id="" [(ngModel)]="fleetModel.bigCargo"
+                          name="big">
+                      </div>
+                    </div>
+                  </div>
+                  <!--                Column2              -->
+                  <div class="col-md-6">
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.brand || "Brand"}} <span
+                          class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+
+                        <select class="form-control" tabIndex="2" [(ngModel)]="fleetModel.brand" name="brand"
+                          #brand="ngModel" required>
+                          <option *ngFor="let item of listBrand" [ngValue]="item.code">
+                            {{item.codeDesc}}</option>
+                        </select>
+                        <span *ngIf="f.submitted && brand.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Brand is required." placement="right"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.transmissiontype || "Transmission Type"}}<span
+                          class="required"></span></label>
+                      <div class="col-md-8 col-sm-8">
+                        <select class="form-control" tabIndex="4" [(ngModel)]="fleetModel.transmissionType"
+                          name="transmissionType" #transmissionType="ngModel" required>
+                          <option *ngFor="let item of listTransmissionType" [ngValue]="item.code">
+                            {{item.codeDesc}}</option>
+                        </select>
+                        <span *ngIf="f.submitted && fleetType.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Transmission Type is required."
+                            placement="right"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        class="col-4 col-xs-3 control-label">{{languages.fleetmodeldesc || "Fleet Model Desc"}}<span
+                          _ngcontent-c35="" class="required"></span></label>
+                      <div class="col-md-8 col-sm-8 col-xs-9">
+                        <input type="text" style="width: 84%;float: left;" id="fleetModelDesc" tabIndex="6"
+                          class="form-control" [(ngModel)]="fleetModel.fleetModelDesc" name="fleetModelDesc"
+                          #fleetModelDesc="ngModel" required>
+                        <div class="input-group-append" style="HEIGHT: 28px; ">
+                          <span (click)="makeDesc()" class="input-group-text"
+                            style="background-color:  #00A564;color: white;cursor: pointer; border: 0px solid #ced4da;    border-radius: 0;"><i
+                              class="fa fa-edit" style="font-size: 19px;"></i></span>
+                        </div>
+                        <span *ngIf="f.submitted &&  fleetModelDesc.invalid" class="help-block-custom">
+                          <i class="fa fa-exclamation-circle" tooltip="Fleet Desc is required." placement="right"></i>
+                        </span>
+                      </div>
+
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.passengercapacity || "Passenger Capacity"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" class="form-control" onKeyPress="if(this.value.length==4) return false;"
+                          tabIndex="8" id="" [(ngModel)]="fleetModel.passengerCapacity" name="passengerCapacity">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.door || "Door"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" class="form-control"
+                          tabIndex="11" id="" [(ngModel)]="fleetModel.doorQty" name="door">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="col-md-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.featureimage || "Feature Image"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload #uploadimage projectId="100" sectionId="107" maxFiles="1" maxSize="5"
+                  fileExt="PNG,JPG,JPEG" isVatar=false>
+                </app-fileupload>
+              </div>
+              <!-- 
+              <img  *ngIf="fleetModel.featureImage != null || fleetModel.featureImage != '' "
+              height="225" width="300"
+              
+               src="https://dev.igls.vn:9102/uploads/2019/8/7/_637007942901408916fleetmodel.jpg" 
+               alt="https://dev.igls.vn:9102/uploads/2019/8/7/_637007942901408916fleetmodel.jpg" class="img-thumbnail"> -->
+
+
+
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.technicalspec || "Technical Spec"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.cargocapacity || "Cargo Capacity"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="12"
+                          class="form-control" id="" [(ngModel)]="fleetModel.bootCargoCapacityL" name="cargoCapacity">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.topspeed || "Top Speed"}}</label>
+                      <div class="col-md-8 col-sm-8">
+
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="14"
+                          class="form-control" id="" [(ngModel)]="fleetModel.topSpeed" name="topSpeed">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fueltankcapacity || "Fuel Tank Capacity"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="16"
+                          class="form-control" id="" [(ngModel)]="fleetModel.fuelTankCapacityL" name="fuelTankCapacity">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label
+                        class="col-4 control-label">{{languages.wheelbasedimension || "Wheelbase Dimension"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="18"
+                          class="form-control" id="" [(ngModel)]="fleetModel.wheelBaseMM" name="wheelbaseDimension">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fuelconsumption || "Fuel Consumption"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" class="form-control"
+                          tabIndex="20" id="" [(ngModel)]="fleetModel.fuelConumption" name="fuelConsumption">
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.drivingwheeltype || "Driving Wheel Type"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listDrivingWheelType" tabIndex="13" displayExpr="codeDesc"
+                          valueExpr="code" [(value)]="fleetModel.driverType" [searchEnabled]="true">
+                        </dx-select-box>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.driverclass || "Driver Class"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-select-box [dataSource]="listDriverClass" tabIndex="15" displayExpr="codeDesc"
+                          valueExpr="code" [(value)]="fleetModel.driverClass" [searchEnabled]="true">
+                        </dx-select-box>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleetdimension || "Fleet Dimension"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" tabIndex="17" id=""
+                          [(ngModel)]="fleetModel.fleetDimension" name="fleetDimension">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.power || "Power"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="19"
+                          class="form-control" id="" [(ngModel)]="fleetModel.powerOutput" name="power">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fccity_highway	 || "F.C City / Highway"}}</label>
+                      <div class="col-md-4 col-sm-4">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="21"
+                          class="form-control" id="" [(ngModel)]="fleetModel.fuelConumptionCity" name="fcCity">
+                      </div>
+                      <div class="col-4">
+                        <input type="number" onKeyPress="if(this.value.length==4) return false;" tabIndex="22"
+                          class="form-control" id="" [(ngModel)]="fleetModel.fuelConumptionHighway" name="highWay">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload #uploadfile>
+
+                </app-fileupload>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.webinformation || "Web Information"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleettitle || "Fleet Title"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" tabIndex="23" class="form-control" id="" [(ngModel)]="fleetModel.fleetModelTitle"
+                          name="fleetModelTitle">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.showwebportal || "Show Web Portal"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <dx-check-box tabIndex="22" [(value)]="fleetModel.showWebPortal"></dx-check-box>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.priceperday || "Price Per Day"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input tabIndex="24" class="form-control" id="" [(ngModel)]="fleetModel.pricePerDay"
+                          name="pricePerDay" myCurrencyFormatter>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.fleeturl || "Fleet Url"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input type="text" tabIndex="23" class="form-control" id="" [(ngModel)]="fleetModel.fleetUrl"
+                          name="fleetUrl">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.pricepermonth || "Price Per Month"}}</label>
+                      <div class="col-md-8 col-sm-8">
+                        <input tabIndex="25" class="form-control" id="" [(ngModel)]="fleetModel.pricePerMonth"
+                          name="pricePerMonth" myCurrencyFormatter>
+                      </div>
+                    </div>
+
+
+                  </div>
+
+
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.fleetnotes || "Fleet Notes"}}</label>
+                  <div class="col-md-10 col-sm-10" style="padding-left: 15px; padding-right:20px;">
+                    <textarea style="height:80px;width:100%;" name="fleetNotes" #fleetNotes="ngModel"
+                      [(ngModel)]="fleetModel.fleetNotes">
+                    </textarea>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+
+
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.history || "History"}}</h5>
+              </div>
+              <div class="card-body">
+                <!-- <div class="col-sm-12">
+                    <label>Created
+                      {{commonService.convertMilisecondToUTCDateTime(fleetModel.createDate)}}&nbsp;</label>{{languages.by || "by"}}
+                    &nbsp;
+                    <span> {{fleetModel.createName}}</span>
+                  </div>
+                  <div *ngIf="fleetModel.updateUser">
+                    <div class="col-sm-12">
+                      <label>Updated
+                        {{commonService.convertMilisecondToUTCDateTime(fleetModel.updateDate)}}&nbsp;</label>{{languages.by || "by"}}
+                      &nbsp;
+                      <span> {{fleetModel.upDateName}}</span>
+                    </div>
+                  </div> -->
+
+                <div *ngIf="fleetModel.createUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.created || "Created "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{fleetModel.createDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by "}}</label>
+                    <label class="col-md-4">{{fleetModel.createName}}</label>
+                  </div>
+                </div>
+                <div *ngIf="fleetModel.updateUser">
+                  <div class="form-group row">
+                    <label class="col-md-3">{{languages.updated || "Updated "}}</label>
+                    <label class="col-4" appDateTimeFormat
+                      [formatDateString]="'DD/MM/YYYY hh:mm A'">{{fleetModel.updateDate}}</label>
+                    <label class="col-md-1">{{languages.by || "by"}}</label>
+                    <label class="col-md-4">{{fleetModel.upDateName}}</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12" style="padding-bottom:10px ">
+            <button type="button" class="btn btn-default btn-sm pull-right"
+              (click)="back()">{{languages.back || "Back"}}</button>
+            <dx-button id="button" class="pull-right btn btn-primary btn-md" [disabled]="IsSubmit" type="success"
+              style="margin-right:10px;" text="{{languages.save || 'Save'}}" [useSubmitBehavior]="true"></dx-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

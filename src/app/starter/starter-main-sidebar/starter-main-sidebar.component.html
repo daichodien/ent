@@ -1,0 +1,54 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4 custom-main-sidebar">
+  <!-- Brand Logo -->
+  <a class="brand-link" style="cursor: pointer;" [routerLink]="['/admin/dashboard']">
+    <img src="assets/img/enterpriseLogo.png" alt="Enterprise Vietnam" class="brand-image elevation-3">
+    <span class="brand-text font-weight-light"></span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a class="d-block">Minh Tuấn</a>
+      </div>
+    </div> -->
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li *ngFor="let item of pageMenus" [className]="item.menuChils.length>0 ? 'nav-item has-treeview' : 'nav-item'">
+          <a (click)="show()" href="#" *ngIf="item.menuChils.length==0 && item.component!=''" class="nav-link"
+            routerLink="{{item.component}}">
+            <i class="nav-icon {{item.icon}}"></i>
+            <p>
+               {{languages[item.menuName|lowercase]||item.menuName}} 
+              <i *ngIf="item.menuChils.length>0" class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+
+          <a href="#" data-target="#{{item.menuId}}" *ngIf="item.menuChils.length>0" class="nav-link">
+            <i class="nav-icon {{item.icon}}"></i>
+            <p>
+              {{languages[item.menuName|lowercase]||item.menuName}} 
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul id="{{item.menuId}}" class="nav nav-treeview">
+            <li *ngFor="let childitem of item.menuChils" class="nav-item">
+              <a (click)="show()" class="nav-link" routerLink="{{childitem.component}}" routerLinkActive="active-link">
+                <i class="{{childitem.icon||'fa fa-circle-o'}} nav-icon"></i>
+                <p>{{languages[childitem.menuName|lowercase]||childitem.menuName}}</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

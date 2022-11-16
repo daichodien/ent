@@ -1,0 +1,105 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="m-0 text-dark text-capitalize">{{type}}</h3>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="card-title">{{languages.general || "General"}}</h5>
+                </div>
+                <div class="card-body">
+                  <form name="searchForm" class="form-horizontal" (ngSubmit)="search()" #f="ngForm" novalidate>
+                  
+                    <div class="form-group row">
+                      <label class="col-md-2 control-label">{{languages.title || "Title"}}</label>
+                      <div class="col-md-4">
+                        <input class="form-control" name="title" [(ngModel)]="searchModel.title" #title="ngModel">
+                      </div>
+
+                      <label class="col-md-2 control-label">{{languages.language || "Language"}}</label>
+                      <div class="col-md-4">
+                        <dx-select-box [dataSource]="languageList" displayExpr="codeDesc" valueExpr="code"
+                          [(value)]="searchModel.language" [searchEnabled]="true">
+                        </dx-select-box>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+                <div class="card-footer group-btn-right">
+                  <button [routerLink]="['0']" class="btn btn-info btn-sm pull-right">{{languages.new || "New"}}</button>
+                  <button class="btn btn-primary btn-sm pull-right"
+                    (click)="search()">{{languages.search || "Search"}}</button>
+    
+                </div>
+              </div>
+
+              
+          <div class="card card-default">
+            <div class="card-body">
+              <dx-data-grid #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="id" 
+                            [focusedRowIndex]="focusIndex" 
+                            (onRowRemoving)="deleteArticle($event)"  
+                            [focusedRowEnabled]="true">
+
+                <dxo-export [enabled]="true" fileName="Bookings" ></dxo-export>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+              
+                <dxo-editing mode="row" [allowDeleting]="true">
+                </dxo-editing>
+
+                <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+                <dxi-column dataField="title" dataType="string" cellTemplate="diffCellTemplate"
+                  caption="{{languages.title || 'Title'}}">
+                </dxi-column>
+                <dxi-column dataField="language" dataType="string" 
+                  caption="{{languages.language || 'Language'}}">
+                </dxi-column>
+                <dxi-column dataField="description" dataType="string"
+                  caption="{{languages.description || 'Description'}}">
+                </dxi-column>
+                <dxi-column dataField="category" dataType="string"
+                  caption="{{languages.category || 'Category'}}" >
+                </dxi-column>
+                <dxi-column dataField="type" dataType="string"
+                  caption="{{languages.type || 'Type'}}">
+                </dxi-column>
+                <dxi-column dataField="featureImage" dataType="string" 
+                  caption="{{languages.featureImage || 'Feature Image'}}">
+                </dxi-column>
+                
+                <dxi-column dataField="createName" dataType="string" caption="{{languages.createuser||'Create User'}}">
+                </dxi-column>
+              
+                <div *dxTemplate="let d of 'diffCellTemplate'">
+                  <a class="pointer" (click)="goDetail(d.data.id)">
+                    <span> {{d.value}}</span>
+                  </a>
+                </div>
+
+              </dx-data-grid>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>

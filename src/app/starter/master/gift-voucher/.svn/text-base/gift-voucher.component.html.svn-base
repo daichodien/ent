@@ -1,0 +1,110 @@
+<div class="content-wrapper" style="min-height: 689px;">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-md-2 control-label">{{languages.vouchertype || "Voucher Type"}}</label>
+                <div class="col-md-4">
+                  <input class="form-control" [(ngModel)]="searchModel.voucherType">
+                </div>
+                <label class="col-md-2 control-label">{{languages.issuedate || "Issue Date"}}</label>
+                <div class="col-md-2">
+                  <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                    [(value)]="searchModel.issueDateF">
+                  </dx-date-box>
+                </div>
+                <div class="col-md-2">
+                  <dx-date-box width="100%" [showClearButton]="false" displayFormat="dd/MM/yyyy" type="date"
+                    [(value)]="searchModel.issueDateT">
+                  </dx-date-box>
+                </div>
+                <label class="col-md-2 control-label">{{languages.serialno || "Serial No"}}</label>
+                <div class="col-md-4">
+                  <input class="form-control" [(ngModel)]="searchModel.serialNo">
+                </div>
+                <label class="col-md-2 control-label">{{languages.releaseto || "Release To"}}</label>
+                <div class="col-md-4">
+                  <input class="form-control" [(ngModel)]="searchModel.releaseTo">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer group-btn-right">
+            <button class="btn btn-info btn-sm pull-right" (click)="OpenModal()">{{languages.new || "New"}}</button>
+            <button type="button" class="btn btn-primary btn-sm pull-right" (click)="GetGiftVouchers()">{{languages.search || "Search"}}</button></div>
+        </div>
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">{{languages.general || "General"}}</h5>
+            </div>
+            <div class="card-body">
+              <dx-data-grid #gridContainer [allowColumnReordering]="true" id="gridContainer" [dataSource]="dataSource"
+              keyExpr="gvId">
+              <dxo-export [enabled]="true" [fileName]="fileName"></dxo-export>
+              <dxi-column dataField="serialNo" dataType="string" caption="{{languages.serialname || 'Serial No'}}"
+                cellTemplate="diffRouteTemplate">
+              </dxi-column>
+              <dxi-column dataField="issueDate" dataType="date"
+                caption="{{languages.issuedate || 'Issue Date'}}">
+              </dxi-column>
+              <dxi-column dataField="releaseTo" dataType="string"
+                caption="{{languages.releaseTo || 'Release To'}}">
+              </dxi-column>
+              <dxi-column dataField="voucherType" dataType="string" caption="{{languages.voucherType||'Voucher Type'}}">
+              </dxi-column>
+
+              <dxi-column dataField="createDate" dataType="datetime"
+              caption="{{languages.createdate||'Create Date'}}">
+            </dxi-column>
+            <dxi-column dataField="createUser" dataType="string"
+              caption="{{languages.createuser||'Create User'}}">
+            </dxi-column>
+
+              <dxi-column dataField="releasememo" dataType="string"
+                caption="{{languages.releasememo||'Release memo'}}">
+              </dxi-column>
+              <dxi-column dataField="redeeminvoice" dataType="string"
+                caption="{{languages.redeeminvoice||'Redeem Invoice'}}">
+              </dxi-column>
+              <dxi-column dataField="redeem" dataType="date"
+              caption="{{languages.redeemdate||'Redeem Date'}}">
+            </dxi-column>
+             
+              <dxi-column caption="" dataField="assetCode" cellTemplate="diffDeleteTemplate"></dxi-column>
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[10, 20, 50, 100]" [showInfo]="true">
+              </dxo-pager>
+
+              <dxo-editing mode="popup"></dxo-editing>
+              <div *dxTemplate="let d of 'diffDeleteTemplate'">
+                <div class="dx-btn-group">
+                  <a (click)="delete(d.data.gvId)" class="fa fa-trash fa-1x">
+                  </a>
+                </div>
+              </div>
+              <div *dxTemplate="let d of 'diffRouteTemplate'">
+                <a class="pointer" (click)="viewdetail(d.data)">
+                  {{d.value}}
+                </a>
+              </div>
+            </dx-data-grid>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

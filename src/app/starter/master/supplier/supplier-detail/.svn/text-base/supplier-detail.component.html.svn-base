@@ -1,0 +1,141 @@
+<div class="content-wrapper">
+  <!-- Main body-->
+  <div class="content">
+    <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.general || "General"}}</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.Suppliername || "Supplier Name"}} <span
+                      _ngcontent-c35="" class="required"></span></label>
+                  <div class="col-4 ">
+                    <input class="form-control" required maxlength="50" [(ngModel)]="supplierModel.supplierName"
+                      name="supplierName" #supplierName="ngModel">
+                    <span *ngIf="f.submitted && !supplierName.valid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Supplier Name is required" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.title || "Title"}}</label>
+                  <div class="col-4">
+                    <dx-select-box [(value)]="supplierModel.cTitle" [items]="titles">
+                    </dx-select-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.firstname || "First Name"}}</label>
+                  <div class="col-4 ">
+                    <input class="form-control"  maxlength="50" [(ngModel)]="supplierModel.firstName"
+                      name="firstName" #firstName="ngModel">
+                  </div>
+                  <label class="col-2 control-label">{{languages.lastname || "Last Name"}}</label>
+                  <div class="col-4">
+                    <input class="form-control"  maxlength="50" [(ngModel)]="supplierModel.lastName"
+                      name="lastName" #lastName="ngModel">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.mobileno || "Mobile No"}}</label>
+                  <div class="col-4 ">
+                    <input class="form-control" maxlength="40" pattern="[0-9]+" [(ngModel)]="supplierModel.mobileNo"
+                      name="mobileNo" #mobileNo="ngModel">
+                    <span *ngIf="f.submitted && mobileNo.invalid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Invalid phone number" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <label class="col-2 control-label">{{languages.emailaddress || "Email Address"}}</label>
+                  <div class="col-4">
+                    <input class="form-control"  maxlength="50"
+                      [(ngModel)]="supplierModel.emailAddress" name="emailAddress" #emailAddress="ngModel">
+                    <span *ngIf="f.submitted && emailAddress.invalid" class="help-block-custom">
+                      <i class="fa fa-exclamation-circle" tooltip="Invalid email address" aria-hidden="true"></i>
+                    </span>
+
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.address1 || "Address 1"}}</label>
+                  <div class="col-4 ">
+                    <input class="form-control"  maxlength="100" [(ngModel)]="supplierModel.address1"
+                      name="address1" #address1="ngModel">
+                  </div>
+                  <label class="col-2 control-label">{{languages.address2 || "Address 2"}}</label>
+                  <div class="col-4">
+                    <input class="form-control" [(ngModel)]="supplierModel.address2" name="address2">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.address3 || "Address 3"}}</label>
+                  <div class="col-4 ">
+                    <input class="form-control" [(ngModel)]="supplierModel.address3" name="address3">
+                  </div>
+                  <label class="col-2 control-label">{{languages.country || "Country"}}</label>
+                  <div class="col-4">
+                    <dx-select-box [dataSource]="countries" displayExpr="countryName" valueExpr="countryId"
+                      [(value)]="supplierModel.countryId" [searchEnabled]="true">
+                    </dx-select-box>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-2 control-label">{{languages.remark || "Remark"}}</label>
+                  <div class="col-4 ">
+                    <dx-text-area [height]="90" [(ngModel)]="supplierModel.remark" name="remark"
+                      [(value)]="supplierModel.remark">
+                    </dx-text-area>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.taxregnumber || "Tax Reg Number"}}</label>
+                      <div class="col-8">
+                        <input class="form-control" [(ngModel)]="supplierModel.taxRegNumber" name="taxRegNumber">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-4 control-label">{{languages.suppliertype || "Supplier Type"}}</label>
+                      <div class="col-8">
+                        <dx-select-box [dataSource]="listSupplierType" displayExpr="codeDesc" valueExpr="code"
+                          [(value)]="supplierModel.supplierType">
+                        </dx-select-box>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-4">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title">{{languages.documentsupport || "Document Support"}}</h5>
+              </div>
+              <div class="card-body">
+                <app-fileupload>
+
+                </app-fileupload>
+              </div>
+            </div>
+          </div>
+        </div>
+     
+
+        <div class="row">
+          <div class="col-12">
+            <div class="group-btn-right">
+              <button class="btn btn-primary btn-md" type="submit" >{{languages.save || "Save"}}</button>
+              <button class="btn btn-default btn-md" type="button"
+                (click)="back()">{{languages.back || "Back"}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
